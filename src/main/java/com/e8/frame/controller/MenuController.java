@@ -24,7 +24,7 @@ import java.util.List;
  * Time: 下午3:11
  */
 @Controller
-@RequestMapping("/menu")
+@RequestMapping("/api")
 public class MenuController {
 
     @Autowired
