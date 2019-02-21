@@ -90,4 +90,19 @@
       pid = #{pid,jdbcType=CHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+  <select id="selectByRoleIds" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+      from t_permission p
+    where p.id in
+    (
+    select
+    rp.permission_id
+    from t_roles_permissions rp
+    where rp.role_id in
+    <foreach collection="ids" item="ids" index="index"
+             open="(" close=")" separator=",">
+      #{ids}
+    </foreach>
+    )
+  </select>
 </mapper>

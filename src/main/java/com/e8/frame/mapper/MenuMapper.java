@@ -1,7 +1,9 @@
 package com.e8.frame.mapper;
 
 import com.e8.frame.model.Menu;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface MenuMapper {
 
     int deleteByPrimaryKey(String id);

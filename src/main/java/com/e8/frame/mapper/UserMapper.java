@@ -2,7 +2,9 @@ package com.e8.frame.mapper;
 
 import com.e8.frame.model.User;
 import com.e8.frame.model.vo.UserVo;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface UserMapper {
 
     int deleteByPrimaryKey(String id);

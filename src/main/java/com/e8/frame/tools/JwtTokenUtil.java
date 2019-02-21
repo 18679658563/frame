@@ -22,7 +22,6 @@ import java.util.function.Function;
  * @Date: 19-2-20 18:16
  * @Description:
  */
-
 @Component
 public class JwtTokenUtil implements Serializable {
 
