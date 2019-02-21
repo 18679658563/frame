@@ -129,7 +129,7 @@
   <!--自扩展-->
   <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
-    *
+   <include refid="Base_Column_List"/>
     from t_user
     where username = #{username,jdbcType=CHAR}
   </select>
