@@ -6,7 +6,7 @@
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="enabled" property="enabled" jdbcType="BIGINT" />
+    <result column="enabled" property="enabled" jdbcType="BIT" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="last_password_reset_time" property="lastPasswordResetTime" jdbcType="TIMESTAMP" />
@@ -129,9 +129,9 @@
   <!--自扩展-->
   <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
-    <include refid="Base_Column_List" />
+    *
     from t_user
-    where id = #{username,jdbcType=CHAR}
+    where username = #{username,jdbcType=CHAR}
   </select>
 
 </mapper>

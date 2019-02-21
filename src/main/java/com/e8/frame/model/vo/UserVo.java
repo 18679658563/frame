@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 public class UserVo {
 
-    private Long id;
+    private String  id;
 
     private String username;
 

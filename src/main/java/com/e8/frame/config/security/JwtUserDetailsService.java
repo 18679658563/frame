@@ -8,6 +8,7 @@ import com.e8.frame.model.Permission;
 import com.e8.frame.model.Role;
 import com.e8.frame.model.User;
 import com.e8.frame.model.vo.UserVo;
+import com.e8.frame.tools.BeanUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,8 +48,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username){
 
         User user  = userMapper.selectByUsername(username);
-        UserVo vo = new UserVo();
-        BeanUtils.copyProperties(user,vo);
+        UserVo vo = BeanUtil.createBeanByTarget(user,UserVo.class);
         Set<Role> set = new HashSet<>(roleMapper.selectAllRoleInfoByUserId(user.getId()));
         vo.setRoles(set);
         System.out.println(user);

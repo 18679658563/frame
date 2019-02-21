@@ -15,7 +15,7 @@ public class User {
 
     private String email;
 
-    private Long enabled;
+    private Boolean enabled;
 
     private String password;
 

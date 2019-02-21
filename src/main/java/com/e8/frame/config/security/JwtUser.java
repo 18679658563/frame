@@ -22,7 +22,7 @@ import java.util.Set;
 public class JwtUser implements UserDetails {
 
     @JsonIgnore
-    private final Long id;
+    private final String id;
 
     private final String username;
 
