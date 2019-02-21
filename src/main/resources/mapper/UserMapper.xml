@@ -125,4 +125,13 @@
       last_password_reset_time = #{lastPasswordResetTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <!--自扩展-->
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{username,jdbcType=CHAR}
+  </select>
+
 </mapper>

@@ -2,6 +2,8 @@ package com.e8.frame.mapper;
 
 import com.e8.frame.model.Role;
 
+import java.util.List;
+
 public interface RoleMapper {
 
     int deleteByPrimaryKey(String id);
@@ -15,4 +17,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> selectAllRoleInfoByUserId(String userId);
 }

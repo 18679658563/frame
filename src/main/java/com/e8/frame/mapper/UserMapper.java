@@ -1,6 +1,7 @@
 package com.e8.frame.mapper;
 
 import com.e8.frame.model.User;
+import com.e8.frame.model.vo.UserVo;
 
 public interface UserMapper {
 
@@ -15,4 +16,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User selectByUsername(String username);
 }

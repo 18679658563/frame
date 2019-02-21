@@ -1,20 +1,18 @@
-package com.e8.frame.dto;
+package com.e8.frame.model.vo;
 
 import com.e8.frame.model.Role;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * Description:
- * User: silence
- * Date: 2019-02-20
- * Time: 下午3:44
+ * @Auther: sharps
+ * @Date: 19-2-20 18:39
+ * @Description:
  */
 @Data
-public class UserDto {
+public class UserVo {
 
     private Long id;
 
@@ -32,5 +30,7 @@ public class UserDto {
 
     private Date lastPasswordResetTime;
 
-    private List<Role> roles;
+    private Set<Role> roles;
+
+
 }

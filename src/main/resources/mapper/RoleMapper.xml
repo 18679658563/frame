@@ -79,4 +79,14 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <select id="selectAllRoleInfoByUserId" resultMap="BaseResultMap">
+    SELECT
+    r.*
+    FROM
+    t_role r
+    LEFT JOIN t_users_roles ru ON ru.role_id = r.id
+    WHERE ru.user_id = #{userId}
+  </select>
+
 </mapper>
