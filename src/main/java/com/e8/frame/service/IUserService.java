@@ -1,5 +1,7 @@
 package com.e8.frame.service;
 
+import com.e8.frame.model.dto.UserDto;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:
@@ -8,4 +10,6 @@ package com.e8.frame.service;
  * Time: 下午3:05
  */
 public interface IUserService {
+
+    UserDto findByUsername(String name);
 }

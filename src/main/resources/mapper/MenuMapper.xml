@@ -136,4 +136,20 @@
       path = #{path,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <select id="selectByRoleIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+      from t_menu m
+    where m.id in (
+        select mr.menu_id
+        from t_menus_roles mr
+        where mr.role_id in (
+        <foreach collection="ids" item="ids" index="index"
+                 open="(" close=")" separator=",">
+          #{ids}
+        </foreach>
+        )
+    )
+  </select>
 </mapper>
