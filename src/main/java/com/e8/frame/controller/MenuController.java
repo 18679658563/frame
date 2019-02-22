@@ -1,7 +1,6 @@
 package com.e8.frame.controller;
 
-import com.e8.frame.model.Role;
-import com.e8.frame.model.User;
+import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.model.dto.MenuDto;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.model.dto.UserDto;
@@ -12,9 +11,10 @@ import com.e8.frame.tools.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -53,5 +53,55 @@ public class MenuController {
         Set<RoleDto> roles = roleService.findByUserId(user.getId());
         List<MenuDto> menuDTOList = menuService.findByRoleIds(roles);
         return new ResponseEntity(menuService.buildMenus((List<MenuDto>)menuService.buildTree(menuDTOList).get("content")), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/menus/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
+    public ResponseEntity getMenu(@PathVariable String id){
+        return new ResponseEntity(menuService.findById(id), HttpStatus.OK);
+    }
+
+
+    /**
+     * 返回全部的菜单
+     * @return
+     */
+    @GetMapping(value = "/menus/tree")
+    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
+    public ResponseEntity getMenuTree(){
+        return new ResponseEntity(menuService.getMenuTree(menuService.findByPid("0")),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/menus")
+    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
+    public ResponseEntity getMenus(@RequestParam(required = false) String name){
+        List<MenuDto> menuDTOList = menuService.findAll();
+        return new ResponseEntity(menuService.buildTree(menuDTOList),HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/menus")
+    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_CREATE')")
+    public ResponseEntity create(@Validated @RequestBody MenuDto resources){
+        if (resources.getId() != null) {
+            throw new BadRequestException("A new menu cannot already have an ID");
+        }
+        return new ResponseEntity(menuService.addMenu(resources),HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/menus")
+    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_EDIT')")
+    public ResponseEntity update(@Validated @RequestBody MenuDto resources){
+        if (resources.getId() == null) {
+            throw new BadRequestException( " menu ID Can not be empty");
+        }
+        menuService.updataMenu(resources);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping(value = "/menus/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_DELETE')")
+    public ResponseEntity delete(@PathVariable String id){
+        menuService.deleteMenu(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

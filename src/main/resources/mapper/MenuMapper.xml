@@ -152,4 +152,25 @@
         )
     )
   </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_menu
+  </select>
+
+
+  <select id="selectByPid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_menu where pid = #{pid}
+  </select>
+
+
+  <insert id="insertRoleMenu">
+      insert into t_menus_roles(role_id,menu_id) values(#{roleId},#{menuId})
+  </insert>
+
+  <delete id="deleteMenuRoleByMenuId">
+    delect from t_menus_roles where menu_id = #{id}
+  </delete>
+
 </mapper>

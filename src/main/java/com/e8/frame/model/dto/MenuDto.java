@@ -1,10 +1,12 @@
 package com.e8.frame.model.dto;
 
+import com.e8.frame.tools.UUIDUtil;
 import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +17,7 @@ import java.util.Set;
  */
 @Data
 public class MenuDto {
-    private String id;
+    private String id = UUIDUtil.getUUID();
 
     private String name;
 

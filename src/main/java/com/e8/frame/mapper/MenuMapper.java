@@ -23,4 +23,13 @@ public interface MenuMapper {
     int updateByPrimaryKey(Menu record);
 
     Set<Menu> selectByRoleIds(@Param("ids") List<String> ids);
+
+    List<Menu> selectAll();
+
+    List<Menu> selectByPid(String pid);
+
+    int insertRoleMenu(@Param("roleId") String roleId , @Param("menuId") String menuId);
+
+    int deleteMenuRoleByMenuId(String id);
+
 }

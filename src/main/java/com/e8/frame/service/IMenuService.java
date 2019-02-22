@@ -26,6 +26,13 @@ public interface IMenuService {
      */
     List<MenuDto> findByRoleIds(Set<RoleDto> roles);
 
+    List<MenuDto> findAll();
+
+    MenuDto findById(String id);
+
+
+    List<Menu> findByPid(String id);
+
     /**
      * build Tree
      * @param menuDTOS
@@ -40,5 +47,12 @@ public interface IMenuService {
      */
     Object buildMenus(List<MenuDto> byRoles);
 
+    Object getMenuTree(List<Menu> menus);
+
+    MenuDto addMenu(MenuDto MenuDto);
+
+    void updataMenu(MenuDto menuDto);
+
+    void deleteMenu(String id);
 
 }
