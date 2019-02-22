@@ -2,6 +2,7 @@ package com.e8.frame.model;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -9,7 +10,7 @@ public class Role {
 
     private String id;
 
-    private Date createTime;
+    private Timestamp createTime;
 
     private String name;
 

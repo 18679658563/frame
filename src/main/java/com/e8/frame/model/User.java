@@ -2,6 +2,7 @@ package com.e8.frame.model;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -11,7 +12,7 @@ public class User {
 
     private String avatar;
 
-    private Date createTime;
+    private Timestamp createTime;
 
     private String email;
 
