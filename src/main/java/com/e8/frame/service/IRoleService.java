@@ -13,4 +13,6 @@ import java.util.Set;
 public interface IRoleService {
 
     List<RoleDto> findByUserId(String userId);
+
+    Object getRoleTree();
 }

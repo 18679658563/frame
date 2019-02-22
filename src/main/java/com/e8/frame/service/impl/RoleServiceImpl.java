@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Auther: sharps
@@ -32,5 +30,18 @@ public class RoleServiceImpl implements IRoleService{
             return null;
         }
         return  BeanUtil.createBeanListByTarget(list,RoleDto.class);
+    }
+
+    @Override
+    public Object getRoleTree() {
+        List<Role> roleList = roleMapper.selectAll();
+        List<Map<String,Object>> list = new ArrayList<>();
+        for(Role role : roleList){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",role.getId());
+            map.put("label",role.getName());
+            list.add(map);
+        }
+        return list;
     }
 }
