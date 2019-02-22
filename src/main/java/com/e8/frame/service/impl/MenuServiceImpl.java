@@ -225,7 +225,7 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public void updataMenu(MenuDto menuDto) {
-        int menuFlag =  menuMapper.updateByPrimaryKeySelective(
+        int menuFlag =  menuMapper.updateByPrimaryKey(
                 BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             menuMapper.deleteMenuRoleByMenuId(menuDto.getId());

@@ -35,5 +35,5 @@ public class MenuDto {
 
     private List<MenuDto> children;
 
-    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
+    private Timestamp createTime ;
 }
