@@ -74,7 +74,9 @@ public class MenuController {
     @GetMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
     public ResponseEntity getMenus(@RequestParam(required = false) String name){
-        List<MenuDto> menuDTOList = menuService.findAll();
+        MenuDto dto = new MenuDto();
+        dto.setName(name);
+        List<MenuDto> menuDTOList = menuService.findByDto(dto);
         return new ResponseEntity(menuService.buildTree(menuDTOList),HttpStatus.OK);
     }
 

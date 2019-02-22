@@ -24,7 +24,7 @@ public interface MenuMapper {
 
     List<Menu> selectByRoleIds(@Param("ids") List<String> ids);
 
-    List<Menu> selectAll();
+    List<Menu> selectByMenu(@Param("menu") Menu menu);
 
     List<Menu> selectByPid(String pid);
 

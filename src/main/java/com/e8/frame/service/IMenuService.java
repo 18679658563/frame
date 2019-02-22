@@ -26,7 +26,7 @@ public interface IMenuService {
      */
     List<MenuDto> findByRoleIds(List<RoleDto> roles);
 
-    List<MenuDto> findAll();
+    List<MenuDto> findByDto(MenuDto dto);
 
     MenuDto findById(String id);
 

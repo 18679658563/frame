@@ -153,9 +153,14 @@
     )
   </select>
 
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectByMenu" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from t_menu
+      where  1 = 1
+      <if test="menu.name != null and menu.name != '' ">
+          AND name like "%"#{menu.name}"%"
+      </if>
+
   </select>
 
 
@@ -170,7 +175,7 @@
   </insert>
 
   <delete id="deleteMenuRoleByMenuId">
-    delect from t_menus_roles where menu_id = #{id}
+    delete from t_menus_roles where menu_id = #{id}
   </delete>
 
 </mapper>

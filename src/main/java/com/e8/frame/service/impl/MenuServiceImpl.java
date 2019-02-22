@@ -9,6 +9,7 @@ import com.e8.frame.model.vo.MenuMetaVo;
 import com.e8.frame.model.vo.MenuVo;
 import com.e8.frame.service.IMenuService;
 import com.e8.frame.tools.BeanUtil;
+import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,9 +51,12 @@ public class MenuServiceImpl implements IMenuService{
     }
 
     @Override
-    public List<MenuDto> findAll() {
-        List<Menu> menuList = menuMapper.selectAll();
+    public List<MenuDto> findByDto(MenuDto dto) {
+        Menu menu = BeanUtil.createBeanByTarget(dto,Menu.class);
+        List<Menu> menuList = menuMapper.selectByMenu(menu);
         if(CollectionUtils.isEmpty(menuList)){
+            System.out.println("\n\n\n\n\n\n\n"+dto.getName());
+            System.out.println("\n\n\n\n\n\n\n"+1234567890);
             return null;
         }
         return BeanUtil.createBeanListByTarget(menuList,MenuDto.class);
@@ -80,16 +84,18 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     public Map buildTree(List<MenuDto> menuDTOS) {
         List<MenuDto> trees = new ArrayList<>();
-        for (MenuDto menuDTO : menuDTOS) {
-            if ("0".equals(menuDTO.getPid())) {
-                trees.add(menuDTO);
-            }
-            for (MenuDto it : menuDTOS) {
-                if (it.getPid().equals(menuDTO.getId())) {
-                    if (menuDTO.getChildren() == null) {
-                        menuDTO.setChildren(new ArrayList<MenuDto>());
+        if(!CollectionUtils.isEmpty(menuDTOS)){
+            for (MenuDto menuDTO : menuDTOS) {
+                if ("0".equals(menuDTO.getPid())) {
+                    trees.add(menuDTO);
+                }
+                for (MenuDto it : menuDTOS) {
+                    if (it.getPid().equals(menuDTO.getId())) {
+                        if (menuDTO.getChildren() == null) {
+                            menuDTO.setChildren(new ArrayList<MenuDto>());
+                        }
+                        menuDTO.getChildren().add(it);
                     }
-                    menuDTO.getChildren().add(it);
                 }
             }
         }
@@ -179,10 +185,13 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public MenuDto addMenu(MenuDto menuDto) {
+        menuDto.setId(UUIDUtil.getUUID());
         int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
-            for(RoleDto role : menuDto.getRoles()){
-                menuMapper.insertRoleMenu(role.getId(),menuDto.getId());
+            if(!CollectionUtils.isEmpty(menuDto.getRoles())){
+                for(RoleDto role : menuDto.getRoles()){
+                    menuMapper.insertRoleMenu(role.getId(),menuDto.getId());
+                }
             }
         }
         return menuDto;
