@@ -6,14 +6,12 @@ import com.e8.frame.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description:  权限的业务逻辑处理
  * User: silence
  * Date: 2019-02-21
  * Time: 上午9:45

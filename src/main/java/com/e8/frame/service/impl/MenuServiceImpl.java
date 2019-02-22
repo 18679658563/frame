@@ -14,20 +14,18 @@ import com.e8.frame.model.vo.MenuMetaVo;
 import com.e8.frame.model.vo.MenuVo;
 import com.e8.frame.service.IMenuService;
 import com.e8.frame.tools.BeanUtil;
-import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: menu菜单业务逻辑的处理
  * User: silence
  * Date: 2019-02-21
  * Time: 下午3:21
@@ -227,7 +225,8 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public void updataMenu(MenuDto menuDto) {
-        int menuFlag =  menuMapper.updateByPrimaryKey(BeanUtil.createBeanByTarget(menuDto,Menu.class));
+        int menuFlag =  menuMapper.updateByPrimaryKeySelective(
+                BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             menuMapper.deleteMenuRoleByMenuId(menuDto.getId());
             for(RoleDto role : menuDto.getRoles()){
