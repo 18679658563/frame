@@ -22,7 +22,7 @@ public interface PermissionMapper {
 
     int updateByPrimaryKey(Permission record);
 
-    Set<Permission> selectByRoleIds(@Param("ids") List<String> ids);
+    List<Permission> selectByRoleIds(@Param("ids") List<String> ids);
 
 
 }

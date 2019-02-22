@@ -26,11 +26,11 @@ public class RoleServiceImpl implements IRoleService{
     private RoleMapper roleMapper;
 
     @Override
-    public Set<RoleDto> findByUserId(String userId) {
+    public List<RoleDto> findByUserId(String userId) {
         List<Role> list = roleMapper.selectAllRoleInfoByUserId(userId);
         if(CollectionUtils.isEmpty(list)){
             return null;
         }
-        return new HashSet<>(BeanUtil.createBeanListByTarget(list,RoleDto.class));
+        return  BeanUtil.createBeanListByTarget(list,RoleDto.class);
     }
 }

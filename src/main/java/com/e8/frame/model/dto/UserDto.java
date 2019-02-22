@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,5 +35,5 @@ public class UserDto {
 
     private Date lastPasswordResetTime;
 
-    private Set<RoleDto> roles;
+    private List<RoleDto> roles;
 }

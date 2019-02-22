@@ -2,6 +2,7 @@ package com.e8.frame.service;
 
 import com.e8.frame.model.dto.RoleDto;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,5 +12,5 @@ import java.util.Set;
  */
 public interface IRoleService {
 
-    Set<RoleDto> findByUserId(String userId);
+    List<RoleDto> findByUserId(String userId);
 }

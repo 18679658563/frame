@@ -3,7 +3,7 @@ package com.e8.frame.model.dto;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +20,7 @@ public class RoleDto {
 
     private String remark;
 
-    private Set<PermissionDto> permissions;
+    private List<PermissionDto> permissions;
 
     private Timestamp createTime;
 }

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +49,7 @@ public class MenuController {
     @GetMapping(value = "/menus/build")
     public ResponseEntity buildMenus(HttpServletRequest request){
         UserDto user = userService.findByUsername(jwtTokenUtil.getUserName(request));
-        Set<RoleDto> roles = roleService.findByUserId(user.getId());
+        List<RoleDto> roles = roleService.findByUserId(user.getId());
         List<MenuDto> menuDTOList = menuService.findByRoleIds(roles);
         return new ResponseEntity(menuService.buildMenus((List<MenuDto>)menuService.buildTree(menuDTOList).get("content")), HttpStatus.OK);
     }

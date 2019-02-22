@@ -5,8 +5,6 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,7 +31,7 @@ public class MenuDto {
 
     private String icon;
 
-    private Set<RoleDto> roles;
+    private List<RoleDto> roles;
 
     private List<MenuDto> children;
 

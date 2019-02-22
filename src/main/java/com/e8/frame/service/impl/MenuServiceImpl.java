@@ -3,7 +3,6 @@ package com.e8.frame.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.e8.frame.mapper.MenuMapper;
 import com.e8.frame.model.Menu;
-import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.MenuDto;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.model.vo.MenuMetaVo;
@@ -33,17 +32,17 @@ public class MenuServiceImpl implements IMenuService{
     private MenuMapper menuMapper;
 
     @Override
-    public List<MenuDto> findByRoleIds(Set<RoleDto> roles) {
+    public List<MenuDto> findByRoleIds(List<RoleDto> roles) {
         List<String> ids = new ArrayList<>();
         for(RoleDto role : roles){
             System.out.println(role.getId());
             ids.add(role.getId());
         }
-        Set<Menu> set =  menuMapper.selectByRoleIds(ids);
-        List<Menu> list = new ArrayList<>();
-        for(Menu menu : set){
-            list.add(menu);
-        }
+        List<Menu> list =  menuMapper.selectByRoleIds(ids);
+//        List<Menu> list = new ArrayList<>();
+//        for(Menu menu : set){
+//            list.add(menu);
+//        }
         //取出不重复数据
        // List<String> ids = roles.stream().map(d -> d.getId()).collect(Collectors.toList());
         List<MenuDto> list1 = BeanUtil.createBeanListByTarget(list,MenuDto.class);

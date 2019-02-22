@@ -24,7 +24,7 @@ public interface IMenuService {
      * @param roles
      * @return
      */
-    List<MenuDto> findByRoleIds(Set<RoleDto> roles);
+    List<MenuDto> findByRoleIds(List<RoleDto> roles);
 
     List<MenuDto> findAll();
 

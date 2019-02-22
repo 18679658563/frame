@@ -14,5 +14,5 @@ import java.util.Set;
  */
 public interface IPermissionService {
 
-    Set<Permission> findPermissionByRoleIds(List<String> ids);
+    List<Permission> findPermissionByRoleIds(List<String> ids);
 }

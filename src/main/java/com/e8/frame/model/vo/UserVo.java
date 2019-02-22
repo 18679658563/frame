@@ -4,7 +4,7 @@ import com.e8.frame.model.Role;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @Auther: sharps
@@ -30,7 +30,7 @@ public class UserVo {
 
     private Date lastPasswordResetTime;
 
-    private Set<Role> roles;
+    private List<Role> roles;
 
 
 }
