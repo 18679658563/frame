@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @Data
 public class MenuDto {
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -25,9 +25,9 @@ public class MenuDto {
 
     private String component;
 
-    private Long pid;
+    private String pid;
 
-    private Boolean iFrame;
+    private Boolean iFrame = false;
 
     private String icon;
 

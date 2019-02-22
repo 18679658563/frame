@@ -2,6 +2,7 @@ package com.e8.frame.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.e8.frame.mapper.MenuMapper;
+import com.e8.frame.model.Menu;
 import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.MenuDto;
 import com.e8.frame.model.dto.RoleDto;
@@ -30,14 +31,20 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public List<MenuDto> findByRoleIds(Set<RoleDto> roles) {
-//        List<String> ids = new ArrayList<>();
-//        for(Role role : roles){
-//            ids.add(role.getId());
-//        }
+        List<String> ids = new ArrayList<>();
+        for(RoleDto role : roles){
+            System.out.println(role.getId());
+            ids.add(role.getId());
+        }
+        Set<Menu> set =  menuMapper.selectByRoleIds(ids);
+        List<Menu> list = new ArrayList<>();
+        for(Menu menu : set){
+            list.add(menu);
+        }
         //取出不重复数据
-        List<String> ids = roles.stream().map(d -> d.getId()).collect(Collectors.toList());
-        List<MenuDto> list = BeanUtil.createBeanByTarget(menuMapper.selectByRoleIds(ids),MenuDto.class);
-        return list.stream().distinct().collect(Collectors.toList());
+       // List<String> ids = roles.stream().map(d -> d.getId()).collect(Collectors.toList());
+        List<MenuDto> list1 = BeanUtil.createBeanListByTarget(list,MenuDto.class);
+        return list1.stream().distinct().collect(Collectors.toList());
     }
 
     @Override
@@ -46,7 +53,7 @@ public class MenuServiceImpl implements IMenuService {
 
         for (MenuDto menuDTO : menuDTOS) {
 
-            if ("0".equals(menuDTO.getPid().toString())) {
+            if ("0".equals(menuDTO.getPid())) {
                 trees.add(menuDTO);
             }
 
@@ -78,7 +85,7 @@ public class MenuServiceImpl implements IMenuService {
                         menuVo.setPath(menuDTO.getPath());
                         // 如果不是外链
                         if(!menuDTO.getIFrame()){
-                            if(menuDTO.getPid().equals(0L)){
+                            if("0".equals(menuDTO.getPid())){
                                 //一级目录需要加斜杠，不然访问不了
                                 menuVo.setPath("/" + menuDTO.getPath());
                                 menuVo.setComponent(StrUtil.isEmpty(menuDTO.getComponent())?"Layout":menuDTO.getComponent());

@@ -15,11 +15,11 @@ import java.util.List;
 @Data
 public class PermissionDto {
 
-    private Long id;
+    private String id;
 
     private String name;
 
-    private Long pid;
+    private String pid;
 
     private String alias;
 
