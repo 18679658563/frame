@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -117,7 +118,7 @@ public class MenuServiceImpl implements IMenuService{
                         menuVo.setName(menuDTO.getName());
                         menuVo.setPath(menuDTO.getPath());
                         // 如果不是外链
-                        if(!menuDTO.getIFrame()){
+                        if(!menuDTO.getIframe()){
                             if("0".equals(menuDTO.getPid())){
                                 //一级目录需要加斜杠，不然访问不了
                                 menuVo.setPath("/" + menuDTO.getPath());
@@ -136,7 +137,7 @@ public class MenuServiceImpl implements IMenuService{
                             MenuVo menuVo1 = new MenuVo();
                             menuVo1.setMeta(menuVo.getMeta());
                             // 非外链
-                            if(!menuDTO.getIFrame()){
+                            if(!menuDTO.getIframe()){
                                 menuVo1.setPath("index");
                                 menuVo1.setName(menuVo.getName());
                                 menuVo1.setComponent(menuVo.getComponent());
@@ -185,7 +186,7 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public MenuDto addMenu(MenuDto menuDto) {
-        menuDto.setId(UUIDUtil.getUUID());
+
         int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             if(!CollectionUtils.isEmpty(menuDto.getRoles())){

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.e8.frame.model.Menu" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="iFrame" property="iframe" jdbcType="BIT" />
+    <result column="iframe" property="iframe" jdbcType="BIT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="component" property="component" jdbcType="VARCHAR" />
     <result column="pid" property="pid" jdbcType="CHAR" />

@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 public class MenuDto {
-    private String id ;
+    private String id = UUIDUtil.getUUID();
 
     private String name;
 
@@ -27,7 +27,7 @@ public class MenuDto {
 
     private String pid;
 
-    private Boolean iFrame = false;
+    private Boolean iframe = false;
 
     private String icon;
 
@@ -35,5 +35,5 @@ public class MenuDto {
 
     private List<MenuDto> children;
 
-    private Timestamp createTime;
+    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 }

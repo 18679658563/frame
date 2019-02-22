@@ -1,7 +1,9 @@
 package com.e8.frame.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -9,7 +11,8 @@ public class Menu {
 
     private String id;
 
-    private Date createTime;
+    @CreatedDate
+    private Timestamp createTime;
 
     private Boolean iframe;
 
