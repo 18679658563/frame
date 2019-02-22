@@ -2,8 +2,13 @@ package com.e8.frame.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.e8.frame.mapper.MenuMapper;
+import com.e8.frame.mapper.PermissionMapper;
+import com.e8.frame.mapper.RoleMapper;
 import com.e8.frame.model.Menu;
+import com.e8.frame.model.Permission;
+import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.MenuDto;
+import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.model.vo.MenuMetaVo;
 import com.e8.frame.model.vo.MenuVo;
@@ -33,6 +38,12 @@ public class MenuServiceImpl implements IMenuService{
     @Autowired
     private MenuMapper menuMapper;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private PermissionMapper permissionMapper;
+
     @Override
     public List<MenuDto> findByRoleIds(List<RoleDto> roles) {
         List<String> ids = new ArrayList<>();
@@ -56,11 +67,22 @@ public class MenuServiceImpl implements IMenuService{
         Menu menu = BeanUtil.createBeanByTarget(dto,Menu.class);
         List<Menu> menuList = menuMapper.selectByMenu(menu);
         if(CollectionUtils.isEmpty(menuList)){
-            System.out.println("\n\n\n\n\n\n\n"+dto.getName());
-            System.out.println("\n\n\n\n\n\n\n"+1234567890);
             return null;
         }
-        return BeanUtil.createBeanListByTarget(menuList,MenuDto.class);
+        List<Role> roleList = null;
+        List<MenuDto> lists = BeanUtil.createBeanListByTarget(menuList,MenuDto.class);
+        for(MenuDto menuDto : lists){
+           roleList = roleMapper.selectByMenuId(menuDto.getId());
+           List<PermissionDto> permissionDtoList = null;
+           List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
+            for(RoleDto role : roleDtoList){
+                List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
+                permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
+                role.setPermissions(permissionDtoList);
+            }
+            menuDto.setRoles(roleDtoList);
+        }
+        return lists;
     }
 
     @Override

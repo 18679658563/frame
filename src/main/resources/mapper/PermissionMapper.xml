@@ -105,4 +105,12 @@
     </foreach>
     )
   </select>
+
+  <select id="selectByRoleId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+     from t_permission p join t_roles_permissions rp
+      on p.id = rp.permission_id
+        where  rp.role_id = #{roleId}
+  </select>
+
 </mapper>

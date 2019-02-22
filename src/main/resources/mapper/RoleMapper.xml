@@ -94,4 +94,10 @@
     from t_role
   </select>
 
+  <select id="selectByMenuId" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+        from t_role r join t_menus_roles mr on r.id = mr.role_id
+          where mr.menu_id = #{menuId}
+  </select>
+
 </mapper>

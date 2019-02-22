@@ -23,4 +23,6 @@ public interface RoleMapper {
     List<Role> selectAllRoleInfoByUserId(String userId);
 
     List<Role> selectAll();
+
+    List<Role> selectByMenuId(String menuId);
 }
