@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `e8admin` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `e8admin`;
 -- MySQL dump 10.13  Distrib 5.7.25, for Linux (x86_64)
 --
 -- Host: localhost    Database: e8admin
@@ -73,7 +75,7 @@ CREATE TABLE `t_menu` (
 
 LOCK TABLES `t_menu` WRITE;
 /*!40000 ALTER TABLE `t_menu` DISABLE KEYS */;
-INSERT INTO `t_menu` VALUES ('1','2018-12-18 15:11:29',_binary '\0','系统管理',NULL,'0',1,'system','system'),('2','2018-12-18 15:14:44',_binary '\0','用户管理','system/user/index','1',2,'peoples','user'),('21','2019-01-04 16:22:03',_binary '\0','多级菜单','','0',900,'menu','nested'),('22','2019-01-04 16:23:29',_binary '\0','二级菜单1','nested/menu1/index','21',999,'menu','menu1'),('23','2019-01-04 16:23:57',_binary '\0','二级菜单2','nested/menu2/index','21',999,'menu','menu2'),('24','2019-01-04 16:24:48',_binary '\0','三级菜单1','nested/menu1/menu1-1','22',999,'menu','menu1-1'),('27','2019-01-07 17:27:32',_binary '\0','三级菜单2','nested/menu1/menu1-2','22',999,'menu','menu1-2'),('2f09b48fa233494d9efd270ab013a978','2019-02-22 15:52:03',_binary '\0','TETE','','0',9995,'chain',''),('3','2018-12-18 15:16:07',_binary '\0','角色管理','system/role/index','1',3,'role','role'),('3190feb8b16c4c4198b83c62a840c316','2019-02-22 16:43:27',_binary '\0','fffffffgggg','','b68720bfe8904f1899cb838d2cb70863',999,'fwb',''),('4','2018-12-18 15:16:45',_binary '\0','权限管理','system/permission/index','1',4,'permission','permission'),('42f4cc98895044379619aaca3b1f21cf','2019-02-22 13:46:44',_binary '\0','testr','','0',999,'fwb',''),('5','2018-12-18 15:17:28',_binary '\0','菜单管理','system/menu/index','1',5,'menu','menu'),('6','2018-12-18 15:17:48',_binary '\0','系统监控',NULL,'0',10,'monitor','monitor'),('7','2018-12-18 15:18:26',_binary '\0','系统日志','monitor/log/index','6',11,'log','logs'),('b68720bfe8904f1899cb838d2cb70863','2019-02-22 16:42:43',_binary '\0','fffffffffffffffffsss','ffffffffff','0',999,'image','ffffffffffff');
+INSERT INTO `t_menu` VALUES ('1','2018-12-18 15:11:29',_binary '\0','系统管理',NULL,'0',1,'system','system'),('2','2018-12-18 15:14:44',_binary '\0','用户管理','system/user/index','1',2,'peoples','user'),('21','2019-01-04 16:22:03',_binary '\0','多级菜单','','0',900,'menu','nested'),('22','2019-01-04 16:23:29',_binary '\0','二级菜单1','nested/menu1/index','21',999,'menu','menu1'),('23','2019-01-04 16:23:57',_binary '\0','二级菜单2','nested/menu2/index','21',999,'menu','menu2'),('24','2019-01-04 16:24:48',_binary '\0','三级菜单1','nested/menu1/menu1-1','22',999,'menu','menu1-1'),('27','2019-01-07 17:27:32',_binary '\0','三级菜单2','nested/menu1/menu1-2','22',999,'menu','menu1-2'),('3','2018-12-18 15:16:07',_binary '\0','角色管理','system/role/index','1',3,'role','role'),('4','2018-12-18 15:16:45',_binary '\0','权限管理','system/permission/index','1',4,'permission','permission'),('5','2018-12-18 15:17:28',_binary '\0','菜单管理','system/menu/index','1',5,'menu','menu'),('6','2018-12-18 15:17:48',_binary '\0','系统监控',NULL,'0',10,'monitor','monitor'),('7','2018-12-18 15:18:26',_binary '\0','系统日志','monitor/log/index','6',11,'log','logs'),('f4e8b54e290443cd92fb750aecd68f6f','2019-02-22 18:57:02',_binary '\0','ces','','0',1000,'fwb','');
 /*!40000 ALTER TABLE `t_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +102,7 @@ CREATE TABLE `t_menus_roles` (
 
 LOCK TABLES `t_menus_roles` WRITE;
 /*!40000 ALTER TABLE `t_menus_roles` DISABLE KEYS */;
-INSERT INTO `t_menus_roles` VALUES ('1','1'),('2','1'),('3','1'),('3190feb8b16c4c4198b83c62a840c316','1'),('4','1'),('42f4cc98895044379619aaca3b1f21cf','1'),('5','1'),('6','1'),('7','1'),('b68720bfe8904f1899cb838d2cb70863','1'),('1','2'),('2','2'),('2f09b48fa233494d9efd270ab013a978','2'),('3','2'),('3190feb8b16c4c4198b83c62a840c316','2'),('4','2'),('42f4cc98895044379619aaca3b1f21cf','2'),('5','2'),('6','2');
+INSERT INTO `t_menus_roles` VALUES ('1','1'),('2','1'),('3','1'),('4','1'),('5','1'),('6','1'),('7','1'),('f4e8b54e290443cd92fb750aecd68f6f','1'),('1','2'),('2','2'),('3','2'),('4','2'),('5','2'),('6','2'),('f4e8b54e290443cd92fb750aecd68f6f','2');
 /*!40000 ALTER TABLE `t_menus_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,4 +254,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-22 17:45:54
+-- Dump completed on 2019-02-22 18:59:19

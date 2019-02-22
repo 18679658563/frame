@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -206,7 +207,7 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public MenuDto addMenu(MenuDto menuDto) {
-
+        menuDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
         int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             if(!CollectionUtils.isEmpty(menuDto.getRoles())){
@@ -225,7 +226,7 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public void updataMenu(MenuDto menuDto) {
-        int menuFlag =  menuMapper.updateByPrimaryKey(
+        int menuFlag =  menuMapper.updateByPrimaryKeySelective(
                 BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             menuMapper.deleteMenuRoleByMenuId(menuDto.getId());
