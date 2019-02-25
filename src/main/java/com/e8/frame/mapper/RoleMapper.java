@@ -2,7 +2,7 @@ package com.e8.frame.mapper;
 
 import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.RoleDto;
-import com.e8.frame.tools.Page;
+import com.e8.frame.tools.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -49,7 +49,7 @@ public interface RoleMapper {
      * @param page
      * @return
      */
-    List<Role> selectByPage(@Param("role")RoleDto role,@Param("page") Page page);
+    List<Role> selectByPage(@Param("role")RoleDto role,@Param("page") PageUtil page);
 
     /**
      * 根据信息查询总数目

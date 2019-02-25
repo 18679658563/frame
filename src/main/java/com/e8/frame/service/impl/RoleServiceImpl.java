@@ -8,13 +8,12 @@ import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.service.IRoleService;
 import com.e8.frame.tools.BeanUtil;
-import com.e8.frame.tools.Page;
+import com.e8.frame.tools.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @Auther: sharps
@@ -69,7 +68,7 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
-    public Object findAll(RoleDto role, Page page) {
+    public Object findAll(RoleDto role, PageUtil page) {
         List<Role> roleList = roleMapper.selectByPage(role,page);
         List<RoleDto>  result = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
         for(RoleDto roleDto : result){
@@ -80,6 +79,6 @@ public class RoleServiceImpl implements IRoleService{
         Integer count = roleMapper.count(role);
         page.setList(result);
         page.setCount(count);
-        return Page.toResult(page);
+        return PageUtil.toResult(page);
     }
 }

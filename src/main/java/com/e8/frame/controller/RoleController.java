@@ -2,7 +2,7 @@ package com.e8.frame.controller;
 
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.service.IRoleService;
-import com.e8.frame.tools.Page;
+import com.e8.frame.tools.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public class RoleController {
      */
     @GetMapping(value = "/roles")
     @PreAuthorize("hasAnyRole('ADMIN','ROLES_ALL','ROLES_SELECT')")
-    public ResponseEntity getRoles(RoleDto resources, Page pageable){//pageNumber&pageSize
+    public ResponseEntity getRoles(RoleDto resources, PageUtil pageable){//pageNumber&pageSize
         return new ResponseEntity(roleService.findAll(resources,pageable),HttpStatus.OK);
     }
 

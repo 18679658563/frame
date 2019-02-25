@@ -14,7 +14,7 @@ import java.util.Map;
  * Time: 上午8:34
  */
 @Data
-public class Page<T> {
+public class PageUtil<T> {
 
     private Integer page;//当前页，默认从0开始
 
@@ -35,7 +35,7 @@ public class Page<T> {
      * @param page
      * @return
      */
-    public static Map toResult(Page page){
+    public static Map toResult(PageUtil page){
         Map map = new HashMap();
         map.put("content",page.getList());
         map.put("totalElements",page.getCount());
