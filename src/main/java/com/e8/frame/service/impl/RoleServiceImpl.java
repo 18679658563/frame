@@ -31,6 +31,11 @@ public class RoleServiceImpl implements IRoleService{
     @Autowired
     private PermissionMapper permissionMapper;
 
+    /**
+     * 根据userid查询所有角色信息
+     * @param userId
+     * @return
+     */
     @Override
     public List<RoleDto> findByUserId(String userId) {
         List<Role> list = roleMapper.selectAllRoleInfoByUserId(userId);
@@ -40,6 +45,10 @@ public class RoleServiceImpl implements IRoleService{
         return  BeanUtil.createBeanListByTarget(list,RoleDto.class);
     }
 
+    /**
+     * 获取角色树结构
+     * @return
+     */
     @Override
     public Object getRoleTree() {
         List<Role> roleList = roleMapper.selectAll();
@@ -53,6 +62,12 @@ public class RoleServiceImpl implements IRoleService{
         return list;
     }
 
+    /**
+     * 根据分页和角色信息分页查询角色
+     * @param role
+     * @param page
+     * @return
+     */
     @Override
     public Object findAll(RoleDto role, Page page) {
         List<Role> roleList = roleMapper.selectByPage(role,page);

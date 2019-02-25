@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 分页工具
  * User: silence
  * Date: 2019-02-25
  * Time: 上午8:34
@@ -16,20 +16,25 @@ import java.util.Map;
 @Data
 public class Page<T> {
 
-    private Integer page;
+    private Integer page;//当前页，默认从0开始
 
-    private Integer size;
+    private Integer size;//每页显示几条数据
 
-    private Integer number;
+    private Integer number;//从第几条数据开始，不包括此数
 
-    private List<T> list;
+    private List<T> list;//分页中的数据集合
 
-    private Integer count;
+    private Integer count;//总数量
 
     public Integer getNumber(){
         return this.page*this.size;
     }
 
+    /**
+     * 将分页数据转化成对应的格式
+     * @param page
+     * @return
+     */
     public static Map toResult(Page page){
         Map map = new HashMap();
         map.put("content",page.getList());

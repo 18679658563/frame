@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 菜单api
  * User: silence
  * Date: 2019-02-21
  * Time: 下午3:11
@@ -54,6 +54,11 @@ public class MenuController {
         return new ResponseEntity(menuService.buildMenus((List<MenuDto>)menuService.buildTree(menuDTOList).get("content")), HttpStatus.OK);
     }
 
+    /**
+     * 通过id查询菜单信息
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/menus/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
     public ResponseEntity getMenu(@PathVariable String id){
@@ -71,6 +76,11 @@ public class MenuController {
         return new ResponseEntity(menuService.getMenuTree(menuService.findByPid("0")),HttpStatus.OK);
     }
 
+    /**
+     * 通过菜单名字查询菜单信息
+     * @param name
+     * @return
+     */
     @GetMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
     public ResponseEntity getMenus(@RequestParam(required = false) String name){
@@ -80,6 +90,11 @@ public class MenuController {
         return new ResponseEntity(menuService.buildTree(menuDTOList),HttpStatus.OK);
     }
 
+    /**
+     * 新增菜单
+     * @param resources
+     * @return
+     */
     @PostMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_CREATE')")
     public ResponseEntity create(@Validated @RequestBody MenuDto resources){
@@ -89,6 +104,11 @@ public class MenuController {
         return new ResponseEntity(menuService.addMenu(resources),HttpStatus.CREATED);
     }
 
+    /**
+     * 修改菜单信息
+     * @param resources
+     * @return
+     */
     @PutMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_EDIT')")
     public ResponseEntity update(@Validated @RequestBody MenuDto resources){
@@ -99,6 +119,11 @@ public class MenuController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * 根据id删除菜单信息
+     * @param id
+     * @return
+     */
     @DeleteMapping(value = "/menus/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_DELETE')")
     public ResponseEntity delete(@PathVariable String id){
