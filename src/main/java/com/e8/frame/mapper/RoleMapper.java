@@ -1,7 +1,10 @@
 package com.e8.frame.mapper;
 
 import com.e8.frame.model.Role;
+import com.e8.frame.model.dto.RoleDto;
+import com.e8.frame.tools.Page;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,4 +28,8 @@ public interface RoleMapper {
     List<Role> selectAll();
 
     List<Role> selectByMenuId(String menuId);
+
+    List<Role> selectByPage(@Param("role")RoleDto role,@Param("page") Page page);
+
+    Integer count(@Param("role") RoleDto role);
 }
