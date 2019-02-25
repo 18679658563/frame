@@ -22,14 +22,40 @@ public interface MenuMapper {
 
     int updateByPrimaryKey(Menu record);
 
+    /**
+     * 根据角色集合id查询菜单
+     * @param ids
+     * @return
+     */
     List<Menu> selectByRoleIds(@Param("ids") List<String> ids);
 
+    /**
+     * 根据菜单的信息查询菜单
+     * @param menu
+     * @return
+     */
     List<Menu> selectByMenu(@Param("menu") Menu menu);
 
+    /**
+     * 根据子id查询菜单
+     * @param pid
+     * @return
+     */
     List<Menu> selectByPid(String pid);
 
+    /**
+     * 向角色菜单中间表添加信息
+     * @param roleId
+     * @param menuId
+     * @return
+     */
     int insertRoleMenu(@Param("roleId") String roleId , @Param("menuId") String menuId);
 
+    /**
+     * 根据菜单id删除角色菜单中间表信息
+     * @param id
+     * @return
+     */
     int deleteMenuRoleByMenuId(String id);
 
 }

@@ -43,24 +43,27 @@ public class MenuServiceImpl implements IMenuService{
     @Autowired
     private PermissionMapper permissionMapper;
 
+    /**
+     * 根据角色集合查询所有菜单
+     * @param roles
+     * @return
+     */
     @Override
     public List<MenuDto> findByRoleIds(List<RoleDto> roles) {
         List<String> ids = new ArrayList<>();
         for(RoleDto role : roles){
-            System.out.println(role.getId());
             ids.add(role.getId());
         }
         List<Menu> list =  menuMapper.selectByRoleIds(ids);
-//        List<Menu> list = new ArrayList<>();
-//        for(Menu menu : set){
-//            list.add(menu);
-//        }
-        //取出不重复数据
-       // List<String> ids = roles.stream().map(d -> d.getId()).collect(Collectors.toList());
         List<MenuDto> list1 = BeanUtil.createBeanListByTarget(list,MenuDto.class);
         return list1.stream().distinct().collect(Collectors.toList());
     }
 
+    /**
+     * 根据菜单信息查询菜单信息
+     * @param dto
+     * @return
+     */
     @Override
     public List<MenuDto> findByDto(MenuDto dto) {
         Menu menu = BeanUtil.createBeanByTarget(dto,Menu.class);
@@ -72,18 +75,22 @@ public class MenuServiceImpl implements IMenuService{
         List<MenuDto> lists = BeanUtil.createBeanListByTarget(menuList,MenuDto.class);
         for(MenuDto menuDto : lists){
            roleList = roleMapper.selectByMenuId(menuDto.getId());
-           List<PermissionDto> permissionDtoList = null;
            List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
-            for(RoleDto role : roleDtoList){
-                List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
-                permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
-                role.setPermissions(permissionDtoList);
-            }
-            menuDto.setRoles(roleDtoList);
+           for(RoleDto role : roleDtoList){
+               List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
+               List<PermissionDto> permissionDtoList  = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
+               role.setPermissions(permissionDtoList);
+           }
+           menuDto.setRoles(roleDtoList);
         }
         return lists;
     }
 
+    /**
+     * 通过id查询菜单信息
+     * @param id
+     * @return
+     */
     @Override
     public MenuDto findById(String id) {
         Menu menu = menuMapper.selectByPrimaryKey(id);
@@ -103,6 +110,11 @@ public class MenuServiceImpl implements IMenuService{
         return menuMapper.selectByPid(pid);
     }
 
+    /**
+     * 构建菜单树结构
+     * @param menuDTOS
+     * @return
+     */
     @Override
     public Map buildTree(List<MenuDto> menuDTOS) {
         List<MenuDto> trees = new ArrayList<>();
@@ -128,6 +140,11 @@ public class MenuServiceImpl implements IMenuService{
         return map;
     }
 
+    /**
+     * 构建菜单的总体结构
+     * @param menuDTOS
+     * @return
+     */
     @Override
     public List<MenuVo> buildMenus(List<MenuDto> menuDTOS) {
         Assert.notEmpty(menuDTOS,"菜单不能为空");
@@ -179,6 +196,11 @@ public class MenuServiceImpl implements IMenuService{
         return list;
     }
 
+    /**
+     * 获取菜单树结构
+     * @param menus
+     * @return
+     */
     @Override
     public Object getMenuTree(List<Menu> menus) {
         Assert.notEmpty(menus,"菜单不能为空");

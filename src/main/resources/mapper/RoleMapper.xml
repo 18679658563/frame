@@ -119,4 +119,18 @@
     </if>
   </select>
 
+
+  <select id="selectByRoleIds" resultType="com.e8.frame.model.dto.RoleDto">
+    select r.*,
+    GROUP_CONCAT(rp.permission_id) as permissionIds
+    from   t_role  r  left  join    t_roles_permissions  rp
+    on  r.id = rp.role_id
+    where r.id in
+    <foreach collection="ids" item="ids" index="index"
+             open="(" close=")" separator=",">
+      #{ids}
+    </foreach>
+    group by r.id
+  </select>
+
 </mapper>

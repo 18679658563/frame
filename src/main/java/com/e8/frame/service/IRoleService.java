@@ -2,10 +2,9 @@ package com.e8.frame.service;
 
 import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.RoleDto;
-import com.e8.frame.tools.Page;
+import com.e8.frame.tools.PageUtil;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @Auther: sharps
@@ -18,5 +17,7 @@ public interface IRoleService {
 
     Object getRoleTree();
 
-    Object findAll(RoleDto role, Page page);
+    Object findAll(RoleDto role, PageUtil page);
+
+
 }
