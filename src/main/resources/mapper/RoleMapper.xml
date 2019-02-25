@@ -99,5 +99,24 @@
         from t_role r join t_menus_roles mr on r.id = mr.role_id
           where mr.menu_id = #{menuId}
   </select>
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_role r
+    where 1 = 1
+    <if test="role.name != null and role.name != '' ">
+      and r.name = #{role.name}
+    </if>
+    order by r.create_time
+    limit #{page.number},#{page.size}
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select count(id)
+    from t_role r
+    where 1 = 1
+    <if test="role.name != null and role.name != '' ">
+      and r.name = #{role.name}
+    </if>
+  </select>
 
 </mapper>
