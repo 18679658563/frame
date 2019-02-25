@@ -26,10 +26,6 @@ public class Page<T> {
 
     private Integer count;
 
-   public Page(){
-       this.number = (pageNumber-1)*pageSize;
-   }
-
     public static Map toResult(Page page){
         Map map = new HashMap();
         map.put("content",page.getList());
