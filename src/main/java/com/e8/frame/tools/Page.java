@@ -20,9 +20,15 @@ public class Page<T> {
 
     private Integer size;
 
+    private Integer number;
+
     private List<T> list;
 
     private Integer count;
+
+    public Integer getNumber(){
+        return this.page*this.size;
+    }
 
     public static Map toResult(Page page){
         Map map = new HashMap();

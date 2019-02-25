@@ -55,9 +55,6 @@ public class RoleServiceImpl implements IRoleService{
 
     @Override
     public Object findAll(RoleDto role, Page page) {
-        if(page.getPage() != 0){
-            page.setPage(page.getPage()*page.getSize());
-        }
         List<Role> roleList = roleMapper.selectByPage(role,page);
         List<RoleDto>  result = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
         for(RoleDto roleDto : result){
