@@ -23,4 +23,7 @@ public class RoleDto {
     private List<PermissionDto> permissions;
 
     private Timestamp createTime;
+
+
+    private String permissionIds;
 }

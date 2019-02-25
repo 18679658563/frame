@@ -57,4 +57,7 @@ public interface RoleMapper {
      * @return
      */
     Integer count(@Param("role") RoleDto role);
+
+
+    List<RoleDto> selectByRoleIds(@Param("ids")List<String> ids);
 }

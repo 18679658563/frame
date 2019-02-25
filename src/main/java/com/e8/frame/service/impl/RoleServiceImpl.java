@@ -12,8 +12,10 @@ import com.e8.frame.tools.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: sharps
@@ -70,15 +72,35 @@ public class RoleServiceImpl implements IRoleService{
     @Override
     public Object findAll(RoleDto role, PageUtil page) {
         List<Role> roleList = roleMapper.selectByPage(role,page);
-        List<RoleDto>  result = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
-        for(RoleDto roleDto : result){
-            List<Permission> list = permissionMapper.selectByRoleId(roleDto.getId());
-            List<PermissionDto> permissionDtoList = BeanUtil.createBeanListByTarget(list,PermissionDto.class);
-            roleDto.setPermissions(permissionDtoList);
+        List<String> ids = roleList.stream().map(d -> d.getId()).collect(Collectors.toList());
+        List<RoleDto> roleDtoList = roleMapper.selectByRoleIds(ids);
+        List<Permission> permissionList = permissionMapper.selectAll();
+        for(RoleDto roleDto : roleDtoList){
+            List<PermissionDto> dtoList = new ArrayList<>();
+            if(!StringUtils.isEmpty(roleDto.getPermissionIds())){
+                String[] permissionIds = roleDto.getPermissionIds().split(",");
+                for(Permission permission : permissionList){
+                    for(String permissionId : permissionIds){
+                        if((permission.getId()).equals(permissionId)){
+                            PermissionDto dto = BeanUtil.createBeanByTarget(permission,PermissionDto.class);
+                            dtoList.add(dto);
+                        }
+                    }
+                }
+            }
+            roleDto.setPermissions(dtoList);
         }
+//        for(RoleDto roleDto : result){
+//            List<Permission> list = permissionMapper.selectByRoleId(roleDto.getId());
+//            List<PermissionDto> permissionDtoList = BeanUtil.createBeanListByTarget(list,PermissionDto.class);
+//            roleDto.setPermissions(permissionDtoList);
+//        }
         Integer count = roleMapper.count(role);
-        page.setList(result);
+        page.setList(roleDtoList);
         page.setCount(count);
         return PageUtil.toResult(page);
     }
+
+
+
 }

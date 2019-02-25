@@ -26,5 +26,6 @@ public interface PermissionMapper {
 
     List<Permission> selectByRoleId(String roleId);
 
+    List<Permission> selectAll();
 
 }

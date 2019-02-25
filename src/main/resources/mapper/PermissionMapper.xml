@@ -113,4 +113,9 @@
         where  rp.role_id = #{roleId}
   </select>
 
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_permission
+  </select>
+
 </mapper>

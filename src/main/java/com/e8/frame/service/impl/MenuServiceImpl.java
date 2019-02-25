@@ -52,7 +52,6 @@ public class MenuServiceImpl implements IMenuService{
     public List<MenuDto> findByRoleIds(List<RoleDto> roles) {
         List<String> ids = new ArrayList<>();
         for(RoleDto role : roles){
-            System.out.println(role.getId());
             ids.add(role.getId());
         }
         List<Menu> list =  menuMapper.selectByRoleIds(ids);
@@ -76,14 +75,13 @@ public class MenuServiceImpl implements IMenuService{
         List<MenuDto> lists = BeanUtil.createBeanListByTarget(menuList,MenuDto.class);
         for(MenuDto menuDto : lists){
            roleList = roleMapper.selectByMenuId(menuDto.getId());
-           List<PermissionDto> permissionDtoList = null;
            List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
-            for(RoleDto role : roleDtoList){
-                List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
-                permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
-                role.setPermissions(permissionDtoList);
-            }
-            menuDto.setRoles(roleDtoList);
+           for(RoleDto role : roleDtoList){
+               List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
+               List<PermissionDto> permissionDtoList  = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
+               role.setPermissions(permissionDtoList);
+           }
+           menuDto.setRoles(roleDtoList);
         }
         return lists;
     }
