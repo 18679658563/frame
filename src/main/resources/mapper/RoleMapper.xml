@@ -107,7 +107,7 @@
       and r.name = #{role.name}
     </if>
     order by r.create_time
-    limit #{page.number},#{page.pageSize}
+    limit #{page.page},#{page.size}
   </select>
 
   <select id="count" resultType="java.lang.Integer">

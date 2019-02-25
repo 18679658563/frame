@@ -16,11 +16,9 @@ import java.util.Map;
 @Data
 public class Page<T> {
 
-    private Integer pageNumber;
+    private Integer page;
 
-    private Integer number;//那个数下标
-
-    private Integer pageSize;
+    private Integer size;
 
     private List<T> list;
 
