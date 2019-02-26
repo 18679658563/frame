@@ -62,7 +62,9 @@ public class MenuController {
     @GetMapping(value = "/menus/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
     public ResponseEntity getMenu(@PathVariable String id){
-        return new ResponseEntity(menuService.findById(id), HttpStatus.OK);
+        MenuDto dto = new MenuDto();
+        dto.setId(id);
+        return new ResponseEntity(menuService.findByDto(dto), HttpStatus.OK);
     }
 
 

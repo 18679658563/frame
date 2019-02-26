@@ -195,6 +195,9 @@
             on  m.id = mr.menu_id
     where
     1=1
+    <if test="menu.id != null and menu.id != '' ">
+      and m.id = #{menu.id}
+    </if>
     <if test="menu.name != null and menu.name != '' ">
       AND m.name like #{menu.name}
     </if>
