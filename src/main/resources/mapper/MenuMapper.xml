@@ -173,6 +173,16 @@
       insert into t_menus_roles(role_id,menu_id) values(#{roleId},#{menuId})
   </insert>
 
+  <insert id="insertRoleMenuList">
+      insert into t_menus_roles(role_id,menu_id) values
+    <foreach collection ="list" item="list" index= "index" separator =",">
+       (
+          #{list.id}, #{list.menuId},
+        )
+    </foreach >
+  </insert>
+
+
   <delete id="deleteMenuRoleByMenuId">
     delete from t_menus_roles where menu_id = #{id}
   </delete>

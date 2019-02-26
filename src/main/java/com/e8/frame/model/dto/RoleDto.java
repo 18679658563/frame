@@ -24,6 +24,7 @@ public class RoleDto {
 
     private Timestamp createTime;
 
+    private String menuId;
 
     private String permissionIds;
 }

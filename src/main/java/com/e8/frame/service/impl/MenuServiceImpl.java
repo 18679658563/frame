@@ -282,9 +282,12 @@ public class MenuServiceImpl implements IMenuService{
         int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             if(!CollectionUtils.isEmpty(menuDto.getRoles())){
+                List<RoleDto> list = new ArrayList<>();
                 for(RoleDto role : menuDto.getRoles()){
-                    menuMapper.insertRoleMenu(role.getId(),menuDto.getId());
+                    role.setMenuId(menuDto.getId());
+                    list.add(role);
                 }
+                menuMapper.insertRoleMenuList(list);
             }
         }
         return menuDto;
@@ -297,12 +300,16 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public void updataMenu(MenuDto menuDto) {
-        int menuFlag =  menuMapper.updateByPrimaryKeySelective(
-                BeanUtil.createBeanByTarget(menuDto,Menu.class));
+        int menuFlag =  menuMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             menuMapper.deleteMenuRoleByMenuId(menuDto.getId());
-            for(RoleDto role : menuDto.getRoles()){
-                menuMapper.insertRoleMenu(role.getId(),menuDto.getId());
+            List<RoleDto> list = new ArrayList<>();
+            if(!CollectionUtils.isEmpty(menuDto.getRoles())) {
+                for (RoleDto role : menuDto.getRoles()) {
+                    role.setMenuId(menuDto.getId());
+                    list.add(role);
+                }
+                menuMapper.insertRoleMenuList(list);
             }
         }
     }
