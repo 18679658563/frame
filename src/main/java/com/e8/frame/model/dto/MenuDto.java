@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 public class MenuDto {
-    private String id = UUIDUtil.getUUID();
+    private String id ;
 
     private String name;
 
@@ -30,6 +30,8 @@ public class MenuDto {
     private Boolean iframe = false;
 
     private String icon;
+
+    private String roleIds;//角色id拼接字符串
 
     private List<RoleDto> roles;
 

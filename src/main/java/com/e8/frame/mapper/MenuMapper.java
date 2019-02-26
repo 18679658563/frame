@@ -1,8 +1,11 @@
 package com.e8.frame.mapper;
 
 import com.e8.frame.model.Menu;
+import com.e8.frame.model.dto.MenuDto;
+import com.e8.frame.model.dto.RoleDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.Set;
@@ -57,5 +60,10 @@ public interface MenuMapper {
      * @return
      */
     int deleteMenuRoleByMenuId(String id);
+
+
+    List<MenuDto> selectByDto(@Param("menu") MenuDto menu);
+
+    int insertRoleMenuList(@Param("list") List<RoleDto> list);
 
 }

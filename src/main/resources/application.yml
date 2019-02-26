@@ -9,7 +9,7 @@ spring:
       type: com.alibaba.druid.pool.DruidDataSource
       #driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/e8admin
+      url: jdbc:mysql://localhost:3306/e8admin?characterEncoding=utf8
       username: root
       password: 123456
 
@@ -81,3 +81,6 @@ jwt:
     path: /login
     # 获取用户信息
     account: /info
+logging:
+  level:
+    com.e8.frame.mapper: trace

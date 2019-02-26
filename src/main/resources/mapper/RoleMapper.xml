@@ -133,4 +133,40 @@
     group by r.id
   </select>
 
+  <delete id="deleteMenuRoleByRoleId" parameterType="java.lang.String">
+    delete from t_menus_roles where role_id = #{id,jdbcType=CHAR}
+  </delete>
+
+  <delete id="deleteUserRoleByRoleId" parameterType="java.lang.String">
+    delete from t_users_roles where role_id = #{id,jdbcType=CHAR}
+  </delete>
+
+
+  <delete id="deleteRolePermissionByRoleId" parameterType="java.lang.String">
+    delete from t_roles_permissions where role_id = #{id,jdbcType=CHAR}
+  </delete>
+
+<select id="selectMenuRoleByRoleId" resultType="java.lang.Integer" parameterType="java.lang.String">
+  select count(r.role_id)
+  from t_menus_roles r
+  where  r.role_id = #{id,jdbcType=CHAR}
+
+</select>
+
+  <select id="selectUserRoleByRoleId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(r.role_id)
+    from t_users_roles r
+    where r.role_id = #{id,jdbcType=CHAR}
+
+  </select>
+
+  <select id="selectRolePermissionByRoleId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(r.role_id)
+    from t_roles_permissions r
+    where r.role_id = #{id,jdbcType=CHAR}
+
+  </select>
+
+
+
 </mapper>
