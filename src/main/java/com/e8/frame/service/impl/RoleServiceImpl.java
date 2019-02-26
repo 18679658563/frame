@@ -147,4 +147,28 @@ public class RoleServiceImpl implements IRoleService{
     }
 
 
+    /**
+     * 修改角色信息
+     * @param roleDto
+     * @return
+     */
+    @Override
+    @Transactional
+    public void updataRole(RoleDto roleDto){
+        int roleFlag =  roleMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
+        if(roleFlag > 0){
+//            roleMapper.deleteMenuRoleByMenuId(menuDto.getId());
+//            List<RoleDto> list = new ArrayList<>();
+//            if(!CollectionUtils.isEmpty(menuDto.getRoles())) {
+//                for (RoleDto role : menuDto.getRoles()) {
+//                    role.setMenuId(menuDto.getId());
+//                    list.add(role);
+//                }
+//                menuMapper.insertRoleMenuList(list);
+//            }
+        }
+
+    }
+
+
 }
