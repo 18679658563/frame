@@ -161,7 +161,7 @@
       and tu.email like concat('%',#{user.email,jdbcType=VARCHAR},'%')
     </if>
     <if test="user.enabled != null" >
-      and tu.enabled like concat('%',#{user.enabled,jdbcType=BIGINT},'%')
+      and tu.enabled = #{user.enabled,jdbcType=BIGINT}
     </if>
     limit #{page.number,jdbcType=INTEGER},#{page.size,jdbcType=INTEGER}
   </select>
