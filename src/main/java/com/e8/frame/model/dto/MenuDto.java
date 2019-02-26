@@ -31,6 +31,8 @@ public class MenuDto {
 
     private String icon;
 
+    private String roleIds;//角色id拼接字符串
+
     private List<RoleDto> roles;
 
     private List<MenuDto> children;

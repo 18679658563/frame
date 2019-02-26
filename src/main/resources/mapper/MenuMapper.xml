@@ -169,7 +169,6 @@
     from t_menu where pid = #{pid}
   </select>
 
-
   <insert id="insertRoleMenu">
       insert into t_menus_roles(role_id,menu_id) values(#{roleId},#{menuId})
   </insert>
@@ -178,4 +177,16 @@
     delete from t_menus_roles where menu_id = #{id}
   </delete>
 
+
+  <select id="selectByDto" resultType="com.e8.frame.model.dto.MenuDto">
+    select m.*,
+      GROUP_CONCAT(mr.role_id) as roleIds
+        from   t_menu m  left  join    t_menus_roles  mr
+            on  m.id = mr.menu_id
+    where 1=1
+    <if test="menu.name != null and menu.name != '' ">
+      AND name like "%"#{menu.name}"%"
+    </if>
+        group by m.id
+  </select>
 </mapper>
