@@ -28,9 +28,9 @@ public class UserController {
     private UserMapper userMapper;
 
     /**
+     * @description: 分页查询用户
      * @param: users
      * @return: ResponseEntity
-     * @description: 分页查询用户
      */
     @RequestMapping(value = "/users",method = RequestMethod.GET)
     public ResponseEntity getUsers(UserDto userDTO,PageUtil page){
@@ -42,18 +42,33 @@ public class UserController {
         return new ResponseEntity(PageUtil.toResult(pageList), HttpStatus.OK);
     }
 
+    /**
+     * @description: 创建用户
+     * @param: user
+     * @return: ResponseEntity
+     */
     @RequestMapping(value = "/users",method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserDto user){
         iUserService.insertSelective(user);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    /**
+     * @description：根据用户id删除用户
+     * @param: id
+     * @return: ResponseEntity
+     */
     @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable String id){
         iUserService.deleteUserAndUserRolesByUserId(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * @description: 更新用户
+     * @param: user
+     * @return: ResponseEntity
+     */
     @RequestMapping(value = "/users",method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody UserDto user){
         if (user.getId() == null) {
