@@ -11,6 +11,7 @@ import com.e8.frame.tools.BeanUtil;
 import com.e8.frame.tools.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -102,5 +103,22 @@ public class RoleServiceImpl implements IRoleService{
     }
 
 
-
+    /**
+     * 先删除中间表在删除Role表
+     * @param id
+     */
+    @Override
+    @Transactional
+    public void deleteRole(String id) {
+        if(roleMapper.selectMenuRoleByRoleId(id)>0) {
+            roleMapper.deleteMenuRoleByRoleId(id);
+        }
+        if(roleMapper.selectUserRoleByRoleId(id)>0) {
+            roleMapper.deleteUserRoleByRoleId(id);
+        }
+        if(roleMapper.selectRolePermissionByRoleId(id)>0) {
+            roleMapper.deleteRolePermissionByRoleId(id);
+        }
+        roleMapper.deleteByPrimaryKey(id);
+    }
 }

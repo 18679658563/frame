@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -47,6 +49,19 @@ public class RoleController {
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT','ROLES_ALL','USER_ALL','USER_SELECT')")
     public ResponseEntity getRoleTree(){
         return new ResponseEntity(roleService.getRoleTree(), HttpStatus.OK);
+    }
+
+
+    /**
+     * 根据id删除Role信息
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "/roles/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','ROLES_ALL','ROLES_DELETE')")
+    public ResponseEntity delete(@PathVariable String id){
+        roleService.deleteRole(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

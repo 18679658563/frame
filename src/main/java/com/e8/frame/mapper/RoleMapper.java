@@ -60,4 +60,54 @@ public interface RoleMapper {
 
 
     List<RoleDto> selectByRoleIds(@Param("ids")List<String> ids);
+
+    /**
+     * 根据菜单id查询角色菜单中间表信息是否有记录
+     * @param id
+     * @return
+     */
+    int selectMenuRoleByRoleId(String id);
+
+    /**
+     * 根据菜单id删除角色菜单中间表信息
+     * @param id
+     * @return
+     */
+    int deleteMenuRoleByRoleId(String id);
+
+    /**
+     * 根据菜单id查询用户角色中间表信息是否有记录
+     * @param id
+     * @return
+     */
+    int selectUserRoleByRoleId(String id);
+
+    /**
+     * 根据菜单id删除用户角色中间表信息
+     * @param id
+     * @return
+     */
+    int deleteUserRoleByRoleId(String id);
+
+    /**
+     * 根据菜单id查询角色权限中间表信息是否有记录
+     * @param id
+     * @return
+     */
+    int selectRolePermissionByRoleId(String id);
+
+
+    /**
+     * 根据菜单id删除角色权限中间表信息
+     * @param id
+     * @return
+     */
+
+    int deleteRolePermissionByRoleId(String id);
+
+
+
+
+
+
 }
