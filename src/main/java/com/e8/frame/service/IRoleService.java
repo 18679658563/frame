@@ -1,5 +1,6 @@
 package com.e8.frame.service;
 
+import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.tools.PageUtil;
 
@@ -19,4 +20,6 @@ public interface IRoleService {
     Object findAll(RoleDto role, PageUtil page);
 
     void deleteRole(String id);
+
+    RoleDto addRole(RoleDto resources);
 }

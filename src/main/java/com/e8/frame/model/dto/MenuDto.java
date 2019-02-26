@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 public class MenuDto {
-    private String id = UUIDUtil.getUUID();
+    private String id ;
 
     private String name;
 

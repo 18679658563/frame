@@ -14,6 +14,7 @@ import com.e8.frame.model.vo.MenuMetaVo;
 import com.e8.frame.model.vo.MenuVo;
 import com.e8.frame.service.IMenuService;
 import com.e8.frame.tools.BeanUtil;
+import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -279,6 +280,7 @@ public class MenuServiceImpl implements IMenuService{
     @Transactional
     public MenuDto addMenu(MenuDto menuDto) {
         menuDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        menuDto.setId(UUIDUtil.getUUID());
         int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             if(!CollectionUtils.isEmpty(menuDto.getRoles())){
