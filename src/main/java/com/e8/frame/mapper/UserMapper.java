@@ -5,6 +5,7 @@ import com.e8.frame.model.User;
 import com.e8.frame.model.dto.UserDto;
 import com.e8.frame.tools.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public interface UserMapper {
 
     int selectCount();
 
-    List<UserDto> getUsersByPage(UserDto user,PageUtil page);
+    List<UserDto> getUsersByPage(@Param("user") UserDto user, @Param("page") PageUtil page);
 
     User selectByEmail(String Email);
 
