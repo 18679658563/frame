@@ -1,6 +1,7 @@
 package com.e8.frame.model.dto;
 
 import lombok.Data;
+import org.w3c.dom.ls.LSException;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -26,4 +27,7 @@ public class PermissionDto {
     private Timestamp createTime;
 
     private List<PermissionDto> children;
+
+    private List<RoleDto> roles;
+
 }

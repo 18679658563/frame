@@ -12,10 +12,15 @@
     id, alias, create_time, name, pid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  select
+  <include refid="Base_Column_List" />
+  from t_permission
+  where id = #{id,jdbcType=CHAR}
+</select>
+  <select id="findPermission" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from t_permission
-    where id = #{id,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_permission
@@ -111,6 +116,25 @@
      from t_permission p join t_roles_permissions rp
       on p.id = rp.permission_id
         where  rp.role_id = #{roleId}
+  </select>
+
+  <select id="deletePermissionRoleById">
+    delete from t_roles_permissions where id = #{id}
+  </select>
+
+  <select id="findByPid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_permission where pid = #{pid}
+  </select>
+
+  <select id="selectByPermission" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_permission
+    where  1 = 1
+    <if test="permission.name != null and permission.name != '' ">
+      AND name like "%"#{permission.name}"%"
+    </if>
+
   </select>
 
 </mapper>
