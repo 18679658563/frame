@@ -1,6 +1,5 @@
 package com.e8.frame.mapper;
 
-import com.e8.frame.model.Role;
 import com.e8.frame.model.User;
 import com.e8.frame.model.dto.UserDto;
 import com.e8.frame.tools.PageUtil;
@@ -36,7 +35,5 @@ public interface UserMapper {
     int insertUserRole(List<Map> list);
 
     int deleteUserRolesByUserId(String UserId);
-
-    List<String> getUserRoleIdsByUserId(String UserId);
 
 }

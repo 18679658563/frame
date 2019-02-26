@@ -2,7 +2,6 @@ package com.e8.frame.service.impl;
 
 import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.exception.EntityExistException;
-import com.e8.frame.mapper.RoleMapper;
 import com.e8.frame.mapper.UserMapper;
 import com.e8.frame.model.User;
 import com.e8.frame.model.dto.RoleDto;
@@ -31,10 +30,6 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private RoleMapper roleMapper;
-
 
     @Override
     public UserDto findByUsername(String name) {
