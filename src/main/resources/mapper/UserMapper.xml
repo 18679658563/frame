@@ -134,4 +134,28 @@
     where username = #{username,jdbcType=CHAR}
   </select>
 
+  <select id="selectCount" resultType="int">
+    SELECT count(1) from t_user
+  </select>
+
+  <select id="getUsersByPage" resultMap="BaseResultMap" parameterType="com.e8.frame.tools.PageUtil">
+    select
+    <include refid="Base_Column_List"/>
+    from t_user
+    limit #{number,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from t_user
+    where email = #{email,jdbcType=CHAR}
+  </select>
+
+  <insert id="insertUserRole" parameterType="List">
+    insert into t_users_roles(user_id,role_id) values
+    <foreach collection="list" item="map" separator =",">
+      (#{map.userId,jdbcType=CHAR},#{map.roleId,jdbcType=CHAR})
+    </foreach>
+  </insert>
 </mapper>
