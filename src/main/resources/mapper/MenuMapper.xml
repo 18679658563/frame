@@ -175,9 +175,9 @@
 
   <insert id="insertRoleMenuList">
       insert into t_menus_roles(role_id,menu_id) values
-    <foreach collection ="list" item="list" index= "index" separator =",">
+      <foreach collection ="list" item="list" index= "index" separator =",">
        (
-          #{list.id}, #{list.menuId},
+          #{list.id}, #{list.menuId}
         )
     </foreach >
   </insert>
@@ -193,10 +193,11 @@
       GROUP_CONCAT(mr.role_id) as roleIds
         from   t_menu m  left  join    t_menus_roles  mr
             on  m.id = mr.menu_id
-    where 1=1
+    where
+    1=1
     <if test="menu.name != null and menu.name != '' ">
-      AND name like "%"#{menu.name}"%"
+      AND m.name like #{menu.name}
     </if>
-        group by m.id
+    group by m.id
   </select>
 </mapper>
