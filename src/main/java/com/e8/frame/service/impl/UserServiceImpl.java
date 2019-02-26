@@ -2,6 +2,7 @@ package com.e8.frame.service.impl;
 
 import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.exception.EntityExistException;
+import com.e8.frame.mapper.RoleMapper;
 import com.e8.frame.mapper.UserMapper;
 import com.e8.frame.model.User;
 import com.e8.frame.model.dto.RoleDto;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
 
     @Override
     public UserDto findByUsername(String name) {
@@ -43,18 +47,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserDto> getUsersByPage(PageUtil page) {
-        List<User> list = userMapper.getUsersByPage(page);
-        List<UserDto> listDto = null;
-        if(!list.isEmpty()){
-            listDto = BeanUtil.createBeanListByTarget(list, UserDto.class);
-        }
-        return listDto;
+    public List<UserDto> getUsersByPage(UserDto user,PageUtil page) {
+        List<UserDto> list = userMapper.getUsersByPage(user,page);
+        return list;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int insertSelective(UserDto user) {
+    public void insertSelective(UserDto user) {
         if(userMapper.selectByUsername(user.getUsername())!=null){
             throw new EntityExistException(UserDto.class,"username",user.getUsername());
         }
@@ -73,13 +73,34 @@ public class UserServiceImpl implements IUserService {
         u.setCreateTime(new Timestamp(new Date().getTime()));
         userMapper.insertSelective(u);
         List<RoleDto> roles = user.getRoles();
+        if(!roles.isEmpty()){
+            insertUserRole(roles,uuid);
+        }
+    }
+
+    @Override
+    public void deleteUserAndUserRolesByUserId(String userId) {
+        userMapper.deleteUserRolesByUserId(userId);
+        userMapper.deleteByPrimaryKey(userId);
+    }
+
+    @Override
+    public void updateUserAndUserRoles(UserDto userDto) {
+        userMapper.updateByPrimaryKeySelective(userDto);
+        userMapper.deleteUserRolesByUserId(userDto.getId());
+        List<RoleDto> roles = userDto.getRoles();
+        if(!roles.isEmpty()){
+            insertUserRole(roles,userDto.getId());
+        }
+    }
+    public void insertUserRole(List<RoleDto> roles,String UserId){
         List<Map> userRoleList = new ArrayList<>();
-        for (RoleDto role:roles){
+        for(RoleDto role:roles){
             Map map = new HashMap<String, String>();
-            map.put("userId", uuid);
+            map.put("userId", UserId);
             map.put("roleId",role.getId());
             userRoleList.add(map);
         }
-        return  userMapper.insertUserRole(userRoleList);
+        userMapper.insertUserRole(userRoleList);
     }
 }

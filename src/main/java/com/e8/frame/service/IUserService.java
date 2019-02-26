@@ -16,7 +16,11 @@ public interface IUserService {
 
     UserDto findByUsername(String name);
 
-    List<UserDto> getUsersByPage(PageUtil page);
+    List<UserDto> getUsersByPage(UserDto user,PageUtil page);
 
-    int insertSelective(UserDto user);
+    void insertSelective(UserDto user);
+
+    void deleteUserAndUserRolesByUserId(String UserId);
+
+    void updateUserAndUserRoles(UserDto userDto);
 }

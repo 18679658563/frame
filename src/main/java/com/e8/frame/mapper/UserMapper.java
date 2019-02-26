@@ -1,6 +1,8 @@
 package com.e8.frame.mapper;
 
+import com.e8.frame.model.Role;
 import com.e8.frame.model.User;
+import com.e8.frame.model.dto.UserDto;
 import com.e8.frame.tools.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,7 +20,7 @@ public interface UserMapper {
 
     User selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(User record);
+    int updateByPrimaryKeySelective(UserDto record);
 
     int updateByPrimaryKey(User record);
 
@@ -26,11 +28,14 @@ public interface UserMapper {
 
     int selectCount();
 
-    List<User> getUsersByPage(PageUtil page);
+    List<UserDto> getUsersByPage(UserDto user,PageUtil page);
 
     User selectByEmail(String Email);
 
     int insertUserRole(List<Map> list);
 
+    int deleteUserRolesByUserId(String UserId);
+
+    List<String> getUserRoleIdsByUserId(String UserId);
 
 }
