@@ -26,6 +26,8 @@ public class RoleDto {
 
     private String menuId;
 
+    private String permissionId;
+
     private String permissionIds;
 
 }

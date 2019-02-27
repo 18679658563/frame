@@ -185,5 +185,14 @@
     insert INTO t_roles_permissions(role_id,permission_id) VALUES (#{roleId},#{permissionId})
   </insert>
 
+  <insert id="insertPermissionRoleDto">
+    insert into t_roles_permissions(role_id,permission_id) values
+    <foreach collection ="list" item="list" index= "index" separator =",">
+      (
+      #{list.id}, #{list.permission}
+      )
+    </foreach >
+  </insert>
+
 
 </mapper>

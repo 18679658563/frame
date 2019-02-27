@@ -2,12 +2,8 @@ package com.e8.frame.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.e8.frame.mapper.MenuMapper;
-import com.e8.frame.mapper.PermissionMapper;
-import com.e8.frame.mapper.RoleMapper;
 import com.e8.frame.model.Menu;
-import com.e8.frame.model.Permission;
 import com.e8.frame.model.dto.MenuDto;
-import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.model.vo.MenuMetaVo;
 import com.e8.frame.model.vo.MenuVo;
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.*;
