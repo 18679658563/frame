@@ -30,12 +30,6 @@ public interface MenuMapper {
      */
     List<Menu> selectByRoleIds(@Param("ids") List<String> ids);
 
-    /**
-     * 根据菜单的信息查询菜单
-     * @param menu
-     * @return
-     */
-    List<Menu> selectByMenu(@Param("menu") Menu menu);
 
     /**
      * 根据子id查询菜单
