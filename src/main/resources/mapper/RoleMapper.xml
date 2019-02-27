@@ -7,6 +7,20 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+
+  <resultMap id="BaseResultDtoMap" type="com.e8.frame.model.dto.RoleDto" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <collection property="permissions" ofType="com.e8.frame.model.dto.PermissionDto">
+      <id property="id" column="id2"/>
+      <result column="alias2" property="alias" jdbcType="VARCHAR" />
+      <result column="create_time2" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="name2" property="name" jdbcType="VARCHAR" />
+      <result column="pid2" property="pid" jdbcType="CHAR" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, create_time, name, remark
   </sql>
@@ -99,15 +113,16 @@
         from t_role r join t_menus_roles mr on r.id = mr.role_id
           where mr.menu_id = #{menuId}
   </select>
-  <select id="selectByPage" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-    from t_role r
+  <select id="selectByPage" resultMap="BaseResultDtoMap">
+    select  r.id,r.create_time,r.name,r.remark,
+    p.id as id2,p.alias as alias2,p.create_time as create_time2 ,p.name as name2 ,p.pid as pid2
+    from (select * from t_role limit #{page.number},#{page.size}) r  left join t_roles_permissions rp on r.id =  rp.role_id
+    left join t_permission  p on rp.permission_id = p.id
     where 1 = 1
     <if test="role.name != null and role.name != '' ">
-      and r.name = #{role.name}
+      and name = #{role.name}
     </if>
-    order by r.create_time
-    limit #{page.number},#{page.size}
+    order by create_time
   </select>
 
   <select id="count" resultType="java.lang.Integer">
@@ -120,17 +135,16 @@
   </select>
 
 
-  <select id="selectByRoleIds" resultType="com.e8.frame.model.dto.RoleDto">
-    select r.*,
-    GROUP_CONCAT(rp.permission_id) as permissionIds
-    from   t_role  r  left  join    t_roles_permissions  rp
-    on  r.id = rp.role_id
-    where r.id in
+  <select id="selectByRoleIds" resultMap="BaseResultDtoMap">
+    select  r.id,r.create_time,r.name,r.remark,
+    p.id as id2,p.alias as alias2,p.create_time as create_time2 ,p.name as name2 ,p.pid as pid2
+    from t_role r left join t_roles_permissions rp on r.id =  rp.role_id
+    left join t_permission  p on rp.permission_id = p.id
+    where p.id in
     <foreach collection="ids" item="ids" index="index"
              open="(" close=")" separator=",">
       #{ids}
     </foreach>
-    group by r.id
   </select>
 
   <delete id="deleteMenuRoleByRoleId" parameterType="java.lang.String">

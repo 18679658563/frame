@@ -75,30 +75,7 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     public Object findAll(RoleDto role, PageUtil page) {
-        List<Role> roleList = roleMapper.selectByPage(role,page);
-        List<String> ids = roleList.stream().map(d -> d.getId()).collect(Collectors.toList());
-        List<RoleDto> roleDtoList = roleMapper.selectByRoleIds(ids);
-        List<Permission> permissionList = permissionMapper.selectAll();
-        for(RoleDto roleDto : roleDtoList){
-            List<PermissionDto> dtoList = new ArrayList<>();
-            if(!StringUtils.isEmpty(roleDto.getPermissionIds())){
-                String[] permissionIds = roleDto.getPermissionIds().split(",");
-                for(Permission permission : permissionList){
-                    for(String permissionId : permissionIds){
-                        if((permission.getId()).equals(permissionId)){
-                            PermissionDto dto = BeanUtil.createBeanByTarget(permission,PermissionDto.class);
-                            dtoList.add(dto);
-                        }
-                    }
-                }
-            }
-            roleDto.setPermissions(dtoList);
-        }
-//        for(RoleDto roleDto : result){
-//            List<Permission> list = permissionMapper.selectByRoleId(roleDto.getId());
-//            List<PermissionDto> permissionDtoList = BeanUtil.createBeanListByTarget(list,PermissionDto.class);
-//            roleDto.setPermissions(permissionDtoList);
-//        }
+        List<RoleDto> roleDtoList = roleMapper.selectByPage(role,page);
         Integer count = roleMapper.count(role);
         page.setList(roleDtoList);
         page.setCount(count);

@@ -43,13 +43,14 @@ public interface RoleMapper {
      */
     List<Role> selectByMenuId(String menuId);
 
+
     /**
      * 分页查询
      * @param role
      * @param page
      * @return
      */
-    List<Role> selectByPage(@Param("role")RoleDto role,@Param("page") PageUtil page);
+    List<RoleDto> selectByPage(@Param("role")RoleDto role,@Param("page") PageUtil page);
 
     /**
      * 根据信息查询总数目
