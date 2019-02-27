@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.e8.frame.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.e8.frame.model.LogModel" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="description" property="description" jdbcType="VARCHAR"/>
+    <result column="exception_detail" property="exceptionDetail" jdbcType="VARCHAR"/>
+    <result column="log_type" property="logType" jdbcType="VARCHAR"/>
+    <result column="method" property="method" jdbcType="VARCHAR"/>
+    <result column="params" property="params" jdbcType="VARCHAR"/>
+    <result column="request_ip" property="requestIp" jdbcType="VARCHAR"/>
+    <result column="time" property="time" jdbcType="VARCHAR"/>
+    <result column="username" property="username" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <insert id="insertLog">
+      insert into log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null and id != '' " >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="description != null and description != '' " >
+        description,
+      </if>
+      <if test="exceptionDetail != null and exceptionDetail != '' " >
+        exception_detail,
+      </if>
+      <if test="logType != null and logType != '' " >
+        log_type,
+      </if>
+      <if test="method != null and method != '' " >
+        method,
+      </if>
+      <if test="params != null and params != '' " >
+        params,
+      </if>
+      <if test="requestIp != null and requestIp!= '' " >
+        request_ip,
+      </if>
+      <if test="time != null and time != '' " >
+        time,
+      </if>
+      <if test="username != null and username != '' " >
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null and id != '' " >
+        #{id},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="description != null and description != '' " >
+        #{description},
+      </if>
+      <if test="exceptionDetail != null and exceptionDetail != '' " >
+        #{exceptionDetail},
+      </if>
+      <if test="logType != null and logType != '' " >
+        #{logType},
+      </if>
+      <if test="method != null and method != '' " >
+        #{method},
+      </if>
+      <if test="params != null and params != '' " >
+        #{params},
+      </if>
+      <if test="requestIp != null and requestIp!= '' " >
+        #{requestIp},
+      </if>
+      <if test="time != null and time != '' " >
+        #{time},
+      </if>
+      <if test="username != null and username != '' " >
+        #{username},
+      </if>
+    </trim>
+
+  </insert>
+
+</mapper>
