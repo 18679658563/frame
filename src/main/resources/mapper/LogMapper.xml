@@ -14,6 +14,10 @@
     <result column="username" property="username" jdbcType="VARCHAR"/>
   </resultMap>
 
+  <sql id="Base_Column_List">
+    id,create_time,description,exception_detail,log_type,method,params,request_ip,time,username
+  </sql>
+
   <insert id="insertLog">
       insert into log
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -82,5 +86,32 @@
     </trim>
 
   </insert>
+
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+      from log
+        where 1 = 1
+          <if test="log.username != null and  log.username != '' ">
+           and  username = #{log.username}
+          </if>
+          <if test="log.logType != null and  log.logType != '' ">
+            and  log_type = #{log.username}
+          </if>
+    order by create_time desc
+    limit #{page.number},#{page.size}
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select
+      count(id)
+        from log
+        where 1 = 1
+        <if test="log.username != null and  log.username != '' ">
+          and  username = #{log.username}
+        </if>
+        <if test="log.logType != null and  log.logType != '' ">
+          and  log_type = #{log.username}
+        </if>
+  </select>
 
 </mapper>

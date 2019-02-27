@@ -8,6 +8,7 @@ import com.e8.frame.mapper.LogMapper;
 import com.e8.frame.model.LogModel;
 import com.e8.frame.service.ILogService;
 import com.e8.frame.tools.IpUtil;
+import com.e8.frame.tools.PageUtil;
 import com.e8.frame.tools.UUIDUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -22,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -82,5 +84,14 @@ public class LogServiceImpl implements ILogService {
         logModel.setUsername(username);
         logModel.setCreateTime(new Date());
         return logMapper.insertLog(logModel);
+    }
+
+    @Override
+    public Object findByPage(PageUtil page, LogModel logModel) {
+        List<LogModel> lists = logMapper.selectByPage(page,logModel);
+        Integer count = logMapper.count(logModel);
+        page.setList(lists);
+        page.setCount(count);
+        return PageUtil.toResult(page);
     }
 }
