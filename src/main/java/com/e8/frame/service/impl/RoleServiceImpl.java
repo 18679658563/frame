@@ -137,13 +137,37 @@ public class RoleServiceImpl implements IRoleService{
         roleDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
         int roleFlag = roleMapper.insertSelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
         if(roleFlag > 0){
-//            if(!CollectionUtils.isEmpty(menuDto.getRoles())){
-//                for(RoleDto role : menuDto.getRoles()){
-//                    menuMapper.insertRoleMenu(role.getId(),menuDto.getId());
-//                }
-//            }
+            if(!CollectionUtils.isEmpty(roleDto.getPermissions())){
+                for(PermissionDto permission : roleDto.getPermissions()){
+                    roleMapper.insertPermissionRole(permission.getId(),roleDto.getId());
+                }
+            }
         }
         return roleDto;
+    }
+
+
+    /**
+     * 修改角色信息
+     * @param roleDto
+     * @return
+     */
+    @Override
+    @Transactional
+    public void updataRole(RoleDto roleDto){
+        int roleFlag =  roleMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
+        if(roleFlag > 0){
+//            roleMapper.deleteMenuRoleByMenuId(menuDto.getId());
+//            List<RoleDto> list = new ArrayList<>();
+//            if(!CollectionUtils.isEmpty(menuDto.getRoles())) {
+//                for (RoleDto role : menuDto.getRoles()) {
+//                    role.setMenuId(menuDto.getId());
+//                    list.add(role);
+//                }
+//                menuMapper.insertRoleMenuList(list);
+//            }
+        }
+
     }
 
 

@@ -64,6 +64,11 @@ public class RoleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * 添加角色信息
+     * @param resources
+     * @return
+     */
     @PostMapping(value = "/roles")
     @PreAuthorize("hasAnyRole('ADMIN','ROLES_ALL','ROLES_CREATE')")
     public ResponseEntity create(@Validated @RequestBody RoleDto resources){
@@ -71,6 +76,22 @@ public class RoleController {
             throw new BadRequestException("A new role cannot already have an ID");
         }
         return new ResponseEntity(roleService.addRole(resources),HttpStatus.CREATED);
+    }
+
+
+    /**
+     * 修改菜单信息
+     * @param resources
+     * @return
+     */
+    @PutMapping(value = "/roles")
+    @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_EDIT')")
+    public ResponseEntity update(@Validated @RequestBody RoleDto resources){
+        if (resources.getId() == null) {
+            throw new BadRequestException( " role ID Can not be empty");
+        }
+        roleService.updataRole(resources);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }

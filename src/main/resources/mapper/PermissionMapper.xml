@@ -118,4 +118,9 @@
     from t_permission
   </select>
 
+  <select id="selectByPid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_permission where pid = #{pid}
+  </select>
+
 </mapper>

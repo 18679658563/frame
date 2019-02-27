@@ -167,6 +167,9 @@
 
   </select>
 
+  <insert id="insertPermissionRole">
+    insert INTO t_roles_permissions(role_id,permission_id) VALUES (#{roleId},#{permissionId})
+  </insert>
 
 
 </mapper>

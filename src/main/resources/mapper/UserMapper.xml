@@ -155,10 +155,10 @@
     select tu.*,tur.role_id from t_user tu left join t_users_roles tur on tu.id = tur.user_id
     where 1 = 1
     <if test="user.username != null" >
-      and tu.username = #{user.username,jdbcType=VARCHAR}
+      and tu.username like concat('%',#{user.username,jdbcType=VARCHAR},'%')
     </if>
     <if test="user.email != null" >
-      and tu.email = #{user.email,jdbcType=VARCHAR}
+      and tu.email like concat('%',#{user.email,jdbcType=VARCHAR},'%')
     </if>
     <if test="user.enabled != null" >
       and tu.enabled = #{user.enabled,jdbcType=BIGINT}
@@ -184,10 +184,5 @@
     delete from t_users_roles
     where user_id = #{userId,jdbcType=CHAR}
   </delete>
-
-   <select id="getUserRoleIdsByUserId" resultType="java.util.List" parameterType="java.lang.String">
-     select role_id from t_users_roles
-     where user_id = #{userId,jdbcType=CHAR}
-   </select>
 
 </mapper>

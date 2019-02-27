@@ -15,4 +15,8 @@ import java.util.Set;
 public interface IPermissionService {
 
     List<Permission> findPermissionByRoleIds(List<String> ids);
+
+    Object getPermissionTree(List<Permission> permissions);
+
+    List<Permission> findByPid(String pid);
 }

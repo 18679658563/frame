@@ -28,4 +28,7 @@ public interface PermissionMapper {
 
     List<Permission> selectAll();
 
+    List<Permission> selectByPid(String pid);
+
+
 }

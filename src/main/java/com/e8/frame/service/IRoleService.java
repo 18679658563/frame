@@ -22,4 +22,6 @@ public interface IRoleService {
     void deleteRole(String id);
 
     RoleDto addRole(RoleDto resources);
+
+    void updataRole(RoleDto resources);
 }
