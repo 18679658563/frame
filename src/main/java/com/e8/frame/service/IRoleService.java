@@ -1,9 +1,9 @@
 package com.e8.frame.service;
 
 import com.e8.frame.model.dto.RoleDto;
+import com.e8.frame.tools.PageUtil;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @Auther: sharps
@@ -15,4 +15,12 @@ public interface IRoleService {
     List<RoleDto> findByUserId(String userId);
 
     Object getRoleTree();
+
+    Object findAll(RoleDto role, PageUtil page);
+
+    void deleteRole(String id);
+
+    RoleDto addRole(RoleDto resources);
+
+    void updataRole(RoleDto resources);
 }

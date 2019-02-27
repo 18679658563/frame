@@ -4,7 +4,7 @@ import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 生成32为的id
  * User: silence
  * Date: 2019-02-22
  * Time: 上午9:30

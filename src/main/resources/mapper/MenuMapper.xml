@@ -12,6 +12,34 @@
     <result column="icon" property="icon" jdbcType="VARCHAR" />
     <result column="path" property="path" jdbcType="VARCHAR" />
   </resultMap>
+
+  <!-- menuDto  -->
+  <resultMap id="BaseResultDtoMap" type="com.e8.frame.model.dto.MenuDto" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="iframe" property="iframe" jdbcType="BIT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="component" property="component" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <collection property="roles" ofType="com.e8.frame.model.dto.RoleDto">
+        <id property="id" column="id1"/>
+        <result column="create_time1" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="name1" property="name" jdbcType="VARCHAR" />
+        <result column="remark1" property="remark" jdbcType="VARCHAR" />
+      <collection property="permissions" ofType="com.e8.frame.model.dto.PermissionDto">
+        <id property="id" column="id2"/>
+        <result column="alias2" property="alias" jdbcType="VARCHAR" />
+        <result column="create_time2" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="name2" property="name" jdbcType="VARCHAR" />
+        <result column="pid2" property="pid" jdbcType="CHAR" />
+      </collection>
+    </collection>
+  </resultMap>
+
+
   <sql id="Base_Column_List" >
     id, create_time, iFrame, name, component, pid, sort, icon, path
   </sql>
@@ -158,7 +186,7 @@
     from t_menu
       where  1 = 1
       <if test="menu.name != null and menu.name != '' ">
-          AND name like "%"#{menu.name}"%"
+          AND name like #{menu.name}
       </if>
 
   </select>
@@ -169,13 +197,54 @@
     from t_menu where pid = #{pid}
   </select>
 
-
   <insert id="insertRoleMenu">
       insert into t_menus_roles(role_id,menu_id) values(#{roleId},#{menuId})
   </insert>
 
+  <insert id="insertRoleMenuList">
+      insert into t_menus_roles(role_id,menu_id) values
+      <foreach collection ="list" item="list" index= "index" separator =",">
+       (
+          #{list.id}, #{list.menuId}
+        )
+    </foreach >
+  </insert>
+
+
   <delete id="deleteMenuRoleByMenuId">
     delete from t_menus_roles where menu_id = #{id}
   </delete>
+
+
+  <select id="selectByDto" resultType="com.e8.frame.model.dto.MenuDto">
+    select m.*,
+      GROUP_CONCAT(mr.role_id) as roleIds
+        from   t_menu m  left  join    t_menus_roles  mr
+            on  m.id = mr.menu_id
+    where
+    1=1
+    <if test="menu.id != null and menu.id != '' ">
+      and m.id = #{menu.id}
+    </if>
+    <if test="menu.name != null and menu.name != '' ">
+      AND m.name like #{menu.name}
+    </if>
+    group by m.id
+  </select>
+  <select id="selectByMenuDto" resultMap="BaseResultDtoMap">
+    select
+    m.id,m.create_time,m.iframe,m.name,m.component,m.pid,m.sort,m.icon,m.path,
+    r.id as id1,r.create_time as create_time1,r.name as name1,r.remark as remark1,
+    p.id as id2,p.alias as alias2,p.create_time as create_time2 ,p.name as name2 ,p.pid as pid2
+    from t_menu m left join t_menus_roles mr  ON m.id = mr.menu_id
+    left join t_role r on mr.role_id = r.id
+    left join t_roles_permissions rp on r.id =  rp.role_id
+    left join t_permission  p on rp.permission_id = p.id
+    where
+    1=1
+    <if test="menu.name != null and menu.name != '' ">
+      AND m.name like #{menu.name}
+    </if>
+  </select>
 
 </mapper>

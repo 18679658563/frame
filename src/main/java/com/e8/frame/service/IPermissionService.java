@@ -19,6 +19,10 @@ public interface IPermissionService {
 
     List<Permission> findPermissionByRoleIds(List<String> ids);
 
+    Object getPermissionTree(List<Permission> permissions);
+
+    List<Permission> findByPid(String pid);
+
     PermissionDto findById(String id);
 
     List<Permission> findPermission();
@@ -26,11 +30,6 @@ public interface IPermissionService {
     List<PermissionDto> findByDto(PermissionDto dto);
 
     Object buildTree(List<PermissionDto> permissionDtos);
-
-    Object getPermissionTree(List<Permission> permissions);
-
-    List<Permission> findByPid(String id);
-
 
     @Transactional
     void deletePermission(String id);

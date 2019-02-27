@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -147,4 +151,25 @@ public class PermissionServiceImpl implements IPermissionService {
         permissionMapper.deletePermissionRoleById(id);
         permissionMapper.deleteByPrimaryKey(id);
     }
+    @Override
+    public Object getPermissionTree(List<Permission> permissions){
+        List<Map<String,Object>> list = new LinkedList<>();
+        permissions.forEach(permission -> {
+                    if (permission!=null){
+                        List<Permission> permissionList = permissionMapper.selectByPid(permission.getId());
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("id",permission.getId());
+                        map.put("label",permission.getAlias());
+                        if(permissionList!=null && permissionList.size()!=0){
+                            map.put("children",getPermissionTree(permissionList));
+                        }
+                        list.add(map);
+                    }
+                }
+        );
+        return list;
+    }
+
+
+
 }

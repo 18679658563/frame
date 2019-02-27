@@ -7,6 +7,20 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
+
+  <resultMap id="BaseResultDtoMap" type="com.e8.frame.model.dto.RoleDto" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <collection property="permissions" ofType="com.e8.frame.model.dto.PermissionDto">
+      <id property="id" column="id2"/>
+      <result column="alias2" property="alias" jdbcType="VARCHAR" />
+      <result column="create_time2" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="name2" property="name" jdbcType="VARCHAR" />
+      <result column="pid2" property="pid" jdbcType="CHAR" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, create_time, name, remark
   </sql>
@@ -99,5 +113,86 @@
         from t_role r join t_menus_roles mr on r.id = mr.role_id
           where mr.menu_id = #{menuId}
   </select>
+  <select id="selectByPage" resultMap="BaseResultDtoMap">
+    select  r.id,r.create_time,r.name,r.remark,
+    p.id as id2,p.alias as alias2,p.create_time as create_time2 ,p.name as name2 ,p.pid as pid2
+    from (select * from t_role limit #{page.number},#{page.size}) r  left join t_roles_permissions rp on r.id =  rp.role_id
+    left join t_permission  p on rp.permission_id = p.id
+    where 1 = 1
+    <if test="role.name != null and role.name != '' ">
+      and name = #{role.name}
+    </if>
+    order by create_time
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select count(id)
+    from t_role r
+    where 1 = 1
+    <if test="role.name != null and role.name != '' ">
+      and r.name = #{role.name}
+    </if>
+  </select>
+
+
+  <select id="selectByRoleIds" resultMap="BaseResultDtoMap">
+    select  r.id,r.create_time,r.name,r.remark,
+    p.id as id2,p.alias as alias2,p.create_time as create_time2 ,p.name as name2 ,p.pid as pid2
+    from t_role r left join t_roles_permissions rp on r.id =  rp.role_id
+    left join t_permission  p on rp.permission_id = p.id
+    where p.id in
+    <foreach collection="ids" item="ids" index="index"
+             open="(" close=")" separator=",">
+      #{ids}
+    </foreach>
+  </select>
+
+  <delete id="deleteMenuRoleByRoleId" parameterType="java.lang.String">
+    delete from t_menus_roles where role_id = #{id,jdbcType=CHAR}
+  </delete>
+
+  <delete id="deleteUserRoleByRoleId" parameterType="java.lang.String">
+    delete from t_users_roles where role_id = #{id,jdbcType=CHAR}
+  </delete>
+
+
+  <delete id="deleteRolePermissionByRoleId" parameterType="java.lang.String">
+    delete from t_roles_permissions where role_id = #{id,jdbcType=CHAR}
+  </delete>
+
+<select id="selectMenuRoleByRoleId" resultType="java.lang.Integer" parameterType="java.lang.String">
+  select count(r.role_id)
+  from t_menus_roles r
+  where  r.role_id = #{id,jdbcType=CHAR}
+
+</select>
+
+  <select id="selectUserRoleByRoleId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(r.role_id)
+    from t_users_roles r
+    where r.role_id = #{id,jdbcType=CHAR}
+
+  </select>
+
+  <select id="selectRolePermissionByRoleId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(r.role_id)
+    from t_roles_permissions r
+    where r.role_id = #{id,jdbcType=CHAR}
+
+  </select>
+
+  <insert id="insertPermissionRole">
+    insert INTO t_roles_permissions(role_id,permission_id) VALUES (#{roleId},#{permissionId})
+  </insert>
+
+  <insert id="insertPermissionRoleDto">
+    insert into t_roles_permissions(role_id,permission_id) values
+    <foreach collection ="list" item="list" index= "index" separator =",">
+      (
+      #{list.id}, #{list.permission}
+      )
+    </foreach >
+  </insert>
+
 
 </mapper>

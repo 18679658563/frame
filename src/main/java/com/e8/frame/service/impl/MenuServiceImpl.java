@@ -2,18 +2,14 @@ package com.e8.frame.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.e8.frame.mapper.MenuMapper;
-import com.e8.frame.mapper.PermissionMapper;
-import com.e8.frame.mapper.RoleMapper;
 import com.e8.frame.model.Menu;
-import com.e8.frame.model.Permission;
-import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.MenuDto;
-import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.model.vo.MenuMetaVo;
 import com.e8.frame.model.vo.MenuVo;
 import com.e8.frame.service.IMenuService;
 import com.e8.frame.tools.BeanUtil;
+import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,53 +33,38 @@ public class MenuServiceImpl implements IMenuService{
     @Autowired
     private MenuMapper menuMapper;
 
-    @Autowired
-    private RoleMapper roleMapper;
-
-    @Autowired
-    private PermissionMapper permissionMapper;
-
+    /**
+     * 根据角色集合查询所有菜单
+     * @param roles
+     * @return
+     */
     @Override
     public List<MenuDto> findByRoleIds(List<RoleDto> roles) {
         List<String> ids = new ArrayList<>();
         for(RoleDto role : roles){
-            System.out.println(role.getId());
             ids.add(role.getId());
         }
         List<Menu> list =  menuMapper.selectByRoleIds(ids);
-//        List<Menu> list = new ArrayList<>();
-//        for(Menu menu : set){
-//            list.add(menu);
-//        }
-        //取出不重复数据
-       // List<String> ids = roles.stream().map(d -> d.getId()).collect(Collectors.toList());
         List<MenuDto> list1 = BeanUtil.createBeanListByTarget(list,MenuDto.class);
         return list1.stream().distinct().collect(Collectors.toList());
     }
 
+    /**
+     * 根据菜单信息查询菜单信息
+     * @param menu
+     * @return
+     */
     @Override
-    public List<MenuDto> findByDto(MenuDto dto) {
-        Menu menu = BeanUtil.createBeanByTarget(dto,Menu.class);
-        List<Menu> menuList = menuMapper.selectByMenu(menu);
-        if(CollectionUtils.isEmpty(menuList)){
-            return null;
-        }
-        List<Role> roleList = null;
-        List<MenuDto> lists = BeanUtil.createBeanListByTarget(menuList,MenuDto.class);
-        for(MenuDto menuDto : lists){
-           roleList = roleMapper.selectByMenuId(menuDto.getId());
-           List<PermissionDto> permissionDtoList = null;
-           List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
-            for(RoleDto role : roleDtoList){
-                List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
-                permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
-                role.setPermissions(permissionDtoList);
-            }
-            menuDto.setRoles(roleDtoList);
-        }
-        return lists;
+    public List<MenuDto> findByDto(MenuDto menu) {
+        List<MenuDto> menuDtoList = menuMapper.selectByMenuDto(menu);
+        return menuDtoList;
     }
 
+    /**
+     * 通过id查询菜单信息
+     * @param id
+     * @return
+     */
     @Override
     public MenuDto findById(String id) {
         Menu menu = menuMapper.selectByPrimaryKey(id);
@@ -103,6 +84,11 @@ public class MenuServiceImpl implements IMenuService{
         return menuMapper.selectByPid(pid);
     }
 
+    /**
+     * 构建菜单树结构
+     * @param menuDTOS
+     * @return
+     */
     @Override
     public Map buildTree(List<MenuDto> menuDTOS) {
         List<MenuDto> trees = new ArrayList<>();
@@ -128,6 +114,11 @@ public class MenuServiceImpl implements IMenuService{
         return map;
     }
 
+    /**
+     * 构建菜单的总体结构
+     * @param menuDTOS
+     * @return
+     */
     @Override
     public List<MenuVo> buildMenus(List<MenuDto> menuDTOS) {
         Assert.notEmpty(menuDTOS,"菜单不能为空");
@@ -179,6 +170,11 @@ public class MenuServiceImpl implements IMenuService{
         return list;
     }
 
+    /**
+     * 获取菜单树结构
+     * @param menus
+     * @return
+     */
     @Override
     public Object getMenuTree(List<Menu> menus) {
         Assert.notEmpty(menus,"菜单不能为空");
@@ -208,12 +204,16 @@ public class MenuServiceImpl implements IMenuService{
     @Transactional
     public MenuDto addMenu(MenuDto menuDto) {
         menuDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        menuDto.setId(UUIDUtil.getUUID());
         int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             if(!CollectionUtils.isEmpty(menuDto.getRoles())){
+                List<RoleDto> list = new ArrayList<>();
                 for(RoleDto role : menuDto.getRoles()){
-                    menuMapper.insertRoleMenu(role.getId(),menuDto.getId());
+                    role.setMenuId(menuDto.getId());
+                    list.add(role);
                 }
+                menuMapper.insertRoleMenuList(list);
             }
         }
         return menuDto;
@@ -226,12 +226,16 @@ public class MenuServiceImpl implements IMenuService{
     @Override
     @Transactional
     public void updataMenu(MenuDto menuDto) {
-        int menuFlag =  menuMapper.updateByPrimaryKeySelective(
-                BeanUtil.createBeanByTarget(menuDto,Menu.class));
+        int menuFlag =  menuMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
             menuMapper.deleteMenuRoleByMenuId(menuDto.getId());
-            for(RoleDto role : menuDto.getRoles()){
-                menuMapper.insertRoleMenu(role.getId(),menuDto.getId());
+            List<RoleDto> list = new ArrayList<>();
+            if(!CollectionUtils.isEmpty(menuDto.getRoles())) {
+                for (RoleDto role : menuDto.getRoles()) {
+                    role.setMenuId(menuDto.getId());
+                    list.add(role);
+                }
+                menuMapper.insertRoleMenuList(list);
             }
         }
     }
