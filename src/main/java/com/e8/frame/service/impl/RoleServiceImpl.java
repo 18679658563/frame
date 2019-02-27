@@ -1,9 +1,6 @@
 package com.e8.frame.service.impl;
 
-import com.e8.frame.mapper.PermissionMapper;
 import com.e8.frame.mapper.RoleMapper;
-import com.e8.frame.model.Menu;
-import com.e8.frame.model.Permission;
 import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.model.dto.RoleDto;
@@ -15,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @Auther: sharps
@@ -32,9 +27,6 @@ public class RoleServiceImpl implements IRoleService{
 
     @Autowired
     private RoleMapper roleMapper;
-
-    @Autowired
-    private PermissionMapper permissionMapper;
 
     /**
      * 根据userid查询所有角色信息
@@ -115,9 +107,12 @@ public class RoleServiceImpl implements IRoleService{
         int roleFlag = roleMapper.insertSelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
         if(roleFlag > 0){
             if(!CollectionUtils.isEmpty(roleDto.getPermissions())){
+                List<RoleDto> list = new ArrayList<>();
                 for(PermissionDto permission : roleDto.getPermissions()){
-                    roleMapper.insertPermissionRole(permission.getId(),roleDto.getId());
+                    roleDto.setPermissionId(permission.getId());
+                    list.add(roleDto);
                 }
+                roleMapper.insertPermissionRoleDto(list);
             }
         }
         return roleDto;
@@ -134,15 +129,15 @@ public class RoleServiceImpl implements IRoleService{
     public void updataRole(RoleDto roleDto){
         int roleFlag =  roleMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
         if(roleFlag > 0){
-//            roleMapper.deleteMenuRoleByMenuId(menuDto.getId());
-//            List<RoleDto> list = new ArrayList<>();
-//            if(!CollectionUtils.isEmpty(menuDto.getRoles())) {
-//                for (RoleDto role : menuDto.getRoles()) {
-//                    role.setMenuId(menuDto.getId());
-//                    list.add(role);
-//                }
-//                menuMapper.insertRoleMenuList(list);
-//            }
+            roleMapper.deleteRolePermissionByRoleId(roleDto.getId());
+            List<RoleDto> list = new ArrayList<>();
+            if(!CollectionUtils.isEmpty(roleDto.getPermissions())) {
+                for (PermissionDto permissionDto : roleDto.getPermissions()) {
+                    roleDto.setPermissionId(permissionDto.getId());
+                    list.add(roleDto);
+                }
+                roleMapper.insertPermissionRoleDto(list);
+            }
         }
 
     }

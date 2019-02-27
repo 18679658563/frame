@@ -3,7 +3,6 @@ package com.e8.frame.model;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Data

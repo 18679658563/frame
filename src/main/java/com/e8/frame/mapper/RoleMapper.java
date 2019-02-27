@@ -108,6 +108,8 @@ public interface RoleMapper {
 
     void insertPermissionRole(@Param("permissionId") String permissionId,@Param("roleId") String roleId);
 
+    void insertPermissionRoleDto(@Param("roleDto")List<RoleDto> roleDto);
+
 
 
 

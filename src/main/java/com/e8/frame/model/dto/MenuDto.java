@@ -1,6 +1,5 @@
 package com.e8.frame.model.dto;
 
-import com.e8.frame.tools.UUIDUtil;
 import lombok.Data;
 
 import java.sql.Timestamp;
