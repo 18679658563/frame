@@ -6,7 +6,6 @@ import com.e8.frame.mapper.PermissionMapper;
 import com.e8.frame.mapper.RoleMapper;
 import com.e8.frame.model.Menu;
 import com.e8.frame.model.Permission;
-import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.MenuDto;
 import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.model.dto.RoleDto;
@@ -39,12 +38,6 @@ public class MenuServiceImpl implements IMenuService{
     @Autowired
     private MenuMapper menuMapper;
 
-    @Autowired
-    private RoleMapper roleMapper;
-
-    @Autowired
-    private PermissionMapper permissionMapper;
-
     /**
      * 根据角色集合查询所有菜单
      * @param roles
@@ -68,77 +61,8 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     public List<MenuDto> findByDto(MenuDto menu) {
-        if(!StringUtils.isEmpty(menu.getName())){
-            menu.setName("%"+menu.getName()+"%");
-        }
-        List<MenuDto> menuDtoList = menuMapper.selectByDto(menu);
-        if(CollectionUtils.isEmpty(menuDtoList)){
-            return null;
-        }
-        List<String> roleIds = new ArrayList<>();
-        for(MenuDto dto : menuDtoList){
-            if(!StringUtils.isEmpty(dto.getRoleIds())){
-                String[] idList = dto.getRoleIds().split(",");
-                roleIds.addAll(Arrays.asList(idList));
-                List<String> roleIdList = roleIds.stream().distinct().collect(Collectors.toList());
-                //查询出带有permissionid的角色信息
-                List<RoleDto> roleDtoList = roleMapper.selectByRoleIds(roleIdList);
-                //获取去重后的权限信息
-                List<Permission> permissionList = permissionMapper.selectByRoleIds(roleIdList).stream().distinct().collect(Collectors.toList());
-                List<PermissionDto> permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
-                List<String> permissionIds = new ArrayList<>();
-                for(RoleDto roleDto : roleDtoList){
-                    List<PermissionDto> dtoList = new ArrayList<>();
-                    if(!StringUtils.isEmpty(roleDto.getPermissionIds())){
-                        permissionIds.addAll(Arrays.asList(roleDto.getPermissionIds().split(",")));
-                        for(PermissionDto permissionDto : permissionDtoList){
-                            for(String id : permissionIds){
-                                if(permissionDto.getId().equals(id)){
-                                    dtoList.add(permissionDto);
-                                    break;
-                                }
-                            }
-                        }
-                        roleDto.setPermissions(dtoList);
-                    }
-                }
-                List<String> ids = new ArrayList<>();
-                for(MenuDto menuDto : menuDtoList){
-                    List<RoleDto> dtoList = new ArrayList<>();
-                    if(!StringUtils.isEmpty(menuDto.getRoleIds())){
-                        ids.addAll(Arrays.asList(menuDto.getRoleIds().split(",")));
-                        for(RoleDto roleDto : roleDtoList){
-                            for(String id : ids){
-                                if(roleDto.getId().equals(id)){
-                                    dtoList.add(roleDto);
-                                    break;
-                                }
-                            }
-                        }
-                        menuDto.setRoles(roleDtoList);
-                    }
-                }
-            }
-        }
+        List<MenuDto> menuDtoList = menuMapper.selectByMenuDto(menu);
         return menuDtoList;
-//        Menu menu = BeanUtil.createBeanByTarget(dto,Menu.class);
-//        List<Menu> menuList = menuMapper.selectByMenu(menu);
-//        if(CollectionUtils.isEmpty(menuList)){
-//            return null;
-//        }
-//        List<Role> roleList = null;
-//        List<MenuDto> lists = BeanUtil.createBeanListByTarget(menuList,MenuDto.class);
-//        for(MenuDto menuDto : lists){
-//           roleList = roleMapper.selectByMenuId(menuDto.getId());
-//           List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
-//           for(RoleDto role : roleDtoList){
-//               List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
-//               List<PermissionDto> permissionDtoList  = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
-//               role.setPermissions(permissionDtoList);
-//           }
-//           menuDto.setRoles(roleDtoList);
-//        }
-//        return lists;
     }
 
     /**
