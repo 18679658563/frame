@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
   `id` char(32) NOT NULL,
   `create_time` datetime DEFAULT NULL,
-  `iFrame` bit(1) DEFAULT NULL,
+  `iframe` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `component` varchar(255) DEFAULT NULL,
   `pid` char(32) NOT NULL,
