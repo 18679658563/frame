@@ -1,5 +1,6 @@
 package com.e8.frame.service;
 
+import com.e8.frame.config.security.JwtUser;
 import com.e8.frame.model.dto.UserDto;
 import com.e8.frame.tools.PageUtil;
 
@@ -23,4 +24,11 @@ public interface IUserService {
     void deleteUserAndUserRolesByUserId(String UserId);
 
     void updateUserAndUserRoles(UserDto userDto);
+
+    /**
+     * 修改密码
+     * @param userId
+     * @param encryptPassword
+     */
+    void updatePass(String userId, String encryptPassword);
 }

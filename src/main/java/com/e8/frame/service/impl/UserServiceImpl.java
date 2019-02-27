@@ -1,5 +1,6 @@
 package com.e8.frame.service.impl;
 
+import com.e8.frame.config.security.JwtUser;
 import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.exception.EntityExistException;
 import com.e8.frame.mapper.UserMapper;
@@ -97,5 +98,11 @@ public class UserServiceImpl implements IUserService {
             userRoleList.add(map);
         }
         userMapper.insertUserRole(userRoleList);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePass(String userId, String pass) {
+        userMapper.updatePwd(userId,pass);
     }
 }
