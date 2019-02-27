@@ -1,6 +1,6 @@
 
 server:
-  port: 8000
+  port: 8001
 
 #配置数据源
 spring:
