@@ -1,6 +1,9 @@
 package com.e8.frame.mapper;
 
 import com.e8.frame.model.Permission;
+import com.e8.frame.model.Role;
+import com.e8.frame.model.dto.PermissionDto;
+import com.e8.frame.model.dto.RoleDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +21,7 @@ public interface PermissionMapper {
 
     Permission selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(Permission record);
+    int updateByPrimaryKeySelective(PermissionDto record);
 
     int updateByPrimaryKey(Permission record);
 
@@ -36,5 +39,9 @@ public interface PermissionMapper {
 
     List<Permission> findByPid(String pid);
 
-    List<Permission> selectByPermission(@Param("permission") Permission permission);
+    List<PermissionDto> selectByPermission(@Param("permission") Permission permission);
+
+    List<Role> selectByPermissionId(String id);
+
+    int deletePerRoleByPermissionId(String id);
 }

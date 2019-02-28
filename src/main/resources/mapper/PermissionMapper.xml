@@ -147,4 +147,17 @@
     from t_permission where pid = #{pid}
   </select>
 
+  <insert id="insertRolePermission">
+      insert into t_roles_permissions(role_id,permission_id) values(#{roleId},#{permissionId})
+  </insert>
+
+  <delete id="deletePerRoleByPermissionId">
+    delete from t_roles_permissions where permission_id = #{id}
+  </delete>
+
+  <select id="selectByPermissionId" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List"/>
+    from t_permission r join t_roles_permissions rp on r.id = rp.role_id
+    where rp.permission_id = #{permissionId}
+  </select>
 </mapper>

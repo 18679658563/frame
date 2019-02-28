@@ -30,6 +30,13 @@ public interface IPermissionService {
     List<PermissionDto> findByDto(PermissionDto dto);
 
     Object buildTree(List<PermissionDto> permissionDtos);
+    /**
+     * add
+     * @param permissionDto
+     */
+    void addPermission(PermissionDto permissionDto);
+
+    void updatePermission(PermissionDto permissionDto);
 
     @Transactional
     void deletePermission(String id);

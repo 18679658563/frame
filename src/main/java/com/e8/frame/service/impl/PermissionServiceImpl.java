@@ -8,11 +8,14 @@ import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.service.IPermissionService;
 import com.e8.frame.tools.BeanUtil;
+import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,9 +35,6 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Autowired
     private PermissionMapper permissionMapper;
-
-    @Autowired
-    private RoleMapper roleMapper;
 
 
 
@@ -60,15 +60,16 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public List<PermissionDto> findByDto(PermissionDto dto) {
+
         Permission permission =BeanUtil.createBeanByTarget(dto,Permission.class);
-        List<Permission> permissions =permissionMapper.selectByPermission(permission);
+        List<PermissionDto> permissions =permissionMapper.selectByPermission(permission);
         if(CollectionUtils.isEmpty(permissions)){
             return null;
         }
         List<Role> roleList = null;
         List<PermissionDto> lists = BeanUtil.createBeanListByTarget(permissions,PermissionDto.class);
         for(PermissionDto permissionDto : lists){
-            roleList = roleMapper.selectByPermissionId(permissionDto.getId());
+            roleList = permissionMapper.selectByPermissionId(permissionDto.getId());
             List<PermissionDto> permissionDtoList = null;
             List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
             for(RoleDto role : roleDtoList){
@@ -96,6 +97,7 @@ public class PermissionServiceImpl implements IPermissionService {
                     if (p.getPid().equals(permissionDto.getPid())){
                         if(permissionDto.getChildren() == null){
                             permissionDto.setChildren(new ArrayList<PermissionDto>());
+                            break;
                         }
                         permissionDto.getChildren().add(p);
                     }
@@ -111,29 +113,8 @@ public class PermissionServiceImpl implements IPermissionService {
         return map;
     }
 
-    @Override
-    public Object getPermissionTree(List<Permission> permissions) {
-        List<Map<String,Object>> list = new LinkedList<>();
-        permissions.forEach(permission -> {
-                    if (permission!=null){
-                        List<Permission> permissionList = permissionMapper.findByPid(permission.getId());
-                        Map<String,Object> map = new HashMap<>();
-                        map.put("id",permission.getId());
-                        map.put("label",permission.getAlias());
-                        if(permissionList!=null && permissionList.size()!=0){
-                            map.put("children",getPermissionTree(permissionList));
-                            System.out.println("3333:"+permissionList);
-                        }
-                        list.add(map);
-                    }
-                }
-        );
-        return list;
-    }
-
-
     /**
-     * 通过pid查询menu
+     * 通过pid查询
      * @param pid
      * @return
      */
@@ -141,14 +122,37 @@ public class PermissionServiceImpl implements IPermissionService {
     public List<Permission> findByPid(String pid) {
         return permissionMapper.findByPid(pid);
     }
+
     /**
-     * 先删除中间表在删除menu表
+     *
+     * @param permissionDto
+     * @return
+     */
+    @Override
+    public  void  addPermission(PermissionDto permissionDto) {
+        Permission p =BeanUtil.createBeanByTarget(permissionDto,Permission.class);
+        String uuid = UUIDUtil.getUUID();
+        p.setId(uuid);
+        p.setAlias(permissionDto.getAlias());
+        p.setCreateTime(new Timestamp(new Date().getTime()));
+        p.setName(permissionDto.getName());
+        permissionMapper.insertSelective(p);
+    }
+
+    @Override
+    @Transactional
+    public void updatePermission(PermissionDto permissionDto) {
+        permissionMapper.updateByPrimaryKeySelective(permissionDto);
+    }
+
+    /**
+     * 先删除中间表再删除权限表
      * @param id
      */
     @Override
     @Transactional
     public void deletePermission(String id) {
-        permissionMapper.deletePermissionRoleById(id);
+        permissionMapper.deletePerRoleByPermissionId(id);
         permissionMapper.deleteByPrimaryKey(id);
     }
     @Override
