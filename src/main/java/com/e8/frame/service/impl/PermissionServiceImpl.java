@@ -1,7 +1,6 @@
 package com.e8.frame.service.impl;
 
 import com.e8.frame.mapper.PermissionMapper;
-import com.e8.frame.mapper.RoleMapper;
 import com.e8.frame.model.Permission;
 import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.PermissionDto;
@@ -12,7 +11,6 @@ import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
@@ -174,6 +172,7 @@ public class PermissionServiceImpl implements IPermissionService {
         return list;
     }
 
-
+    public static void main(String[] args){
+    }
 
 }
