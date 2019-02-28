@@ -108,9 +108,12 @@ public class RoleServiceImpl implements IRoleService{
         if(roleFlag > 0){
             if(!CollectionUtils.isEmpty(roleDto.getPermissions())){
                 List<RoleDto> list = new ArrayList<>();
+                RoleDto dto = null;
                 for(PermissionDto permission : roleDto.getPermissions()){
-                    roleDto.setPermissionId(permission.getId());
-                    list.add(roleDto);
+                    dto = new RoleDto();
+                    dto.setId(roleDto.getId());
+                    dto.setPermissionId(permission.getId());
+                    list.add(dto);
                 }
                 roleMapper.insertPermissionRoleDto(list);
             }
@@ -132,9 +135,13 @@ public class RoleServiceImpl implements IRoleService{
             roleMapper.deleteRolePermissionByRoleId(roleDto.getId());
             List<RoleDto> list = new ArrayList<>();
             if(!CollectionUtils.isEmpty(roleDto.getPermissions())) {
+                RoleDto dto = null;
                 for (PermissionDto permissionDto : roleDto.getPermissions()) {
-                    roleDto.setPermissionId(permissionDto.getId());
-                    list.add(roleDto);
+                    dto = new RoleDto();
+                    dto.setId(roleDto.getId());
+                    dto.setPermissionId(permissionDto.getId());
+                    list.add(dto);
+
                 }
                 roleMapper.insertPermissionRoleDto(list);
             }

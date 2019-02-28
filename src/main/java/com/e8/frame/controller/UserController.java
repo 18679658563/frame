@@ -8,6 +8,7 @@ import com.e8.frame.model.dto.UserDto;
 import com.e8.frame.service.IUserService;
 import com.e8.frame.tools.EncryptUtils;
 import com.e8.frame.tools.PageUtil;
+import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -110,7 +111,9 @@ public class UserController {
             }
             iUserService.updatePass(jwtUser.getId(), EncryptUtils.encryptPassword(EncryptUtils.encryptPassword(pass)));
         }else {
-            iUserService.updatePass(userid, "654321");
+            String pwd =UUIDUtil.getUUID(6);
+            System.out.println("\n\n\n\n"+pwd);
+            iUserService.updatePass(userid, EncryptUtils.encryptPassword(EncryptUtils.encryptPassword(pwd)));
         }
 
         return new ResponseEntity(HttpStatus.OK);

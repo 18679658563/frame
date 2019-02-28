@@ -187,9 +187,9 @@
 
   <insert id="insertPermissionRoleDto">
     insert into t_roles_permissions(role_id,permission_id) values
-    <foreach collection ="list" item="list" index= "index" separator =",">
+    <foreach collection ="roleDto" item="roleDto" index= "index" separator =",">
       (
-      #{list.id}, #{list.permission}
+      #{roleDto.id}, #{roleDto.permissionId}
       )
     </foreach >
   </insert>
