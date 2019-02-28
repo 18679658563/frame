@@ -36,29 +36,26 @@ public class UserServiceImpl implements IUserService {
     public UserDto findByUsername(String name) {
         User user = userMapper.selectByUsername(name);
         UserDto dto = null;
-        if(user != null){
-            dto = BeanUtil.createBeanByTarget(user,UserDto.class);
+        if (user != null) {
+            dto = BeanUtil.createBeanByTarget(user, UserDto.class);
         }
         return dto;
     }
 
     @Override
-    public List<UserDto> getUsersByPage(UserDto user,PageUtil page) {
-        List<UserDto> list = userMapper.getUsersByPage(user,page);
+    public List<UserDto> getUsersByPage(UserDto user, PageUtil page) {
+        List<UserDto> list = userMapper.getUsersByPage(user, page);
         return list;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insertSelective(UserDto user) {
-        if(userMapper.selectByUsername(user.getUsername())!=null){
-            throw new EntityExistException(UserDto.class,"username",user.getUsername());
+        if (userMapper.selectByUsername(user.getUsername()) != null) {
+            throw new EntityExistException(UserDto.class, "username", user.getUsername());
         }
-        if(userMapper.selectByEmail(user.getEmail())!=null){
-            throw new EntityExistException(UserDto.class,"email",user.getEmail());
-        }
-        if(user.getRoles().isEmpty()){
-            throw new BadRequestException("角色不能为空");
+        if (userMapper.selectByEmail(user.getEmail()) != null) {
+            throw new EntityExistException(UserDto.class, "email", user.getEmail());
         }
         User u = BeanUtil.createBeanByTarget(user, User.class);
         String uuid = UUIDUtil.getUUID();
@@ -69,8 +66,8 @@ public class UserServiceImpl implements IUserService {
         u.setCreateTime(new Timestamp(new Date().getTime()));
         userMapper.insertSelective(u);
         List<RoleDto> roles = user.getRoles();
-        if(!roles.isEmpty()){
-            insertUserRole(roles,uuid);
+        if (!roles.isEmpty()) {
+            insertUserRole(roles, uuid);
         }
     }
 
@@ -82,19 +79,32 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void updateUserAndUserRoles(UserDto userDto) {
+        User user = userMapper.selectByUsername(userDto.getUsername());
+        if (user != null) {
+            if (!user.getUsername().equals(userDto.getUsername())) {
+                throw new EntityExistException(UserDto.class, "username", userDto.getUsername());
+            }
+        }
+        User user1 = userMapper.selectByEmail(userDto.getEmail());
+        if (user1 != null) {
+            if (!user.getEmail().equals(userDto.getEmail())) {
+                throw new EntityExistException(UserDto.class, "email", userDto.getEmail());
+            }
+        }
         userMapper.updateByPrimaryKeySelective(userDto);
         userMapper.deleteUserRolesByUserId(userDto.getId());
         List<RoleDto> roles = userDto.getRoles();
-        if(!roles.isEmpty()){
-            insertUserRole(roles,userDto.getId());
+        if (!roles.isEmpty()) {
+            insertUserRole(roles, userDto.getId());
         }
     }
-    public void insertUserRole(List<RoleDto> roles,String UserId){
+
+    public void insertUserRole(List<RoleDto> roles, String UserId) {
         List<Map> userRoleList = new ArrayList<>();
-        for(RoleDto role:roles){
+        for (RoleDto role : roles) {
             Map map = new HashMap<String, String>();
             map.put("userId", UserId);
-            map.put("roleId",role.getId());
+            map.put("roleId", role.getId());
             userRoleList.add(map);
         }
         userMapper.insertUserRole(userRoleList);
@@ -103,6 +113,6 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updatePass(String userId, String pass) {
-        userMapper.updatePwd(userId,pass);
+        userMapper.updatePwd(userId, pass);
     }
 }
