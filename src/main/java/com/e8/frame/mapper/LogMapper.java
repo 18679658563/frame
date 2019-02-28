@@ -22,7 +22,7 @@ public interface LogMapper {
 
     List<LogModel> selectByPage(@Param("page") PageUtil page , @Param("log") LogModel log);
 
-    Integer count(LogModel logModel);
+    Integer count(@Param("log")LogModel log);
 
 
 }

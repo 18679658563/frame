@@ -68,6 +68,7 @@ public class LogServiceImpl implements ILogService {
                 params += " " + argNames[i] + ":" + argValues[i];
             }
         }
+        params += "}";
         //获取ip地址
         logModel.setRequestIp(IpUtil.getIp(request));
         //设置username
