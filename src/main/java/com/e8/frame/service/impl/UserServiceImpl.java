@@ -72,12 +72,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteUserAndUserRolesByUserId(String userId) {
         userMapper.deleteUserRolesByUserId(userId);
         userMapper.deleteByPrimaryKey(userId);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateUserAndUserRoles(UserDto userDto) {
         User user = userMapper.selectByUsername(userDto.getUsername());
         if (user != null) {
