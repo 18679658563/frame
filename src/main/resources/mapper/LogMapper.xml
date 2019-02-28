@@ -95,7 +95,7 @@
            and  username = #{log.username}
           </if>
           <if test="log.logType != null and  log.logType != '' ">
-            and  log_type = #{log.username}
+            and  log_type = #{log.logType}
           </if>
     order by create_time desc
     limit #{page.number},#{page.size}
@@ -110,7 +110,7 @@
           and  username = #{log.username}
         </if>
         <if test="log.logType != null and  log.logType != '' ">
-          and  log_type = #{log.username}
+          and  log_type = #{log.logType}
         </if>
   </select>
 

@@ -64,19 +64,6 @@ public class PermissionServiceImpl implements IPermissionService {
         if(CollectionUtils.isEmpty(permissions)){
             return null;
         }
-//        List<Role> roleList = null;
-//        List<PermissionDto> lists = BeanUtil.createBeanListByTarget(permissions,PermissionDto.class);
-//        for(PermissionDto permissionDto : lists){
-//            roleList = permissionMapper.selectByPermissionId(permissionDto.getId());
-//            List<PermissionDto> permissionDtoList = null;
-//            List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
-//            for(RoleDto role : roleDtoList){
-//                List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
-//                permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
-//                role.setPermissions(permissionDtoList);
-//            }
-//            permissionDto.setRoles(roleDtoList);
-//        }
         return permissions;
     }
 
@@ -90,12 +77,11 @@ public class PermissionServiceImpl implements IPermissionService {
                 if("0".equals((permissionDto.getPid()))){
                     trees.add(permissionDto);
                 }
-
                 for(PermissionDto p :permissionDtos){
                     if (p.getPid().equals(permissionDto.getId())){
                         if(permissionDto.getChildren() == null){
                             permissionDto.setChildren(new ArrayList<PermissionDto>());
-//                            break;
+
                         }
                         permissionDto.getChildren().add(p);
                     }
