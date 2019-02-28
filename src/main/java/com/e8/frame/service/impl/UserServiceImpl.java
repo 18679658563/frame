@@ -1,7 +1,5 @@
 package com.e8.frame.service.impl;
 
-import com.e8.frame.config.security.JwtUser;
-import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.exception.EntityExistException;
 import com.e8.frame.mapper.UserMapper;
 import com.e8.frame.model.User;
