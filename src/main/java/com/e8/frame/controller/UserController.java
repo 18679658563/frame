@@ -94,6 +94,11 @@ public class UserController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * @description: 修改用户密码
+     * @param: userid,pass,oldpass
+     * @return: ResponseEntity
+     */
     @RequestMapping(value = "/updatepwd",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_EDIT')")
     public ResponseEntity updatePassword(String userid, String pass,  String oldpass){
