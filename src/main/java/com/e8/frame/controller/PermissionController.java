@@ -1,5 +1,6 @@
 package com.e8.frame.controller;
 
+import com.e8.frame.aop.Log;
 import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.model.dto.PermissionDto;
 import com.e8.frame.service.IPermissionService;
@@ -50,7 +51,7 @@ public class PermissionController {
         return new ResponseEntity(map ,HttpStatus.OK);
     }
 
-
+    @Log(description = "添加权限")
     @PostMapping(value = "/permissions")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_CREATE')")
     public ResponseEntity create(@Validated @RequestBody PermissionDto resources){
@@ -61,6 +62,7 @@ public class PermissionController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @Log(description = "修改权限")
     @PutMapping(value = "/permissions")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_EDIT')")
     public ResponseEntity update(@Validated @RequestBody PermissionDto resources){
@@ -71,6 +73,7 @@ public class PermissionController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @Log(description = "删除权限")
     @DeleteMapping(value = "/permissions/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_DELETE')")
     public ResponseEntity delete(@PathVariable String id){

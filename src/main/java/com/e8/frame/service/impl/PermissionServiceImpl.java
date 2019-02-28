@@ -172,7 +172,5 @@ public class PermissionServiceImpl implements IPermissionService {
         return list;
     }
 
-    public static void main(String[] args){
-    }
 
 }

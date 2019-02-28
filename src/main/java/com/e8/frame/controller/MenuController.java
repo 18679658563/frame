@@ -83,7 +83,6 @@ public class MenuController {
      * @param name
      * @return
      */
-    @Log(description = "查询菜单")
     @GetMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
     public ResponseEntity getMenus(@RequestParam(required = false) String name){
@@ -99,6 +98,7 @@ public class MenuController {
      * @param resources
      * @return
      */
+    @Log(description = "新增菜单")
     @PostMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_CREATE')")
     public ResponseEntity create(@Validated @RequestBody MenuDto resources){
