@@ -1,14 +1,21 @@
 package com.e8.frame.controller;
 
+import com.e8.frame.config.security.JwtUser;
+import com.e8.frame.config.security.SecurityContextHolder;
 import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.mapper.UserMapper;
 import com.e8.frame.model.dto.UserDto;
 import com.e8.frame.service.IUserService;
+import com.e8.frame.tools.EncryptUtils;
 import com.e8.frame.tools.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +34,10 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    @Qualifier("jwtUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     /**
      * @description: 分页查询用户
@@ -82,4 +93,22 @@ public class UserController {
         iUserService.updateUserAndUserRoles(user);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "/updatepwd",method = RequestMethod.GET)
+    @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_EDIT')")
+    public ResponseEntity updatePassword(String userid, String pass,  String oldpass){
+        UserDetails userDetails = SecurityContextHolder.getUserDetails();
+        JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(userDetails.getUsername());
+        if(!StringUtils.isEmpty(pass)) {
+            if (!jwtUser.getPassword().equals(EncryptUtils.encryptPassword(oldpass))) {
+               throw new BadRequestException("旧密码错误！");
+            }
+            iUserService.updatePass(userid, EncryptUtils.encryptPassword(pass));
+        }else {
+                iUserService.updatePass(userid, "654321");
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }
