@@ -201,7 +201,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public MenuDto addMenu(MenuDto menuDto) {
         menuDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
         menuDto.setId(UUIDUtil.getUUID());
@@ -224,7 +224,7 @@ public class MenuServiceImpl implements IMenuService{
      * @param menuDto
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public void updataMenu(MenuDto menuDto) {
         int menuFlag =  menuMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
@@ -245,7 +245,7 @@ public class MenuServiceImpl implements IMenuService{
      * @param id
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public void deleteMenu(String id) {
         menuMapper.deleteMenuRoleByMenuId(id);
         menuMapper.deleteByPrimaryKey(id);

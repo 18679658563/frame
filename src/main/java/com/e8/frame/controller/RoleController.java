@@ -1,5 +1,6 @@
 package com.e8.frame.controller;
 
+import com.e8.frame.aop.Log;
 import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.service.IRoleService;
@@ -56,6 +57,7 @@ public class RoleController {
      * @param id
      * @return
      */
+    @Log(description = "删除角色")
     @DeleteMapping(value = "/roles/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','ROLES_ALL','ROLES_DELETE')")
     public ResponseEntity delete(@PathVariable String id){
@@ -68,6 +70,7 @@ public class RoleController {
      * @param resources
      * @return
      */
+    @Log(description = "添加角色")
     @PostMapping(value = "/roles")
     @PreAuthorize("hasAnyRole('ADMIN','ROLES_ALL','ROLES_CREATE')")
     public ResponseEntity create(@Validated @RequestBody RoleDto resources){
@@ -83,6 +86,7 @@ public class RoleController {
      * @param resources
      * @return
      */
+    @Log(description = "修改角色")
     @PutMapping(value = "/roles")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_EDIT')")
     public ResponseEntity update(@Validated @RequestBody RoleDto resources){
