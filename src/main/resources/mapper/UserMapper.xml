@@ -152,7 +152,7 @@
   </select>
 
   <select id="getUsersByPage" resultMap="BaseResulUserDtotMap">
-    select tu.*,tur.role_id from t_user tu left join t_users_roles tur on tu.id = tur.user_id
+    select tu.*,tur.role_id from (select * from t_user limit #{page.number,jdbcType=INTEGER},#{page.size,jdbcType=INTEGER}) tu left join t_users_roles tur on tu.id = tur.user_id
     where 1 = 1
     <if test="user.username != null" >
       and tu.username like concat('%',#{user.username,jdbcType=VARCHAR},'%')
@@ -163,7 +163,6 @@
     <if test="user.enabled != null" >
       and tu.enabled = #{user.enabled,jdbcType=BIGINT}
     </if>
-    limit #{page.number,jdbcType=INTEGER},#{page.size,jdbcType=INTEGER}
   </select>
 
   <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String">
