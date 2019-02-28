@@ -44,11 +44,13 @@ public class PermissionController {
     @GetMapping(value = "/permissions")
     @PreAuthorize("hasAnyRole('ADMIN','PERMISSION_ALL','PERMISSION_SELECT')")
     public ResponseEntity getPermissions(@RequestParam(required = false) String name){
-        PermissionDto permissionDto =new PermissionDto();
-        permissionDto.setName(name);
-        List<PermissionDto> permissionDtoList =permissionService.findByDto(permissionDto);
-        Object map = permissionService.buildTree(permissionDtoList);
-        return new ResponseEntity(map ,HttpStatus.OK);
+//        PermissionDto permissionDto =new PermissionDto();
+//        permissionDto.setName(name);
+//        List<PermissionDto> permissionDtoList =permissionService.findByDto(permissionDto);
+//        Object map = permissionService.buildTree(permissionDtoList);
+//        return new ResponseEntity(map ,HttpStatus.OK);
+        List<PermissionDto> permissionDtos= permissionService.queryAll(name);
+        return new ResponseEntity(permissionService.buildTree(permissionDtos),HttpStatus.OK);
     }
 
     @Log(description = "添加权限")

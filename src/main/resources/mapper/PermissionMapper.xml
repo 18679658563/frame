@@ -127,7 +127,7 @@
     from t_permission where pid = #{pid}
   </select>
 
-  <select id="selectByPermission" resultMap="BaseResultMap">
+  <select id="selectByPermission" resultType="com.e8.frame.model.dto.PermissionDto">
     select <include refid="Base_Column_List"/>
     from t_permission
     where  1 = 1
@@ -159,5 +159,14 @@
     select  <include refid="Base_Column_List"/>
     from t_permission r join t_roles_permissions rp on r.id = rp.role_id
     where rp.permission_id = #{permissionId}
+  </select>
+
+  <select id="selectByName" resultType="com.e8.frame.model.dto.PermissionDto">
+  select <include refid="Base_Column_List"/>
+  from t_permission
+  where  1 = 1
+  <if test="name != null and name != '' ">
+    AND name like "%"#{name,jdbcType=VARCHAR}"%"
+  </if>
   </select>
 </mapper>

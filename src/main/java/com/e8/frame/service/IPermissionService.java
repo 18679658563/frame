@@ -40,4 +40,6 @@ public interface IPermissionService {
 
     @Transactional
     void deletePermission(String id);
+
+    List<PermissionDto> queryAll(String name);
 }

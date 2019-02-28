@@ -64,20 +64,20 @@ public class PermissionServiceImpl implements IPermissionService {
         if(CollectionUtils.isEmpty(permissions)){
             return null;
         }
-        List<Role> roleList = null;
-        List<PermissionDto> lists = BeanUtil.createBeanListByTarget(permissions,PermissionDto.class);
-        for(PermissionDto permissionDto : lists){
-            roleList = permissionMapper.selectByPermissionId(permissionDto.getId());
-            List<PermissionDto> permissionDtoList = null;
-            List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
-            for(RoleDto role : roleDtoList){
-                List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
-                permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
-                role.setPermissions(permissionDtoList);
-            }
-            permissionDto.setRoles(roleDtoList);
-        }
-        return lists;
+//        List<Role> roleList = null;
+//        List<PermissionDto> lists = BeanUtil.createBeanListByTarget(permissions,PermissionDto.class);
+//        for(PermissionDto permissionDto : lists){
+//            roleList = permissionMapper.selectByPermissionId(permissionDto.getId());
+//            List<PermissionDto> permissionDtoList = null;
+//            List<RoleDto> roleDtoList = BeanUtil.createBeanListByTarget(roleList,RoleDto.class);
+//            for(RoleDto role : roleDtoList){
+//                List<Permission> permissionList = permissionMapper.selectByRoleId(role.getId());
+//                permissionDtoList = BeanUtil.createBeanListByTarget(permissionList,PermissionDto.class);
+//                role.setPermissions(permissionDtoList);
+//            }
+//            permissionDto.setRoles(roleDtoList);
+//        }
+        return permissions;
     }
 
     @Override
@@ -92,10 +92,10 @@ public class PermissionServiceImpl implements IPermissionService {
                 }
 
                 for(PermissionDto p :permissionDtos){
-                    if (p.getPid().equals(permissionDto.getPid())){
+                    if (p.getPid().equals(permissionDto.getId())){
                         if(permissionDto.getChildren() == null){
                             permissionDto.setChildren(new ArrayList<PermissionDto>());
-                            break;
+//                            break;
                         }
                         permissionDto.getChildren().add(p);
                     }
@@ -153,8 +153,8 @@ public class PermissionServiceImpl implements IPermissionService {
         permissionMapper.deletePerRoleByPermissionId(id);
         permissionMapper.deleteByPrimaryKey(id);
     }
-    @Override
-    public Object getPermissionTree(List<Permission> permissions){
+    public@Override
+     Object getPermissionTree(List<Permission> permissions){
         List<Map<String,Object>> list = new LinkedList<>();
         permissions.forEach(permission -> {
                     if (permission!=null){
@@ -172,5 +172,9 @@ public class PermissionServiceImpl implements IPermissionService {
         return list;
     }
 
+    @Override
+    public List<PermissionDto> queryAll(String name){
+        return permissionMapper.selectByName(name);
+    }
 
 }

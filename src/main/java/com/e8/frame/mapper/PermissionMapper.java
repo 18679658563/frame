@@ -44,4 +44,6 @@ public interface PermissionMapper {
     List<Role> selectByPermissionId(String id);
 
     int deletePerRoleByPermissionId(String id);
+
+    List<PermissionDto> selectByName(@Param("name") String name);
 }
