@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.e8.frame.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.e8.frame.model.LogModel" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="description" property="description" jdbcType="VARCHAR"/>
+    <result column="exception_detail" property="exceptionDetail" jdbcType="VARCHAR"/>
+    <result column="log_type" property="logType" jdbcType="VARCHAR"/>
+    <result column="method" property="method" jdbcType="VARCHAR"/>
+    <result column="params" property="params" jdbcType="VARCHAR"/>
+    <result column="request_ip" property="requestIp" jdbcType="VARCHAR"/>
+    <result column="time" property="time" jdbcType="VARCHAR"/>
+    <result column="username" property="username" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,create_time,description,exception_detail,log_type,method,params,request_ip,time,username
+  </sql>
+
+  <insert id="insertLog">
+      insert into log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null and id != '' " >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="description != null and description != '' " >
+        description,
+      </if>
+      <if test="exceptionDetail != null and exceptionDetail != '' " >
+        exception_detail,
+      </if>
+      <if test="logType != null and logType != '' " >
+        log_type,
+      </if>
+      <if test="method != null and method != '' " >
+        method,
+      </if>
+      <if test="params != null and params != '' " >
+        params,
+      </if>
+      <if test="requestIp != null and requestIp!= '' " >
+        request_ip,
+      </if>
+      <if test="time != null and time != '' " >
+        time,
+      </if>
+      <if test="username != null and username != '' " >
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null and id != '' " >
+        #{id},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="description != null and description != '' " >
+        #{description},
+      </if>
+      <if test="exceptionDetail != null and exceptionDetail != '' " >
+        #{exceptionDetail},
+      </if>
+      <if test="logType != null and logType != '' " >
+        #{logType},
+      </if>
+      <if test="method != null and method != '' " >
+        #{method},
+      </if>
+      <if test="params != null and params != '' " >
+        #{params},
+      </if>
+      <if test="requestIp != null and requestIp!= '' " >
+        #{requestIp},
+      </if>
+      <if test="time != null and time != '' " >
+        #{time},
+      </if>
+      <if test="username != null and username != '' " >
+        #{username},
+      </if>
+    </trim>
+
+  </insert>
+
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+      from log
+        where 1 = 1
+          <if test="log.username != null and  log.username != '' ">
+           and  username = #{log.username}
+          </if>
+          <if test="log.logType != null and  log.logType != '' ">
+            and  log_type = #{log.username}
+          </if>
+    order by create_time desc
+    limit #{page.number},#{page.size}
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select
+      count(id)
+        from log
+        where 1 = 1
+        <if test="log.username != null and  log.username != '' ">
+          and  username = #{log.username}
+        </if>
+        <if test="log.logType != null and  log.logType != '' ">
+          and  log_type = #{log.username}
+        </if>
+  </select>
+
+</mapper>

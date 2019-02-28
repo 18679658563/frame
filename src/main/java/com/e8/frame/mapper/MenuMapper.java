@@ -5,10 +5,8 @@ import com.e8.frame.model.dto.MenuDto;
 import com.e8.frame.model.dto.RoleDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
-import java.util.Set;
 
 @Mapper
 public interface MenuMapper {
@@ -32,12 +30,6 @@ public interface MenuMapper {
      */
     List<Menu> selectByRoleIds(@Param("ids") List<String> ids);
 
-    /**
-     * 根据菜单的信息查询菜单
-     * @param menu
-     * @return
-     */
-    List<Menu> selectByMenu(@Param("menu") Menu menu);
 
     /**
      * 根据子id查询菜单
@@ -65,5 +57,7 @@ public interface MenuMapper {
     List<MenuDto> selectByDto(@Param("menu") MenuDto menu);
 
     int insertRoleMenuList(@Param("list") List<RoleDto> list);
+
+    List<MenuDto> selectByMenuDto(@Param("menu") MenuDto menu);
 
 }

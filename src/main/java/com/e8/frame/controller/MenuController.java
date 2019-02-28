@@ -1,5 +1,6 @@
 package com.e8.frame.controller;
 
+import com.e8.frame.aop.Log;
 import com.e8.frame.exception.BadRequestException;
 import com.e8.frame.model.dto.MenuDto;
 import com.e8.frame.model.dto.RoleDto;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,9 +64,7 @@ public class MenuController {
     @GetMapping(value = "/menus/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
     public ResponseEntity getMenu(@PathVariable String id){
-        MenuDto dto = new MenuDto();
-        dto.setId(id);
-        return new ResponseEntity(menuService.findByDto(dto), HttpStatus.OK);
+        return new ResponseEntity(menuService.findById(id), HttpStatus.OK);
     }
 
 
@@ -83,10 +83,12 @@ public class MenuController {
      * @param name
      * @return
      */
+    @Log(description = "查询菜单")
     @GetMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
     public ResponseEntity getMenus(@RequestParam(required = false) String name){
         MenuDto dto = new MenuDto();
+        System.out.println(new Date());
         dto.setName(name);
         List<MenuDto> menuDTOList = menuService.findByDto(dto);
         return new ResponseEntity(menuService.buildTree(menuDTOList),HttpStatus.OK);
@@ -111,6 +113,7 @@ public class MenuController {
      * @param resources
      * @return
      */
+    @Log(description = "修改菜单信息")
     @PutMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_EDIT')")
     public ResponseEntity update(@Validated @RequestBody MenuDto resources){
@@ -126,6 +129,7 @@ public class MenuController {
      * @param id
      * @return
      */
+    @Log(description = "删除菜单信息")
     @DeleteMapping(value = "/menus/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_DELETE')")
     public ResponseEntity delete(@PathVariable String id){

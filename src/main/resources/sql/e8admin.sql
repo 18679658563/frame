@@ -26,13 +26,13 @@ DROP TABLE IF EXISTS `log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log` (
   `id` char(32) NOT NULL,
-  `createTime` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `exceptionDetail` text,
-  `logType` varchar(255) DEFAULT NULL,
+  `exception_detail` text,
+  `log_type` varchar(255) DEFAULT NULL,
   `method` varchar(255) DEFAULT NULL,
   `params` text,
-  `requestIp` varchar(255) DEFAULT NULL,
+  `request_ip` varchar(255) DEFAULT NULL,
   `time` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
   `id` char(32) NOT NULL,
   `create_time` datetime DEFAULT NULL,
-  `iFrame` bit(1) DEFAULT NULL,
+  `iframe` bit(1) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `component` varchar(255) DEFAULT NULL,
   `pid` char(32) NOT NULL,

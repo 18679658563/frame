@@ -1,6 +1,5 @@
 package com.e8.frame.model.dto;
 
-import com.e8.frame.tools.UUIDUtil;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -30,8 +29,6 @@ public class MenuDto {
     private Boolean iframe = false;
 
     private String icon;
-
-    private String roleIds;//角色id拼接字符串
 
     private List<RoleDto> roles;
 

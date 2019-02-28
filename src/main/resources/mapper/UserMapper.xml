@@ -184,4 +184,9 @@
     where user_id = #{userId,jdbcType=CHAR}
   </delete>
 
+  <update id="updatePwd">
+    UPDATE t_user
+      set  password = #{pass,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>
