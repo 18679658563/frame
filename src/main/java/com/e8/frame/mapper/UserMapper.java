@@ -36,6 +36,7 @@ public interface UserMapper {
 
     int deleteUserRolesByUserId(String UserId);
 
+    //
     int updatePwd(@Param("id")String id, @Param("pass") String pass);
 
 }
