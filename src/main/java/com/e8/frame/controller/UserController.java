@@ -100,12 +100,12 @@ public class UserController {
         UserDetails userDetails = SecurityContextHolder.getUserDetails();
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(userDetails.getUsername());
         if(!StringUtils.isEmpty(pass)) {
-            if (!jwtUser.getPassword().equals(EncryptUtils.encryptPassword(oldpass))) {
+            if (!jwtUser.getPassword().equals(EncryptUtils.encryptPassword(EncryptUtils.encryptPassword(oldpass)))) {
                throw new BadRequestException("旧密码错误！");
             }
-            iUserService.updatePass(userid, EncryptUtils.encryptPassword(pass));
+            iUserService.updatePass(jwtUser.getId(), EncryptUtils.encryptPassword(EncryptUtils.encryptPassword(pass)));
         }else {
-                iUserService.updatePass(userid, "654321");
+            iUserService.updatePass(userid, "654321");
         }
 
         return new ResponseEntity(HttpStatus.OK);
