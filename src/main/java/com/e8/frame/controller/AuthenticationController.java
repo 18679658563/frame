@@ -1,5 +1,6 @@
 package com.e8.frame.controller;
 
+import com.e8.frame.aop.Log;
 import com.e8.frame.config.security.AuthenticationToken;
 import com.e8.frame.config.security.AuthorizationUser;
 import com.e8.frame.config.security.JwtUser;
@@ -43,6 +44,7 @@ public class AuthenticationController {
      * @param authorizationUser
      * @return
      */
+    @Log(description = "登录")
     @PostMapping(value = "${jwt.auth.path}")
     public ResponseEntity authenticationLogin(@RequestBody AuthorizationUser authorizationUser){
 
