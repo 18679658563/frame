@@ -18,7 +18,7 @@
                 <property name="forceBigDecimals" value="false"/>
             </javaTypeResolver>
             <!-- 生成模型的包名和位置 -->
-            <javaModelGenerator targetPackage="com.e8.frame.model.domain" targetProject="/home/sharps/IdeaProjects/frame/src/main/java">
+            <javaModelGenerator targetPackage="com.e8.frame.model" targetProject="/home/sharps/IdeaProjects/frame/src/main/java">
                 <property name="enableSubPackages" value="true"/>
                 <property name="trimStrings" value="true"/>
             </javaModelGenerator>
@@ -32,12 +32,12 @@
             </javaClientGenerator>
             <!-- 要生成哪些表 -->
             <!--<table tableName="pc_mq_message_data" domainObjectName="MqMessageData"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-            <table tableName="t_user" domainObjectName="User"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-            <table tableName="t_role" domainObjectName="Role"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+            <!--<table tableName="t_user" domainObjectName="User"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+            <!--<table tableName="t_role" domainObjectName="Role"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
-            <table tableName="t_menu" domainObjectName="Menu"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+            <!--<table tableName="t_menu" domainObjectName="Menu"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
-            <table tableName="t_permission" domainObjectName="Permission"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+            <table tableName="t_employee" domainObjectName="Employee"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 
         </context>
     </generatorConfiguration>

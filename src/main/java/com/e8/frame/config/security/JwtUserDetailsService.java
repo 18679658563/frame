@@ -18,11 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -86,7 +85,15 @@ public class JwtUserDetailsService implements UserDetailsService {
             }
             permissions.addAll(permissionMapper.selectByRoleIds(ids));
         }
-
+        if(CollectionUtils.isEmpty(permissions)){
+            Permission per = new Permission();
+            per.setId("base");
+            per.setName("base");
+            per.setAlias("base");
+            per.setCreateTime(new Timestamp(new Date().getTime()));
+            per.setPid("0");
+            permissions.add(per);
+        }
         return permissions.stream()
                 .map(permission -> new SimpleGrantedAuthority("ROLE_"+permission.getName()))
                 .collect(Collectors.toList());
