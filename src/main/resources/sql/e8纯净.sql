@@ -253,3 +253,17 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-02-28 18:38:28
+
+create table t_employee(
+	id char(32) PRIMARY key,
+	name varchar(20) not null comment '员工名字',
+	employee_id varchar(50) unique not null comment '员工编号',
+	sex bit(1) not null comment '1表示男，0表示女',
+  brithday datetime comment '出生日期',
+	native varchar(50) comment '籍贯',
+	education varchar(20) comment '学历',
+	email varchar(50) unique not null comment '邮箱',
+	type bit(1) default 0 comment '0表示普通员工，1表示管理员',
+	create_time datetime  comment '创建时间',
+	stat bit(1) default 1 comment '逻辑删除，1表示不删除0表示删除'
+)
