@@ -2,9 +2,7 @@ package com.e8.frame.service.impl;
 
 import com.e8.frame.mapper.PermissionMapper;
 import com.e8.frame.model.Permission;
-import com.e8.frame.model.Role;
 import com.e8.frame.model.dto.PermissionDto;
-import com.e8.frame.model.dto.RoleDto;
 import com.e8.frame.service.IPermissionService;
 import com.e8.frame.tools.BeanUtil;
 import com.e8.frame.tools.UUIDUtil;
@@ -18,10 +16,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -41,17 +35,17 @@ public class PermissionServiceImpl implements IPermissionService {
     @Override
     public List<Permission> findPermissionByRoleIds(List<String> ids) {
         List<Permission> permissions = permissionMapper.selectByRoleIds(ids);
-       return permissions.stream().distinct().collect(Collectors.toList());
+        return permissions.stream().distinct().collect(Collectors.toList());
     }
 
     @Override
     @Cacheable(key = "#p0")
     public PermissionDto findById(String id) {
-       Permission permission =permissionMapper.selectByPrimaryKey(id);
-       if (permission == null){
-           return null;
-       }
-        return BeanUtil.createBeanByTarget(permission,PermissionDto.class);
+        Permission permission = permissionMapper.selectByPrimaryKey(id);
+        if (permission == null) {
+            return null;
+        }
+        return BeanUtil.createBeanByTarget(permission, PermissionDto.class);
     }
 
     @Override
@@ -64,9 +58,9 @@ public class PermissionServiceImpl implements IPermissionService {
     @Cacheable(key = "'dto:'+#p0")
     public List<PermissionDto> findByDto(PermissionDto dto) {
 
-        Permission permission =BeanUtil.createBeanByTarget(dto,Permission.class);
-        List<PermissionDto> permissions =permissionMapper.selectByPermission(permission);
-        if(CollectionUtils.isEmpty(permissions)){
+        Permission permission = BeanUtil.createBeanByTarget(dto, Permission.class);
+        List<PermissionDto> permissions = permissionMapper.selectByPermission(permission);
+        if (CollectionUtils.isEmpty(permissions)) {
             return null;
         }
         return permissions;
@@ -76,15 +70,15 @@ public class PermissionServiceImpl implements IPermissionService {
     public Object buildTree(List<PermissionDto> permissionDtos) {
         List<PermissionDto> trees = new ArrayList<PermissionDto>();
 
-        if(!CollectionUtils.isEmpty(permissionDtos)){
-            for(PermissionDto permissionDto : permissionDtos){
+        if (!CollectionUtils.isEmpty(permissionDtos)) {
+            for (PermissionDto permissionDto : permissionDtos) {
 
-                if("0".equals((permissionDto.getPid()))){
+                if ("0".equals((permissionDto.getPid()))) {
                     trees.add(permissionDto);
                 }
-                for(PermissionDto p :permissionDtos){
-                    if (p.getPid().equals(permissionDto.getId())){
-                        if(permissionDto.getChildren() == null){
+                for (PermissionDto p : permissionDtos) {
+                    if (p.getPid().equals(permissionDto.getId())) {
+                        if (permissionDto.getChildren() == null) {
                             permissionDto.setChildren(new ArrayList<PermissionDto>());
 
                         }
@@ -94,16 +88,17 @@ public class PermissionServiceImpl implements IPermissionService {
             }
 
         }
-        Integer totalElements = permissionDtos!=null?permissionDtos.size():0;
+        Integer totalElements = permissionDtos != null ? permissionDtos.size() : 0;
 
-        Map map =new HashMap();
-        map.put("content",trees.size() == 0?permissionDtos:trees);
-        map.put("totalElements",totalElements);
+        Map map = new HashMap();
+        map.put("content", trees.size() == 0 ? permissionDtos : trees);
+        map.put("totalElements", totalElements);
         return map;
     }
 
     /**
      * 通过pid查询
+     *
      * @param pid
      * @return
      */
@@ -114,14 +109,13 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     /**
-     *
      * @param permissionDto
      * @return
      */
     @Override
     @CacheEvict(allEntries = true)
-    public  void  addPermission(PermissionDto permissionDto) {
-        Permission p =BeanUtil.createBeanByTarget(permissionDto,Permission.class);
+    public void addPermission(PermissionDto permissionDto) {
+        Permission p = BeanUtil.createBeanByTarget(permissionDto, Permission.class);
         String uuid = UUIDUtil.getUUID();
         p.setId(uuid);
         p.setAlias(permissionDto.getAlias());
@@ -139,6 +133,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     /**
      * 先删除中间表再删除权限表
+     *
      * @param id
      */
     @Override
@@ -164,16 +159,16 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public Object getPermissionTree(List<Permission> permissions){
-        List<Map<String,Object>> list = new LinkedList<>();
+    public Object getPermissionTree(List<Permission> permissions) {
+        List<Map<String, Object>> list = new LinkedList<>();
         permissions.forEach(permission -> {
-                    if (permission!=null){
+                    if (permission != null) {
                         List<Permission> permissionList = permissionMapper.selectByPid(permission.getId());
-                        Map<String,Object> map = new HashMap<>();
-                        map.put("id",permission.getId());
-                        map.put("label",permission.getAlias());
-                        if(permissionList!=null && permissionList.size()!=0){
-                            map.put("children",getPermissionTree(permissionList));
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("id", permission.getId());
+                        map.put("label", permission.getAlias());
+                        if (permissionList != null && permissionList.size() != 0) {
+                            map.put("children", getPermissionTree(permissionList));
                         }
                         list.add(map);
                     }
@@ -184,7 +179,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     @Cacheable(key = "#p0")
-    public List<PermissionDto> queryAll(String name){
+    public List<PermissionDto> queryAll(String name) {
         return permissionMapper.selectByName(name);
     }
 
