@@ -11,6 +11,7 @@ import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /***
  * Created with IntelliJ IDEA.
@@ -37,7 +38,8 @@ public class RedisServiceImpl implements IRedisService {
             if(StringUtils.isEmpty(key)){
                 key = "*";
             }
-            for(String k : jedis.keys(key)){
+            Set<String> set = jedis.keys(key);
+            for(String k : set){
                 RedisDto redisDto = new RedisDto();
                 redisDto.setKey(k);
                 redisDto.setValue(jedis.get(k));

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,12 +81,16 @@ public class MenuController {
 
     /**
      * 通过菜单名字查询菜单信息
-     * @param dto
+     * @param name
      * @return
      */
     @GetMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
-    public ResponseEntity getMenus(@RequestParam(required = false) MenuDto dto){
+    public ResponseEntity getMenus(@RequestParam(required = false) String name){
+        MenuDto dto = new MenuDto();
+        if(!StringUtils.isEmpty(name)){
+           dto.setName("%"+name +"%");
+        }
         List<MenuDto> menuDTOList = menuService.findByDto(dto);
         return new ResponseEntity(menuService.buildTree(menuDTOList),HttpStatus.OK);
     }

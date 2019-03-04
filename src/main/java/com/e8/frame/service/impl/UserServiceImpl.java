@@ -29,14 +29,14 @@ import java.util.*;
  * Time: 下午5:27
  */
 @Service
-@CacheConfig(cacheNames = "user")
+//@CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
 
     @Override
-    @Cacheable(key = "'name:'+#p0")
+    //@Cacheable(key = "'name:'+#p0")
     public UserDto findByUsername(String name) {
         User user = userMapper.selectByUsername(name);
         UserDto dto = null;
@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Cacheable(keyGenerator = "keyGenerator")
+    //@Cacheable(keyGenerator = "keyGenerator")
     public List<UserDto> getUsersByPage(UserDto user, PageUtil page) {
         List<UserDto> list = userMapper.getUsersByPage(user, page);
         return list;
@@ -55,7 +55,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(allEntries = true)
+    //@CacheEvict(allEntries = true)
     public void insertSelective(UserDto user) {
         if (userMapper.selectByUsername(user.getUsername()) != null) {
             throw new EntityExistException(UserDto.class, "username", user.getUsername());
@@ -79,7 +79,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(allEntries = true)
+    //@CacheEvict(allEntries = true)
     public void deleteUserAndUserRolesByUserId(String userId) {
         userMapper.deleteUserRolesByUserId(userId);
         userMapper.deleteByPrimaryKey(userId);
@@ -87,7 +87,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(allEntries = true)
+    //@CacheEvict(allEntries = true)
     public void updateUserAndUserRoles(UserDto userDto) {
         User user = userMapper.selectByUsername(userDto.getUsername());
         if (user != null) {

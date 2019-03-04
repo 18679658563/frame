@@ -24,7 +24,7 @@ public class RedisController {
     @Autowired
     private IRedisService redisService;
 
-    @Log(description = "查询Redis缓存")
+    //@Log(description = "查询Redis缓存")
     @GetMapping(value = "/redis")
     @PreAuthorize("hasAnyRole('ADMIN','REDIS_ALL','REDIS_SELECT')")
     public ResponseEntity getRedis(String key, PageUtil page){

@@ -117,9 +117,7 @@ public class RedisConfig extends CachingConfigurerSupport {
             sb.append(target.getClass().getName());
             sb.append(method.getName());
             for(Object obj :params){
-                if(!StringUtils.isEmpty(sb)){
-                    sb.append(obj.toString());
-                }
+                sb.append(obj.toString());
             }
             return sb.toString();
         };
