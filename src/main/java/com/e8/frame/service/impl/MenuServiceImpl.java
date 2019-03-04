@@ -31,29 +31,31 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = "menu")
-public class MenuServiceImpl implements IMenuService{
+public class MenuServiceImpl implements IMenuService {
 
     @Autowired
     private MenuMapper menuMapper;
 
     /**
      * 根据角色集合查询所有菜单
+     *
      * @param roles
      * @return
      */
     @Override
     public List<MenuDto> findByRoleIds(List<RoleDto> roles) {
         List<String> ids = new ArrayList<>();
-        for(RoleDto role : roles){
+        for (RoleDto role : roles) {
             ids.add(role.getId());
         }
-        List<Menu> list =  menuMapper.selectByRoleIds(ids);
-        List<MenuDto> list1 = BeanUtil.createBeanListByTarget(list,MenuDto.class);
+        List<Menu> list = menuMapper.selectByRoleIds(ids);
+        List<MenuDto> list1 = BeanUtil.createBeanListByTarget(list, MenuDto.class);
         return list1.stream().distinct().collect(Collectors.toList());
     }
 
     /**
      * 根据菜单信息查询菜单信息
+     *
      * @param menu
      * @return
      */
@@ -66,6 +68,7 @@ public class MenuServiceImpl implements IMenuService{
 
     /**
      * 通过id查询菜单信息
+     *
      * @param id
      * @return
      */
@@ -73,14 +76,15 @@ public class MenuServiceImpl implements IMenuService{
     @Cacheable(key = "#p0")
     public MenuDto findById(String id) {
         Menu menu = menuMapper.selectByPrimaryKey(id);
-        if(menu == null){
+        if (menu == null) {
             return null;
         }
-        return BeanUtil.createBeanByTarget(menu,MenuDto.class);
+        return BeanUtil.createBeanByTarget(menu, MenuDto.class);
     }
 
     /**
      * 通过pid查询menu
+     *
      * @param pid
      * @return
      */
@@ -92,13 +96,14 @@ public class MenuServiceImpl implements IMenuService{
 
     /**
      * 构建菜单树结构
+     *
      * @param menuDTOS
      * @return
      */
     @Override
     public Map buildTree(List<MenuDto> menuDTOS) {
         List<MenuDto> trees = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(menuDTOS)){
+        if (!CollectionUtils.isEmpty(menuDTOS)) {
             for (MenuDto menuDTO : menuDTOS) {
                 if ("0".equals(menuDTO.getPid())) {
                     trees.add(menuDTO);
@@ -113,15 +118,16 @@ public class MenuServiceImpl implements IMenuService{
                 }
             }
         }
-        Integer totalElements = menuDTOS!=null?menuDTOS.size():0;
+        Integer totalElements = menuDTOS != null ? menuDTOS.size() : 0;
         Map map = new HashMap();
-        map.put("content",trees.size() == 0?menuDTOS:trees);
-        map.put("totalElements",totalElements);
+        map.put("content", trees.size() == 0 ? menuDTOS : trees);
+        map.put("totalElements", totalElements);
         return map;
     }
 
     /**
      * 构建菜单的总体结构
+     *
      * @param menuDTOS
      * @return
      */
@@ -129,32 +135,32 @@ public class MenuServiceImpl implements IMenuService{
     public List<MenuVo> buildMenus(List<MenuDto> menuDTOS) {
         List<MenuVo> list = new LinkedList<>();
         menuDTOS.forEach(menuDTO -> {
-                    if (menuDTO!=null){
+                    if (menuDTO != null) {
                         List<MenuDto> menuDTOList = menuDTO.getChildren();
                         MenuVo menuVo = new MenuVo();
                         menuVo.setName(menuDTO.getName());
                         menuVo.setPath(menuDTO.getPath());
                         // 如果不是外链
-                        if(!menuDTO.getIframe()){
-                            if("0".equals(menuDTO.getPid())){
+                        if (!menuDTO.getIframe()) {
+                            if ("0".equals(menuDTO.getPid())) {
                                 //一级目录需要加斜杠，不然访问不了
                                 menuVo.setPath("/" + menuDTO.getPath());
-                                menuVo.setComponent(StrUtil.isEmpty(menuDTO.getComponent())?"Layout":menuDTO.getComponent());
-                            }else if(!StrUtil.isEmpty(menuDTO.getComponent())){
+                                menuVo.setComponent(StrUtil.isEmpty(menuDTO.getComponent()) ? "Layout" : menuDTO.getComponent());
+                            } else if (!StrUtil.isEmpty(menuDTO.getComponent())) {
                                 menuVo.setComponent(menuDTO.getComponent());
                             }
                         }
-                        menuVo.setMeta(new MenuMetaVo(menuDTO.getName(),menuDTO.getIcon()));
-                        if(menuDTOList!=null && menuDTOList.size()!=0){
+                        menuVo.setMeta(new MenuMetaVo(menuDTO.getName(), menuDTO.getIcon()));
+                        if (menuDTOList != null && menuDTOList.size() != 0) {
                             menuVo.setAlwaysShow(true);
                             menuVo.setRedirect("noredirect");
                             menuVo.setChildren(buildMenus(menuDTOList));
                             // 处理是一级菜单并且没有子菜单的情况
-                        } else if(menuDTO.getPid().equals(0L)){
+                        } else if (menuDTO.getPid().equals(0L)) {
                             MenuVo menuVo1 = new MenuVo();
                             menuVo1.setMeta(menuVo.getMeta());
                             // 非外链
-                            if(!menuDTO.getIframe()){
+                            if (!menuDTO.getIframe()) {
                                 menuVo1.setPath("index");
                                 menuVo1.setName(menuVo.getName());
                                 menuVo1.setComponent(menuVo.getComponent());
@@ -177,21 +183,22 @@ public class MenuServiceImpl implements IMenuService{
 
     /**
      * 获取菜单树结构
+     *
      * @param menus
      * @return
      */
     @Override
     @Cacheable(key = "'tree'")
     public Object getMenuTree(List<Menu> menus) {
-        List<Map<String,Object>> list = new LinkedList<>();
+        List<Map<String, Object>> list = new LinkedList<>();
         menus.forEach(menu -> {
-                    if (menu!=null){
+                    if (menu != null) {
                         List<Menu> menuList = menuMapper.selectByPid(menu.getId());
-                        Map<String,Object> map = new HashMap<>();
-                        map.put("id",menu.getId());
-                        map.put("label",menu.getName());
-                        if(menuList!=null && menuList.size()!=0){
-                            map.put("children",getMenuTree(menuList));
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("id", menu.getId());
+                        map.put("label", menu.getName());
+                        if (menuList != null && menuList.size() != 0) {
+                            map.put("children", getMenuTree(menuList));
                         }
                         list.add(map);
                     }
@@ -202,20 +209,21 @@ public class MenuServiceImpl implements IMenuService{
 
     /**
      * 添加菜单-----添加菜单角色关系
+     *
      * @param menuDto
      * @return
      */
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true)
     public MenuDto addMenu(MenuDto menuDto) {
         menuDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
         menuDto.setId(UUIDUtil.getUUID());
-        int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
-        if(menuFlag > 0){
-            if(!CollectionUtils.isEmpty(menuDto.getRoles())){
+        int menuFlag = menuMapper.insertSelective(BeanUtil.createBeanByTarget(menuDto, Menu.class));
+        if (menuFlag > 0) {
+            if (!CollectionUtils.isEmpty(menuDto.getRoles())) {
                 List<RoleDto> list = new ArrayList<>();
-                for(RoleDto role : menuDto.getRoles()){
+                for (RoleDto role : menuDto.getRoles()) {
                     role.setMenuId(menuDto.getId());
                     list.add(role);
                 }
@@ -227,17 +235,18 @@ public class MenuServiceImpl implements IMenuService{
 
     /**
      * 修改菜单。修改菜单角色关系
+     *
      * @param menuDto
      */
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true)
     public void updataMenu(MenuDto menuDto) {
-        int menuFlag =  menuMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
-        if(menuFlag > 0){
+        int menuFlag = menuMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(menuDto, Menu.class));
+        if (menuFlag > 0) {
             menuMapper.deleteMenuRoleByMenuId(menuDto.getId());
             List<RoleDto> list = new ArrayList<>();
-            if(!CollectionUtils.isEmpty(menuDto.getRoles())) {
+            if (!CollectionUtils.isEmpty(menuDto.getRoles())) {
                 for (RoleDto role : menuDto.getRoles()) {
                     role.setMenuId(menuDto.getId());
                     list.add(role);
@@ -249,10 +258,11 @@ public class MenuServiceImpl implements IMenuService{
 
     /**
      * 先删除中间表在删除menu表
+     *
      * @param id
      */
     @Override
-    @Transactional(rollbackFor=Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true)
     public void deleteMenu(String id) {
         deleteMenuAndMenuRoles(id);
