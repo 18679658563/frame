@@ -70,7 +70,8 @@ public class LogAspect {
         LogModel log = new LogModel();
         log.setLogType("ERROR");
         log.setTime(System.currentTimeMillis() - currentTime + "");
-        log.setExceptionDetail(ThrowUtil.getStackTrace(e));
+        String exceptions = ThrowUtil.getStackTrace(e);
+        log.setExceptionDetail(exceptions);
         logService.saveLog((ProceedingJoinPoint)joinPoint, log);
     }
 }

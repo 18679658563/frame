@@ -80,15 +80,12 @@ public class MenuController {
 
     /**
      * 通过菜单名字查询菜单信息
-     * @param name
+     * @param dto
      * @return
      */
     @GetMapping(value = "/menus")
     @PreAuthorize("hasAnyRole('ADMIN','MENU_ALL','MENU_SELECT')")
-    public ResponseEntity getMenus(@RequestParam(required = false) String name){
-        MenuDto dto = new MenuDto();
-        System.out.println(new Date());
-        dto.setName(name);
+    public ResponseEntity getMenus(@RequestParam(required = false) MenuDto dto){
         List<MenuDto> menuDTOList = menuService.findByDto(dto);
         return new ResponseEntity(menuService.buildTree(menuDTOList),HttpStatus.OK);
     }

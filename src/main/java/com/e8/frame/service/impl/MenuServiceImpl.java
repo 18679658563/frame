@@ -11,9 +11,11 @@ import com.e8.frame.service.IMenuService;
 import com.e8.frame.tools.BeanUtil;
 import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
  * Time: 下午3:21
  */
 @Service
+@CacheConfig(cacheNames = "menu")
 public class MenuServiceImpl implements IMenuService{
 
     @Autowired
@@ -55,6 +58,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
+    @Cacheable(key = "'dto:'+#p0")
     public List<MenuDto> findByDto(MenuDto menu) {
         List<MenuDto> menuDtoList = menuMapper.selectByMenuDto(menu);
         return menuDtoList;
@@ -66,6 +70,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
+    @Cacheable(key = "#p0")
     public MenuDto findById(String id) {
         Menu menu = menuMapper.selectByPrimaryKey(id);
         if(menu == null){
@@ -80,6 +85,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
+    @Cacheable(key = "'pid:'+#p0")
     public List<Menu> findByPid(String pid) {
         return menuMapper.selectByPid(pid);
     }
@@ -121,7 +127,6 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     public List<MenuVo> buildMenus(List<MenuDto> menuDTOS) {
-        Assert.notEmpty(menuDTOS,"菜单不能为空");
         List<MenuVo> list = new LinkedList<>();
         menuDTOS.forEach(menuDTO -> {
                     if (menuDTO!=null){
@@ -176,8 +181,8 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
+    @Cacheable(key = "'tree'")
     public Object getMenuTree(List<Menu> menus) {
-        Assert.notEmpty(menus,"菜单不能为空");
         List<Map<String,Object>> list = new LinkedList<>();
         menus.forEach(menu -> {
                     if (menu!=null){
@@ -202,6 +207,7 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     @Transactional(rollbackFor=Exception.class)
+    @CacheEvict(allEntries = true)
     public MenuDto addMenu(MenuDto menuDto) {
         menuDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
         menuDto.setId(UUIDUtil.getUUID());
@@ -225,6 +231,7 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     @Transactional(rollbackFor=Exception.class)
+    @CacheEvict(allEntries = true)
     public void updataMenu(MenuDto menuDto) {
         int menuFlag =  menuMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(menuDto,Menu.class));
         if(menuFlag > 0){
@@ -246,6 +253,7 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     @Transactional(rollbackFor=Exception.class)
+    @CacheEvict(allEntries = true)
     public void deleteMenu(String id) {
         menuMapper.deleteMenuRoleByMenuId(id);
         menuMapper.deleteByPrimaryKey(id);

@@ -9,6 +9,9 @@ import com.e8.frame.tools.BeanUtil;
 import com.e8.frame.tools.PageUtil;
 import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -22,6 +25,7 @@ import java.util.*;
  * @Description:
  */
 @Service
+@CacheConfig(cacheNames = "role")
 public class RoleServiceImpl implements IRoleService{
 
 
@@ -34,6 +38,7 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
+    @Cacheable(key = "'userId'+#p0")
     public List<RoleDto> findByUserId(String userId) {
         List<Role> list = roleMapper.selectAllRoleInfoByUserId(userId);
         if(CollectionUtils.isEmpty(list)){
@@ -47,6 +52,7 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
+    @Cacheable(key="tree")
     public Object getRoleTree() {
         List<Role> roleList = roleMapper.selectAll();
         List<Map<String,Object>> list = new ArrayList<>();
@@ -66,6 +72,7 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
+    @Cacheable(keyGenerator = "keyGenerator")
     public Object findAll(RoleDto role, PageUtil page) {
         List<RoleDto> roleDtoList = roleMapper.selectByPage(role,page);
         Integer count = roleMapper.count(role);
@@ -81,6 +88,7 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public void deleteRole(String id) {
         if(roleMapper.selectMenuRoleByRoleId(id)>0) {
             roleMapper.deleteMenuRoleByRoleId(id);
@@ -101,26 +109,39 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public RoleDto addRole(RoleDto roleDto){
         roleDto.setId(UUIDUtil.getUUID());
         roleDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
         int roleFlag = roleMapper.insertSelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
         if(roleFlag > 0){
             if(!CollectionUtils.isEmpty(roleDto.getPermissions())){
-                List<RoleDto> list = new ArrayList<>();
-                RoleDto dto = null;
-                for(PermissionDto permission : roleDto.getPermissions()){
-                    dto = new RoleDto();
-                    dto.setId(roleDto.getId());
-                    dto.setPermissionId(permission.getId());
-                    list.add(dto);
-                }
+//                List<RoleDto> list = new ArrayList<>();
+//                RoleDto dto = null;
+//                for(PermissionDto permission : roleDto.getPermissions()){
+//                    dto = new RoleDto();
+//                    dto.setId(roleDto.getId());
+//                    dto.setPermissionId(permission.getId());
+//                    list.add(dto);
+//                }
+                List<RoleDto> list = add(roleDto);
                 roleMapper.insertPermissionRoleDto(list);
             }
         }
         return roleDto;
     }
 
+    private List<RoleDto> add(RoleDto roleDto){
+        List<RoleDto> list = new ArrayList<>();
+        RoleDto dto = null;
+        for(PermissionDto permission : roleDto.getPermissions()){
+            dto = new RoleDto();
+            dto.setId(roleDto.getId());
+            dto.setPermissionId(permission.getId());
+            list.add(dto);
+        }
+        return list;
+    }
 
     /**
      * 修改角色信息
@@ -129,20 +150,22 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public void updataRole(RoleDto roleDto){
         int roleFlag =  roleMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
         if(roleFlag > 0){
             roleMapper.deleteRolePermissionByRoleId(roleDto.getId());
-            List<RoleDto> list = new ArrayList<>();
             if(!CollectionUtils.isEmpty(roleDto.getPermissions())) {
-                RoleDto dto = null;
-                for (PermissionDto permissionDto : roleDto.getPermissions()) {
-                    dto = new RoleDto();
-                    dto.setId(roleDto.getId());
-                    dto.setPermissionId(permissionDto.getId());
-                    list.add(dto);
-
-                }
+//                List<RoleDto> list = new ArrayList<>();
+//                RoleDto dto = null;
+//                for (PermissionDto permissionDto : roleDto.getPermissions()) {
+//                    dto = new RoleDto();
+//                    dto.setId(roleDto.getId());
+//                    dto.setPermissionId(permissionDto.getId());
+//                    list.add(dto);
+//
+//                }
+                List<RoleDto> list = add(roleDto);
                 roleMapper.insertPermissionRoleDto(list);
             }
         }

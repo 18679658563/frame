@@ -9,6 +9,9 @@ import com.e8.frame.service.IPermissionService;
 import com.e8.frame.tools.BeanUtil;
 import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -29,12 +32,11 @@ import java.util.stream.Collectors;
  * Time: 上午9:45
  */
 @Service
+@CacheConfig(cacheNames = "permission")
 public class PermissionServiceImpl implements IPermissionService {
 
     @Autowired
     private PermissionMapper permissionMapper;
-
-
 
     @Override
     public List<Permission> findPermissionByRoleIds(List<String> ids) {
@@ -43,6 +45,7 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
+    @Cacheable(key = "#p0")
     public PermissionDto findById(String id) {
        Permission permission =permissionMapper.selectByPrimaryKey(id);
        if (permission == null){
@@ -52,11 +55,13 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
+    @Cacheable(key = "queryAll")
     public List<Permission> findPermission() {
         return permissionMapper.findPermission();
     }
 
     @Override
+    @Cacheable(key = "'dto:'+#p0")
     public List<PermissionDto> findByDto(PermissionDto dto) {
 
         Permission permission =BeanUtil.createBeanByTarget(dto,Permission.class);
@@ -103,6 +108,7 @@ public class PermissionServiceImpl implements IPermissionService {
      * @return
      */
     @Override
+    @Cacheable(key = "'pid:'+#p0")
     public List<Permission> findByPid(String pid) {
         return permissionMapper.findByPid(pid);
     }
@@ -113,6 +119,7 @@ public class PermissionServiceImpl implements IPermissionService {
      * @return
      */
     @Override
+    @CacheEvict(allEntries = true)
     public  void  addPermission(PermissionDto permissionDto) {
         Permission p =BeanUtil.createBeanByTarget(permissionDto,Permission.class);
         String uuid = UUIDUtil.getUUID();
@@ -125,6 +132,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public void updatePermission(PermissionDto permissionDto) {
         permissionMapper.updateByPrimaryKeySelective(permissionDto);
     }
@@ -135,12 +143,14 @@ public class PermissionServiceImpl implements IPermissionService {
      */
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public void deletePermission(String id) {
         permissionMapper.deletePerRoleByPermissionId(id);
         permissionMapper.deleteByPrimaryKey(id);
     }
-    public@Override
-     Object getPermissionTree(List<Permission> permissions){
+
+    @Override
+    public Object getPermissionTree(List<Permission> permissions){
         List<Map<String,Object>> list = new LinkedList<>();
         permissions.forEach(permission -> {
                     if (permission!=null){
@@ -159,6 +169,7 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
+    @Cacheable(key = "#p0")
     public List<PermissionDto> queryAll(String name){
         return permissionMapper.selectByName(name);
     }
