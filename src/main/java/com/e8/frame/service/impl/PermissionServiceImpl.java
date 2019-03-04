@@ -145,8 +145,22 @@ public class PermissionServiceImpl implements IPermissionService {
     @Transactional
     @CacheEvict(allEntries = true)
     public void deletePermission(String id) {
-        permissionMapper.deletePerRoleByPermissionId(id);
-        permissionMapper.deleteByPrimaryKey(id);
+        deletePermissionAndPerRoles(id);
+        List<Permission> permissions = permissionMapper.selectByPid(id);
+        if (!permissions.isEmpty()) {
+            deletePermissions(permissions);
+        }
+    }
+
+    public void deletePermissionAndPerRoles(String PermissionId) {
+        permissionMapper.deletePerRoleByPermissionId(PermissionId);
+        permissionMapper.deleteByPrimaryKey(PermissionId);
+    }
+
+    public void deletePermissions(List<Permission> list) {
+        for (Permission permission : list) {
+            deletePermission(permission.getId());
+        }
     }
 
     @Override

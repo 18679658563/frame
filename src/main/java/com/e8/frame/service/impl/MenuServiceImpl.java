@@ -255,7 +255,21 @@ public class MenuServiceImpl implements IMenuService{
     @Transactional(rollbackFor=Exception.class)
     @CacheEvict(allEntries = true)
     public void deleteMenu(String id) {
-        menuMapper.deleteMenuRoleByMenuId(id);
-        menuMapper.deleteByPrimaryKey(id);
+        deleteMenuAndMenuRoles(id);
+        List<Menu> menus = menuMapper.selectByPid(id);
+        if (!menus.isEmpty()) {
+            deleteMenus(menus);
+        }
+    }
+
+    public void deleteMenus(List<Menu> list) {
+        for (Menu menu : list) {
+            deleteMenu(menu.getId());
+        }
+    }
+
+    public void deleteMenuAndMenuRoles(String MenuId) {
+        menuMapper.deleteMenuRoleByMenuId(MenuId);
+        menuMapper.deleteByPrimaryKey(MenuId);
     }
 }
