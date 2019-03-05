@@ -14,6 +14,9 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="stat" property="stat" jdbcType="BIT" />
   </resultMap>
+  <sql id="Base_Column_List">
+    id,name,employee_id,sex,birthday,natives,education,email,type,create_time
+  </sql>
   <insert id="insert" parameterType="com.e8.frame.model.Employee" >
     insert into t_employee (id, name, employee_id,
       sex, birthday, natives, 
@@ -101,4 +104,79 @@
       </if>
     </trim>
   </insert>
+
+  <select id="getEmployeeBypage" resultMap="BaseResultMap">
+  select * from t_employee e
+   where stat = 1
+   <if test="employee.name != null and employee.name != ''">
+     and  e.name =#{employee.name,jdbcType=VARCHAR}
+   </if>
+    <if test="employee.employeeId != null and employee.employeeId != ''">
+      and  e.employeeId =#{employee.employeeId,jdbcType=VARCHAR}
+    </if>
+    <if test="employee.email != null and employee.email != ''">
+      and  e.email =#{employee.email }
+    </if>
+    <if test="employee.type != null ">
+      and  e.type =#{employee.type }
+    </if>
+    order by e.create_time desc
+    limit #{page.number,jdbcType=INTEGER },#{page.size,jdbcType=INTEGER }
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    SELECT count(id) from t_employee
+  where stat = 1
+  </select>
+
+  
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.e8.frame.model.Employee" >
+    update t_employee
+    <set >
+      <if test="name != null" >
+       name= #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null" >
+       employee_id= #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+       sex=  #{sex,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+       birthday= #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="natives != null" >
+       natives=#{natives,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+       education= #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+       email= #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+       type =#{type,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+       create_time=#{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stat != null" >
+      stat= #{stat,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  
+  <update id="updateStatById" >
+    update t_employee set stat= 0
+    where id =#{id,jdbcType=CHAR}
+  </update>
+
+    <select id="getEmployeeById" resultMap="BaseResultMap">
+        select * from t_employee
+        where id = #{id,jdbcType=CHAR}
+    </select>
+
+
 </mapper>

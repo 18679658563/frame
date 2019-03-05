@@ -1,5 +1,6 @@
 package com.e8.frame.controller;
 
+import com.e8.frame.aop.Log;
 import com.e8.frame.config.security.JwtUser;
 import com.e8.frame.config.security.SecurityContextHolder;
 import com.e8.frame.exception.BadRequestException;
@@ -73,6 +74,7 @@ public class UserController {
      * @param: id
      * @return: ResponseEntity
      */
+    @Log(description = "删除用户")
     @RequestMapping(value = "/users/{id}",method = RequestMethod.DELETE)
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_DELETE')")
     public ResponseEntity delete(@PathVariable String id){
@@ -85,6 +87,7 @@ public class UserController {
      * @param: user
      * @return: ResponseEntity
      */
+    @Log(description = "更新用户")
     @RequestMapping(value = "/users",method = RequestMethod.PUT)
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_EDIT')")
     public ResponseEntity update(@RequestBody UserDto user){
@@ -100,6 +103,7 @@ public class UserController {
      * @param: userid,pass,oldpass
      * @return: ResponseEntity
      */
+    @Log(description = "修改用户密码")
     @RequestMapping(value = "/updatepwd",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('ADMIN','USER_ALL','USER_EDIT')")
     public ResponseEntity updatePassword(String userid, String pass,  String oldpass){

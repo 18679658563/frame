@@ -11,7 +11,7 @@ import com.e8.frame.tools.PageUtil;
  */
 public interface IRedisService {
 
-    PageUtil findByKey(String key,PageUtil page);
+    Object findByKey(String key,PageUtil page);
 
     void delete(String key);
 
