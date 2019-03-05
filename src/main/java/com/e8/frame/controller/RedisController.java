@@ -31,11 +31,11 @@ public class RedisController {
         return new ResponseEntity(redisService.findByKey(key,page), HttpStatus.OK);
     }
 
-    @Log(description = "删除Redis缓存")
-    @DeleteMapping(value = "/redis")
+    @Log(description = "根据Key值删除Redis缓存")
+    @DeleteMapping(value = "/redis/{key}")
     @PreAuthorize("hasAnyRole('ADMIN','REDIS_ALL','REDIS_DELETE')")
-    public ResponseEntity delete(@RequestBody RedisDto resources){
-        redisService.delete(resources.getKey());
+    public ResponseEntity delete(@PathVariable String key){
+        redisService.delete(key);
         return new ResponseEntity(HttpStatus.OK);
     }
 
