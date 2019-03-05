@@ -53,7 +53,6 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     @Cacheable(key="'tree'")
-    //@Cacheable(keyGenerator = "keyGenerator")
     public Object getRoleTree() {
         List<Role> roleList = roleMapper.selectAll();
         List<Map<String,Object>> list = new ArrayList<>();
@@ -89,7 +88,7 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     @Transactional
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public void deleteRole(String id) {
         if(roleMapper.selectMenuRoleByRoleId(id)>0) {
             roleMapper.deleteMenuRoleByRoleId(id);
@@ -110,7 +109,7 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     @Transactional
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public RoleDto addRole(RoleDto roleDto){
         roleDto.setId(UUIDUtil.getUUID());
         roleDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
