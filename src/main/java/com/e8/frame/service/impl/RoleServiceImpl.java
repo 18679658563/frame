@@ -25,7 +25,7 @@ import java.util.*;
  * @Description:
  */
 @Service
-//@CacheConfig(cacheNames = "role")
+@CacheConfig(cacheNames = "role")
 public class RoleServiceImpl implements IRoleService{
 
 
@@ -52,7 +52,8 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
-    //@Cacheable(key="tree")
+    @Cacheable(key="'tree'")
+    //@Cacheable(keyGenerator = "keyGenerator")
     public Object getRoleTree() {
         List<Role> roleList = roleMapper.selectAll();
         List<Map<String,Object>> list = new ArrayList<>();
