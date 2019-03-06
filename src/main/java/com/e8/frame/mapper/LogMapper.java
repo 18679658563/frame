@@ -24,5 +24,7 @@ public interface LogMapper {
 
     Integer count(@Param("log")LogModel log);
 
+    Long findIp(@Param("start") String start,@Param("end") String end);
+
 
 }
