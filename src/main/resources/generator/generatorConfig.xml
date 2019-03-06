@@ -37,7 +37,7 @@
 
             <!--<table tableName="t_menu" domainObjectName="Menu"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
-            <table tableName="t_employee" domainObjectName="Employee"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+            <table tableName="t_visits" domainObjectName="Visits"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 
         </context>
     </generatorConfiguration>
