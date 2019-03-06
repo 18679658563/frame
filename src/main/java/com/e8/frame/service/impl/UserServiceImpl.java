@@ -35,7 +35,7 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
     @Override
-    @Cacheable(key = "'name::' + #p0")
+    @Cacheable(key = "'name:' + #p0")
     public UserDto findByUsername(String name) {
         User user = userMapper.selectByUsername(name);
         UserDto dto = null;

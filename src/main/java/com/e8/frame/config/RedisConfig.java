@@ -17,7 +17,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -75,7 +74,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     /**
      * 设置redis数据默认过期时间
      * 设置@cacheable序列化方式
-     * @return
+     * @return\"sadiusahdisadsd0634df7af49\",\"lastPasswordResetTime\":1542989556000,\"password\":\"14e1b600b1fd579f47433b88e8d85291\",\"username\":\"admin\"}
      */
     @Bean
     public RedisCacheConfiguration redisCacheConfiguration(){

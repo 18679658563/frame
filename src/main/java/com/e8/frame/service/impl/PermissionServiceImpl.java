@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * Time: 上午9:45
  */
 @Service
-//@CacheConfig(cacheNames = "permission")
+@CacheConfig(cacheNames = "permission")
 public class PermissionServiceImpl implements IPermissionService {
 
     @Autowired
@@ -39,7 +39,7 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    //@Cacheable(key = "#p0")
+    @Cacheable(key = "#p0")
     public PermissionDto findById(String id) {
         Permission permission = permissionMapper.selectByPrimaryKey(id);
         if (permission == null) {
@@ -49,13 +49,13 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    //@Cacheable(key = "queryAll")
+    @Cacheable(key = "queryAll")
     public List<Permission> findPermission() {
         return permissionMapper.findPermission();
     }
 
     @Override
-    //@Cacheable(key = "'dto:'+#p0")
+    @Cacheable(key = "'dto:'+#p0")
     public List<PermissionDto> findByDto(PermissionDto dto) {
 
         Permission permission = BeanUtil.createBeanByTarget(dto, Permission.class);
@@ -102,7 +102,7 @@ public class PermissionServiceImpl implements IPermissionService {
      * @return
      */
     @Override
-    //@Cacheable(key = "'pid:'+#p0")
+    @Cacheable(key = "'pid:'+#p0")
     public List<Permission> findByPid(String pid) {
         return permissionMapper.findByPid(pid);
     }
@@ -112,7 +112,7 @@ public class PermissionServiceImpl implements IPermissionService {
      * @return
      */
     @Override
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public  void  addPermission(PermissionDto permissionDto) {
         Permission p =BeanUtil.createBeanByTarget(permissionDto,Permission.class);
         String uuid = UUIDUtil.getUUID();
@@ -125,7 +125,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     @Transactional
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public void updatePermission(PermissionDto permissionDto) {
         permissionMapper.updateByPrimaryKeySelective(permissionDto);
     }
@@ -136,7 +136,7 @@ public class PermissionServiceImpl implements IPermissionService {
      */
     @Override
     @Transactional
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public void deletePermission(String id) {
         deletePermissionAndPerRoles(id);
         List<Permission> permissions = permissionMapper.selectByPid(id);
@@ -176,7 +176,7 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    //@Cacheable(key = "#p0")
+    @Cacheable(key = "'name:'+#p0")
     public List<PermissionDto> queryAll(String name) {
         return permissionMapper.selectByName(name);
     }
