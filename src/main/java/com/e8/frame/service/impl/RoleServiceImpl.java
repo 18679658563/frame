@@ -25,7 +25,7 @@ import java.util.*;
  * @Description:
  */
 @Service
-//@CacheConfig(cacheNames = "role")
+@CacheConfig(cacheNames = "role")
 public class RoleServiceImpl implements IRoleService{
 
 
@@ -38,7 +38,7 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
-    //@Cacheable(key = "'userId'+#p0")
+    @Cacheable(key = "'userId:'+#p0")
     public List<RoleDto> findByUserId(String userId) {
         List<Role> list = roleMapper.selectAllRoleInfoByUserId(userId);
         if(CollectionUtils.isEmpty(list)){
@@ -52,7 +52,7 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
-    //@Cacheable(key="'tree'")
+    @Cacheable(key="'tree'")
     public Object getRoleTree() {
         List<Role> roleList = roleMapper.selectAll();
         List<Map<String,Object>> list = new ArrayList<>();
@@ -72,7 +72,7 @@ public class RoleServiceImpl implements IRoleService{
      * @return
      */
     @Override
-    //@Cacheable(keyGenerator = "keyGenerator")
+    @Cacheable(keyGenerator = "keyGenerator")
     public Object findAll(RoleDto role, PageUtil page) {
         List<RoleDto> roleDtoList = roleMapper.selectByPage(role,page);
         Integer count = roleMapper.count(role);
@@ -150,7 +150,7 @@ public class RoleServiceImpl implements IRoleService{
      */
     @Override
     @Transactional
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public void updataRole(RoleDto roleDto){
         int roleFlag =  roleMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(roleDto,Role.class));
         if(roleFlag > 0){

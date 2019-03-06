@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * Time: 下午3:21
  */
 @Service
-//@CacheConfig(cacheNames = "menu")
+@CacheConfig(cacheNames = "menu")
 public class MenuServiceImpl implements IMenuService{
 
     @Autowired
@@ -58,7 +58,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
-    //@Cacheable(key = "'dto:'+#p0")
+    @Cacheable(key = "'dto:'+#p0")
     public List<MenuDto> findByDto(MenuDto menu) {
         List<MenuDto> menuDtoList = menuMapper.selectByMenuDto(menu);
         return menuDtoList;
@@ -70,7 +70,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
-  //  @Cacheable(key = "#p0")
+    @Cacheable(key = "#p0")
     public MenuDto findById(String id) {
         Menu menu = menuMapper.selectByPrimaryKey(id);
         if (menu == null) {
@@ -85,7 +85,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
-   // @Cacheable(key = "'pid:'+#p0")
+    @Cacheable(key = "'pid:'+#p0")
     public List<Menu> findByPid(String pid) {
         return menuMapper.selectByPid(pid);
     }
@@ -181,7 +181,7 @@ public class MenuServiceImpl implements IMenuService{
      * @return
      */
     @Override
-   // @Cacheable(key = "'tree'")
+    @Cacheable(key = "'tree'")
     public Object getMenuTree(List<Menu> menus) {
         List<Map<String, Object>> list = new LinkedList<>();
         menus.forEach(menu -> {
@@ -207,7 +207,7 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     @Transactional(rollbackFor=Exception.class)
-   // @CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public MenuDto addMenu(MenuDto menuDto) {
         menuDto.setCreateTime(new Timestamp(System.currentTimeMillis()));
         menuDto.setId(UUIDUtil.getUUID());
@@ -231,7 +231,7 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     @Transactional(rollbackFor=Exception.class)
-   // @CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public void updataMenu(MenuDto menuDto) {
         int menuFlag = menuMapper.updateByPrimaryKeySelective(BeanUtil.createBeanByTarget(menuDto, Menu.class));
         if (menuFlag > 0) {
@@ -253,7 +253,7 @@ public class MenuServiceImpl implements IMenuService{
      */
     @Override
     @Transactional(rollbackFor=Exception.class)
-    //@CacheEvict(allEntries = true)
+    @CacheEvict(allEntries = true)
     public void deleteMenu(String id) {
         deleteMenuAndMenuRoles(id);
         List<Menu> menus = menuMapper.selectByPid(id);
