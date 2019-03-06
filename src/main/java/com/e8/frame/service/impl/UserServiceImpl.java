@@ -1,7 +1,6 @@
 package com.e8.frame.service.impl;
 
 import com.e8.frame.exception.EntityExistException;
-import com.e8.frame.exception.SelectException;
 import com.e8.frame.mapper.UserMapper;
 import com.e8.frame.model.User;
 import com.e8.frame.model.dto.RoleDto;
@@ -36,7 +35,7 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
     @Override
-    @Cacheable(key = "'name:'+#p0")
+    @Cacheable(key = "'name::' + #p0")
     public UserDto findByUsername(String name) {
         User user = userMapper.selectByUsername(name);
         UserDto dto = null;
