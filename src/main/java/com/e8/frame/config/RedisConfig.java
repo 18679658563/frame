@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -53,8 +54,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     private String password;//redis密码
 
     /**
-     * 配置redis连接
-     *
+     * @description: 配置redis连接
      * @return
      */
     @Bean
@@ -69,8 +69,12 @@ public class RedisConfig extends CachingConfigurerSupport {
         }
     }
 
+    /**
+     * @description: 配置缓存管理器
+     * @return
+     */
     @Bean
-    public RedisCacheManager cust_cacheManager(RedisConnectionFactory redisConnectionFactory) {
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         //创建自定义序列化器
         FastJsonRedisSerializer jsonSeria = new FastJsonRedisSerializer();
         //包装成SerializationPair类型
@@ -82,5 +86,24 @@ public class RedisConfig extends CachingConfigurerSupport {
         //RedisCacheManager 生成器创建
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(redisCacheConfiguration);
         return builder.build();
+    }
+
+    /**
+     * @description: 自定义缓存key生成策略,使用方法 @Cacheable(keyGenerator="keyGenerator")
+     * @return
+     */
+    @Bean
+    @Override
+    public KeyGenerator keyGenerator() {
+        return (target, method, params) -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(target.getClass().getName());
+            sb.append(method.getName());
+            for (Object obj : params) {
+                sb.append(obj.toString());
+            }
+            log.info(sb.toString());
+            return sb.toString();
+        };
     }
 }
