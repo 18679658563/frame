@@ -112,7 +112,7 @@
      and  e.name like concat('%',#{employee.name,jdbcType=VARCHAR},'%')
    </if>
     <if test="employee.employeeId != null and employee.employeeId != ''">
-      and  e.employeeId like concat('%',#{employee.employeeId,jdbcType=VARCHAR},'%')
+      and  e.employee_Id like  concat('%',#{employee.employeeId,jdbcType=VARCHAR},'%')
     </if>
     <if test="employee.email != null and employee.email != ''">
       and  e.email like concat('%',#{employee.email },'%')
