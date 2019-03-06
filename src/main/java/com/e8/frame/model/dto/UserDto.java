@@ -3,6 +3,7 @@ package com.e8.frame.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Set;
  * Time: 下午3:38
  */
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
 
     private String id;
 
