@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e8.frame.mapper.VisitsMapper">
+  <resultMap id="BaseResultMap" type="com.e8.frame.model.Visits">
+    <result column="id" jdbcType="CHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="ip_counts" jdbcType="BIGINT" property="ipCounts" />
+    <result column="pv_counts" jdbcType="BIGINT" property="pvCounts" />
+    <result column="week_day" jdbcType="VARCHAR" property="weekDay" />
+  </resultMap>
+  <resultMap id="BaseResultDtoMap" type="com.e8.frame.model.dto.VisitsDto">
+    <result column="id" jdbcType="CHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="ip_counts" jdbcType="BIGINT" property="ipCounts" />
+    <result column="pv_counts" jdbcType="BIGINT" property="pvCounts" />
+    <result column="week_day" jdbcType="VARCHAR" property="weekDay" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, create_time, date, ip_counts, pv_counts, week_day
+  </sql>
+  <insert id="insert" parameterType="com.e8.frame.model.Visits">
+    insert into t_visits (id, create_time, date,
+      ip_counts, pv_counts, week_day
+      )
+    values (#{id,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{date,jdbcType=VARCHAR}, 
+      #{ipCounts,jdbcType=BIGINT}, #{pvCounts,jdbcType=BIGINT}, #{weekDay,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.e8.frame.model.Visits">
+    insert into t_visits
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="ipCounts != null">
+        ip_counts,
+      </if>
+      <if test="pvCounts != null">
+        pv_counts,
+      </if>
+      <if test="weekDay != null">
+        week_day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="ipCounts != null">
+        #{ipCounts,jdbcType=BIGINT},
+      </if>
+      <if test="pvCounts != null">
+        #{pvCounts,jdbcType=BIGINT},
+      </if>
+      <if test="weekDay != null">
+        #{weekDay,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="findByDate" parameterType="java.lang.String" resultMap="BaseResultDtoMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_visits
+    where date = #{date,jdbcType=CHAR}
+  </select>
+
+  <select id="findAllVisits" parameterType="java.lang.String" resultMap="BaseResultDtoMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_visits
+    where 1 = 1
+    <if test="start != null and  start != '' and end != null and  end != '' ">
+      and  date between #{start} and  #{end}
+    </if>
+    ORDER BY date
+  </select>
+
+
+  <update id="updateByDate" parameterType="com.e8.frame.model.Visits" >
+    update t_visits
+    <set >
+      <if test="ipCounts != null" >
+        ip_counts = #{ipCounts},
+      </if>
+      <if test="pvCounts != null" >
+        pv_counts = #{pvCounts},
+      </if>
+    </set>
+    where date = #{date,jdbcType=CHAR}
+  </update>
+
+</mapper>
