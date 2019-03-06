@@ -88,15 +88,16 @@ public class UserServiceImpl implements IUserService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true)
     public void updateUserAndUserRoles(UserDto userDto) {
+        User oldUser = userMapper.selectByPrimaryKey(userDto.getId());
         User user = userMapper.selectByUsername(userDto.getUsername());
         if (user != null) {
-            if (!user.getUsername().equals(userDto.getUsername())) {
+            if (!user.getUsername().equals(oldUser.getUsername())) {
                 throw new EntityExistException(UserDto.class, "username", userDto.getUsername());
             }
         }
         User user1 = userMapper.selectByEmail(userDto.getEmail());
         if (user1 != null) {
-            if (!user.getEmail().equals(userDto.getEmail())) {
+            if (!user1.getEmail().equals(oldUser.getEmail())) {
                 throw new EntityExistException(UserDto.class, "email", userDto.getEmail());
             }
         }
