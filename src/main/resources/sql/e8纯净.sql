@@ -254,6 +254,7 @@ UNLOCK TABLES;
 
 -- Dump completed on 2019-02-28 18:38:28
 
+drop table if exists t_employee;
 create table t_employee(
 	id char(32) PRIMARY key,
 	name varchar(20) not null comment '员工名字',
@@ -266,4 +267,14 @@ create table t_employee(
 	type bit(1) default 0 comment '0表示普通员工，1表示管理员',
 	create_time datetime  comment '创建时间',
 	stat bit(1) default 1 comment '逻辑删除，1表示不删除0表示删除'
-)
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+DROP TABLE IF EXISTS `t_visits`;
+CREATE TABLE `t_visits`  (
+  `id` char(32) PRIMARY key,
+  `date` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ip_counts` bigint(20) NULL DEFAULT NULL,
+  `pv_counts` bigint(20) NULL DEFAULT NULL,
+  `week_day` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_time` datetime NULL DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
