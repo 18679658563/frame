@@ -1,5 +1,6 @@
 package com.e8.frame.controller;
 
+import com.e8.frame.aop.Log;
 import com.e8.frame.model.dto.VisitsDto;
 import com.e8.frame.service.IVisitsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,18 @@ public class VisitsController {
 @Autowired
  private IVisitsService visitsService;
 
+    @Log(description = "访问记录更新")
     @PostMapping(value = "/visits")
     public ResponseEntity create(){
         visitsService.count();
         return new ResponseEntity(HttpStatus.CREATED);
     }
-
+    @Log(description = "访问记录")
     @GetMapping(value = "/visits")
     public ResponseEntity get(){
         return new ResponseEntity(visitsService.get(),HttpStatus.OK);
     }
-
+    @Log(description = "访问记录图表")
     @GetMapping(value = "/visits/chartData")
     public ResponseEntity getChartData(){
         return new ResponseEntity(visitsService.getChartData(),HttpStatus.OK);

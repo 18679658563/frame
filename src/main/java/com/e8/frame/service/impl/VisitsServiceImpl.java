@@ -11,7 +11,6 @@ import com.e8.frame.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +34,11 @@ public class VisitsServiceImpl implements IVisitsService {
 
     @Override
     public Object get() {
+//        try{
+//            Thread.sleep(10);
+//        } catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
         Map map =new HashMap();
         LocalDate localDate= LocalDate.now();
         VisitsDto visitsDto = visitsMapper.findByDate(localDate.toString());
@@ -48,12 +52,18 @@ public class VisitsServiceImpl implements IVisitsService {
             recentVisits += data.getPvCounts();
             //recentIp += data.getIpCounts();
         }
-
-
+    if (visitsDto!=null){
         map.put("newVisits", visitsDto.getPvCounts());
         map.put("newIp",visitsDto.getIpCounts());
         map.put("recentVisits",recentVisits);
         map.put("recentIp",recentIp);
+    }else{
+        map.put("newVisits", 1);
+        map.put("newIp",1);
+        map.put("recentVisits",0);
+        map.put("recentIp",0);
+    }
+
         return map;
     }
 
@@ -70,8 +80,7 @@ public class VisitsServiceImpl implements IVisitsService {
             visitsDto.setIpCounts(1L);
             visitsDto.setDate(localDate.toString());
             visitsMapper.insert(BeanUtil.createBeanByTarget(visitsDto,Visits.class));
-        }else
-        {
+        }else {
             visitsDto.setPvCounts(visitsDto.getPvCounts()+1);
             Long ipCounts = logMapper.findIp(localDate.toString(), localDate.plusDays(1).toString());
             visitsDto.setIpCounts(ipCounts);
@@ -92,5 +101,7 @@ public class VisitsServiceImpl implements IVisitsService {
         map.put("creatTime",list.stream().map(VisitsDto::getCreateTime).collect(Collectors.toList()));
         return map;
     }
+
+
 
 }

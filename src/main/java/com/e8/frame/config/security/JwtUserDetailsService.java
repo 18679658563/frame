@@ -48,11 +48,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         User user  = userMapper.selectByUsername(username);
         UserVo vo = BeanUtil.createBeanByTarget(user,UserVo.class);
-//        Set<Role> set = new HashSet<>(roleMapper.selectAllRoleInfoByUserId(user.getId()));
-//        vo.setRoles(set);
         vo.setRoles(roleMapper.selectAllRoleInfoByUserId(user.getId()));
-        System.out.println(user);
-        //System.out.println(user1);
         if (user == null) {
             throw new EntityNotFoundException(UserVo.class, "name", username);
         } else {

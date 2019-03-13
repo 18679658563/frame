@@ -6,8 +6,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @author jie
- * @date 2018-11-23
+ * @Auther: sharps
+ * @Date: 19-2-20 18:21
+ * @Description:
  */
 @Data
 class ApiError {

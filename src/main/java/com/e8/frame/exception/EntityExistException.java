@@ -7,8 +7,9 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
- * @author jie
- * @date 2018-11-23
+ * @Auther: sharps
+ * @Date: 19-2-20 18:21
+ * @Description:
  */
 public class EntityExistException extends RuntimeException {
 

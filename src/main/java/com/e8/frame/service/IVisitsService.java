@@ -1,6 +1,7 @@
 package com.e8.frame.service;
 
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.scheduling.annotation.Async;
+
 
 /**
  * @Auther: sharps
@@ -13,9 +14,10 @@ public interface IVisitsService {
      * 获取访问数据
      * @return
      */
+//    @Async
     Object get();
 
-    //@Async
+//    @Async
     void count();
 
     /**
