@@ -29,7 +29,7 @@ public class QuartzManage {
         try {
             // 构建job信息
             JobDetail jobDetail = JobBuilder.newJob(ExecutionJob.class).
-                    withIdentity(JOB_NAME + quartzJob.getId()).build();
+                    withIdentity(JOB_NAME + quartzJob.getId(),"DEFAULT").build();
 
             //通过触发器名和cron 表达式创建 Trigger
             Trigger cronTrigger = newTrigger()
