@@ -38,8 +38,10 @@ public class QuartzJobServiceImpl implements IQuartzJobService {
         if (!CronExpression.isValidExpression(quartzJob.getCronExpression())) {
             throw new BadRequestException("cron表达式格式错误");
         }
-        quartzJobMapper.insertSelective(quartzJob);
-        quartzManage.addJob(quartzJob);
+        int i = quartzJobMapper.insertSelective(quartzJob);
+        if(i>0){
+            quartzManage.addJob(quartzJob);
+        }
         return quartzJob;
     }
 
