@@ -65,15 +65,17 @@ public class QuartzManage {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(JOB_NAME + quartzJob.getId());
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(quartzJob.getCronExpression());
-            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
-            //重置启动时间
-            ((CronTriggerImpl)trigger).setStartTime(new Date());
+            if(trigger != null){
+                CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(quartzJob.getCronExpression());
+                trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
+                //重置启动时间
+                ((CronTriggerImpl)trigger).setStartTime(new Date());
 
-            scheduler.rescheduleJob(triggerKey, trigger);
-            // 暂停任务
-            if (quartzJob.getIsPause()) {
-                pauseJob(quartzJob);
+                scheduler.rescheduleJob(triggerKey, trigger);
+                // 暂停任务
+                if (quartzJob.getIsPause()) {
+                    pauseJob(quartzJob);
+                }
             }
         } catch (Exception e){
             log.error("更新定时任务失败", e);

@@ -16,6 +16,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -53,6 +55,7 @@ public class ExecutionJob extends QuartzJobBean {
         log.setParams(quartzJob.getParams());
         long startTime = System.currentTimeMillis();
         log.setCronExpression(quartzJob.getCronExpression());
+        log.setCreateTime(new Timestamp(new Date().getTime()));
         try {
             // 执行任务
             logger.info("任务准备执行，任务名称：{}", quartzJob.getJobName());
