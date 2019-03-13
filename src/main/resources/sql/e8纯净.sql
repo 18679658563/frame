@@ -73,7 +73,21 @@ CREATE TABLE `t_menu` (
 
 LOCK TABLES `t_menu` WRITE;
 /*!40000 ALTER TABLE `t_menu` DISABLE KEYS */;
-INSERT INTO `t_menu` VALUES ('23b9c73f4b8849455e8dc5e0634df','2019-01-04 16:23:57',_binary '\0','二级菜单2','nested/menu2/index','21',999,'menu','menu2'),('2wes3f4b8849455e8dc5e0634df7ewsa','2018-12-18 15:11:29',_binary '\0','系统管理',NULL,'0',1,'system','system'),('43233fyret5e8dc5e0634df722123','2019-01-04 16:23:29',_binary '\0','二级菜单1','nested/menu1/index','b9c73f4b882340634df7af49',999,'menu','menu1'),('54343f4b8849455e8dc5e0634df7e7yt','2018-12-18 15:16:07',_binary '\0','角色管理','system/role/index','2wes3f4b8849455e8dc5e0634df7ewsa',3,'role','role'),('62wes3f4b8849455e8dc5e0634df7ew6','2018-12-18 15:17:48',_binary '\0','系统监控',NULL,'0',10,'monitor','monitor'),('72wes3f4b8849455e8dc5e0634df7ew7','2018-12-18 15:18:26',_binary '\0','系统日志','monitor/log/index','62wes3f4b8849455e8dc5e0634df7ew6',11,'log','logs'),('73f4b8849455e8dc5e0634df7af49','2019-01-04 16:24:48',_binary '\0','三级菜单1','nested/menu1/menu1-1','43233fyret5e8dc5e0634df722123',999,'menu','menu1-1'),('b9c73f4b882340634df7af49','2019-01-04 16:22:03',_binary '\0','多级菜单','','0',900,'menu','nested'),('b9c73f4b8849455e8dc5e063af49','2019-01-07 17:27:32',_binary '\0','三级菜单2','nested/menu1/menu1-2','43233fyret5e8dc5e0634df722123',999,'menu','menu1-2'),('e32a3f4b8849455e8dc5e0634df32ewa','2018-12-18 15:14:44',_binary '\0','用户管理','system/user/index','2wes3f4b8849455e8dc5e0634df7ewsa',2,'peoples','user'),('g43534b8849455e8dc5e0634df7987u','2018-12-18 15:17:28',_binary '\0','菜单管理','system/menu/index','2wes3f4b8849455e8dc5e0634df7ewsa',5,'menu','menu'),('hew33f4b8849455e8dc5e0634df7654r','2018-12-18 15:16:45',_binary '\0','权限管理','system/permission/index','2wes3f4b8849455e8dc5e0634df7ewsa',4,'permission','permission');
+INSERT INTO `t_menu` VALUES ('23b9c73f4b8849455e8dc5e0634df','2019-01-04 16:23:57',_binary '\0','二级菜单2','nested/menu2/index','21',999,'menu','menu2'),
+                            ('2wes3f4b8849455e8dc5e0634df7ewsa','2018-12-18 15:11:29',_binary '\0','系统管理',NULL,'0',1,'system','system'),
+                            ('43233fyret5e8dc5e0634df722123','2019-01-04 16:23:29',_binary '\0','二级菜单1','nested/menu1/index','b9c73f4b882340634df7af49',999,'menu','menu1'),
+                            ('54343f4b8849455e8dc5e0634df7e7yt','2018-12-18 15:16:07',_binary '\0','角色管理','system/role/index','2wes3f4b8849455e8dc5e0634df7ewsa',3,'role','role'),
+                            ('62wes3f4b8849455e8dc5e0634df7ew6','2018-12-18 15:17:48',_binary '\0','系统监控',NULL,'0',10,'monitor','monitor'),
+                            ('72wes3f4b8849455e8dc5e0634df7ew7','2018-12-18 15:18:26',_binary '\0','系统日志','monitor/log/index','62wes3f4b8849455e8dc5e0634df7ew6',11,'log','logs'),
+                            ('73f4b8849455e8dc5e0634df7af49','2019-01-04 16:24:48',_binary '\0','三级菜单1','nested/menu1/menu1-1','43233fyret5e8dc5e0634df722123',999,'menu','menu1-1'),
+                            ('b9c73f4b882340634df7af49','2019-01-04 16:22:03',_binary '\0','多级菜单','','0',900,'menu','nested'),
+                            ('b9c73f4b8849455e8dc5e063af49','2019-01-07 17:27:32',_binary '\0','三级菜单2','nested/menu1/menu1-2','43233fyret5e8dc5e0634df722123',999,'menu','menu1-2'),
+                            ('e32a3f4b8849455e8dc5e0634df32ewa','2018-12-18 15:14:44',_binary '\0','用户管理','system/user/index','2wes3f4b8849455e8dc5e0634df7ewsa',2,'peoples','user'),
+                            ('g43534b8849455e8dc5e0634df7987u','2018-12-18 15:17:28',_binary '\0','菜单管理','system/menu/index','2wes3f4b8849455e8dc5e0634df7ewsa',5,'menu','menu'),
+                            ('hew33f4b8849455e8dc5e0634df7654r','2018-12-18 15:16:45',_binary '\0','权限管理','system/permission/index','2wes3f4b8849455e8dc5e0634df7ewsa',4,'permission','permission'),
+                            ('0003cd0ea3fd4234af35d6c7134d87a8','2019-03-12 14:18:16',_binary '\0','任务管理','system/timing/index','2wes3f4b8849455e8dc5e0634df7ewsa',6,'codeConsole','timing'),
+                            ('19881f6810f448de94c2840b7e5d3a40','2019-03-11 10:21:55',_binary '\0','员工管理',NULL,'0','20','peoples','employee'),
+                            ('865d0cb235724bca863b68d713867658','2019-03-11 10:22:42',_binary '\0','员工信息管理','system/employee/index','19881f6810f448de94c2840b7e5d3a40','1','peoples','employee');
 /*!40000 ALTER TABLE `t_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +114,20 @@ CREATE TABLE `t_menus_roles` (
 
 LOCK TABLES `t_menus_roles` WRITE;
 /*!40000 ALTER TABLE `t_menus_roles` DISABLE KEYS */;
-INSERT INTO `t_menus_roles` VALUES ('2wes3f4b8849455e8dc5e0634df7ewsa','b9c73f4b8849455e8dc5e0634df7af49'),('43233fyret5e8dc5e0634df722123','b9c73f4b8849455e8dc5e0634df7af49'),('54343f4b8849455e8dc5e0634df7e7yt','b9c73f4b8849455e8dc5e0634df7af49'),('62wes3f4b8849455e8dc5e0634df7ew6','b9c73f4b8849455e8dc5e0634df7af49'),('72wes3f4b8849455e8dc5e0634df7ew7','b9c73f4b8849455e8dc5e0634df7af49'),('73f4b8849455e8dc5e0634df7af49','b9c73f4b8849455e8dc5e0634df7af49'),('b9c73f4b882340634df7af49','b9c73f4b8849455e8dc5e0634df7af49'),('b9c73f4b8849455e8dc5e063af49','b9c73f4b8849455e8dc5e0634df7af49'),('e32a3f4b8849455e8dc5e0634df32ewa','b9c73f4b8849455e8dc5e0634df7af49'),('g43534b8849455e8dc5e0634df7987u','b9c73f4b8849455e8dc5e0634df7af49'),('hew33f4b8849455e8dc5e0634df7654r','b9c73f4b8849455e8dc5e0634df7af49');
+INSERT INTO `t_menus_roles` VALUES ('2wes3f4b8849455e8dc5e0634df7ewsa','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('43233fyret5e8dc5e0634df722123','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('54343f4b8849455e8dc5e0634df7e7yt','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('62wes3f4b8849455e8dc5e0634df7ew6','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('72wes3f4b8849455e8dc5e0634df7ew7','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('73f4b8849455e8dc5e0634df7af49','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('b9c73f4b882340634df7af49','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('b9c73f4b8849455e8dc5e063af49','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('e32a3f4b8849455e8dc5e0634df32ewa','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('g43534b8849455e8dc5e0634df7987u','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('hew33f4b8849455e8dc5e0634df7654r','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('0003cd0ea3fd4234af35d6c7134d87a8','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('19881f6810f448de94c2840b7e5d3a40','b9c73f4b8849455e8dc5e0634df7af49'),
+                                   ('865d0cb235724bca863b68d713867658','b9c73f4b8849455e8dc5e0634df7af49');
 /*!40000 ALTER TABLE `t_menus_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +316,7 @@ CREATE TABLE `t_quartz_job` (
   `method_name` varchar(255) DEFAULT NULL,
   `params` varchar(255) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `t_quartz_log`;
