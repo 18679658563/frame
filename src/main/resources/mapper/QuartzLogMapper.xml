@@ -182,6 +182,7 @@
     <if test="quartzLog.isSuccess != null" >
       and is_success = #{quartzLog.isSuccess,jdbcType=BIT}
     </if>
+    order by createTime desc
     limit #{page.number,jdbcType=INTEGER},#{page.size,jdbcType=INTEGER}
   </select>
   <select id="countQuartzLogs" resultType="int">

@@ -319,6 +319,8 @@ CREATE TABLE `t_quartz_job` (
   `update_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `t_quartz_job` VALUES (1,'test','0/5 * * * * ?',0,'testTask','test','test','带参测试',null );
+
 DROP TABLE IF EXISTS `t_quartz_log`;
 CREATE TABLE `t_quartz_log`  (
    `id` bigint(20) primary key AUTO_INCREMENT,

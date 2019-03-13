@@ -36,7 +36,7 @@
       #{params,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.e8.frame.model.QuartzJob" >
+  <insert id="insertSelective" parameterType="com.e8.frame.model.QuartzJob" useGeneratedKeys="true" keyProperty="id">
     insert into t_quartz_job
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -47,7 +47,6 @@ public class QuartzJob {
     /**
      * 备注
      */
-    @NotBlank
     private String remark;
 
     /**
