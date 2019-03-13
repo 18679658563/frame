@@ -3,6 +3,7 @@ package com.e8.frame.mapper;
 import com.e8.frame.model.QuartzLog;
 import com.e8.frame.tools.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface QuartzLogMapper {
 
     int updateByPrimaryKey(QuartzLog record);
 
-    List<QuartzLog> queryQuartzLogsByPage(QuartzLog quartzLog, PageUtil page);
+    List<QuartzLog> queryQuartzLogsByPage(@Param("quartzLog") QuartzLog quartzLog, @Param("page") PageUtil page);
 
     int countQuartzLogs();
 }

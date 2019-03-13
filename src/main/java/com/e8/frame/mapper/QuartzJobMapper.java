@@ -3,8 +3,10 @@ package com.e8.frame.mapper;
 import com.e8.frame.model.QuartzJob;
 import com.e8.frame.tools.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
 @Mapper
 public interface QuartzJobMapper {
     int deleteByPrimaryKey(Long id);
@@ -19,7 +21,7 @@ public interface QuartzJobMapper {
 
     int updateByPrimaryKey(QuartzJob record);
 
-    List<QuartzJob> queryQuartzJobsByPage(QuartzJob quartzJob, PageUtil page);
+    List<QuartzJob> queryQuartzJobsByPage(@Param("quartzJob") QuartzJob quartzJob, @Param("page") PageUtil page);
 
     int countQuartzJobs();
 
