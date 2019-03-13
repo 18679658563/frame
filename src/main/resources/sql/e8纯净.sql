@@ -278,3 +278,30 @@ CREATE TABLE `t_visits`  (
   `week_day` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
+
+DROP TABLE IF EXISTS `t_quartz_job`;
+CREATE TABLE `t_quartz_job` (
+  `id` bigint(20) primary key AUTO_INCREMENT,
+  `bean_name` varchar(255) DEFAULT NULL,
+  `cron_expression` varchar(255) DEFAULT NULL,
+  `is_pause` bit(1) DEFAULT NULL,
+  `job_name` varchar(255) DEFAULT NULL,
+  `method_name` varchar(255) DEFAULT NULL,
+  `params` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_quartz_log`;
+CREATE TABLE `t_quartz_log`  (
+   `id` bigint(20) primary key AUTO_INCREMENT,
+   `bean_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+   `createTime` datetime NULL DEFAULT NULL,
+   `cron_expression` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+   `exceptionDetail` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+   `is_success` bit(1) NULL DEFAULT NULL,
+   `job_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+   `method_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+   `params` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+   `time` bigint(20) NULL DEFAULT NULL
+) ENGINE = InnoDB default CHARACTER SET = utf8;
