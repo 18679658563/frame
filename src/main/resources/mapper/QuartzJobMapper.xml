@@ -149,8 +149,12 @@
     </if>
     limit #{page.number,jdbcType=INTEGER},#{page.size,jdbcType=INTEGER}
   </select>
-  <select id="countQuartzJobs" resultType="int">
+  <select id="countQuartzJobs" parameterType="com.e8.frame.model.QuartzJob" resultType="int">
     select count(1) from t_quartz_job
+    where 1 = 1
+    <if test="jobName != null">
+      and job_name like concat('%',#{jobName,jdbcType=VARCHAR},'%')
+    </if>
   </select>
   <select id="findByIsPauseIsFalse" resultMap="BaseResultMap">
     select
