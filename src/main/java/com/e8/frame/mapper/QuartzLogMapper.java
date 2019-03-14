@@ -25,5 +25,5 @@ public interface QuartzLogMapper {
 
     List<QuartzLog> queryQuartzLogsByPage(@Param("quartzLog") QuartzLog quartzLog, @Param("page") PageUtil page);
 
-    int countQuartzLogs();
+    int countQuartzLogs(QuartzLog quartzLog);
 }

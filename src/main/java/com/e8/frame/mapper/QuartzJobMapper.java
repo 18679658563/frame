@@ -23,7 +23,7 @@ public interface QuartzJobMapper {
 
     List<QuartzJob> queryQuartzJobsByPage(@Param("quartzJob") QuartzJob quartzJob, @Param("page") PageUtil page);
 
-    int countQuartzJobs();
+    int countQuartzJobs(QuartzJob quartzJob);
 
     List<QuartzJob> findByIsPauseIsFalse();
 }

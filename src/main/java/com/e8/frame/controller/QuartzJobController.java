@@ -47,7 +47,7 @@ public class QuartzJobController {
         List<QuartzJob> quartzJobs = quartzJobService.queryQuartzJobsByPage(quartzJob, page);
         PageUtil<QuartzJob> pageList = new PageUtil<>();
         pageList.setList(quartzJobs);
-        int count = quartzJobMapper.countQuartzJobs();
+        int count = quartzJobMapper.countQuartzJobs(quartzJob);
         pageList.setCount(count);
         return new ResponseEntity(PageUtil.toResult(pageList), HttpStatus.OK);
     }
@@ -109,7 +109,7 @@ public class QuartzJobController {
         List<QuartzLog> quartzLogs = quartzLogMapper.queryQuartzLogsByPage(quartzLog, page);
         PageUtil<QuartzLog> pageList = new PageUtil<>();
         pageList.setList(quartzLogs);
-        int count = quartzLogMapper.countQuartzLogs();
+        int count = quartzLogMapper.countQuartzLogs(quartzLog);
         pageList.setCount(count);
         return new ResponseEntity(PageUtil.toResult(pageList), HttpStatus.OK);
     }

@@ -185,7 +185,14 @@
     order by createTime desc
     limit #{page.number,jdbcType=INTEGER},#{page.size,jdbcType=INTEGER}
   </select>
-  <select id="countQuartzLogs" resultType="int">
+  <select id="countQuartzLogs" parameterType="com.e8.frame.model.QuartzLog" resultType="int">
     select count(1) from t_quartz_log
+    where 1 = 1
+    <if test="jobName != null" >
+      and job_name like concat('%',#{jobName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="isSuccess != null" >
+      and is_success = #{isSuccess,jdbcType=BIT}
+    </if>
   </select>
 </mapper>
