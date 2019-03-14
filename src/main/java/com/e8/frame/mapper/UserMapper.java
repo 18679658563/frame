@@ -26,7 +26,7 @@ public interface UserMapper {
 
     User selectByUsername(String username);
 
-    int selectCount();
+    int selectCount(UserDto user);
 
     List<UserDto> getUsersByPage(@Param("user") UserDto user, @Param("page") PageUtil page);
 

@@ -52,7 +52,7 @@ public class UserController {
         List<UserDto> list = iUserService.getUsersByPage(userDTO,page);
         PageUtil<UserDto> pageList = new PageUtil<>();
         pageList.setList(list);
-        int count = userMapper.selectCount();
+        int count = userMapper.selectCount(userDTO);
         pageList.setCount(count);
         return new ResponseEntity(PageUtil.toResult(pageList), HttpStatus.OK);
     }
