@@ -11,6 +11,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
@@ -36,8 +37,8 @@ public class ExecutionJob extends QuartzJobBean {
     @Resource(name = "scheduler")
     private Scheduler scheduler;
 
-    /*@Autowired
-    private ExecutorService executorService;*/
+    @Autowired
+    private ExecutorService executorService;
 
     @Override
     protected void executeInternal(JobExecutionContext context) {
@@ -60,7 +61,7 @@ public class ExecutionJob extends QuartzJobBean {
             logger.info("任务准备执行，任务名称：{}", quartzJob.getJobName());
             QuartzRunnable task = new QuartzRunnable(quartzJob.getBeanName(), quartzJob.getMethodName(),
                     quartzJob.getParams());
-            ExecutorService executorService = Executors.newFixedThreadPool(10);
+//            ExecutorService executorService = Executors.newFixedThreadPool(10);
             Future<?> future = executorService.submit(task);
             future.get();
             long times = System.currentTimeMillis() - startTime;
