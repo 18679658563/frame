@@ -195,4 +195,8 @@
       and is_success = #{isSuccess,jdbcType=BIT}
     </if>
   </select>
+  <delete id="deleteByBeforeTime" >
+    delete from t_quartz_log
+    where createTime &lt; #{time}
+  </delete>
 </mapper>

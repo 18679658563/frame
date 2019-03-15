@@ -3,6 +3,7 @@ package com.e8.frame.service;
 import com.e8.frame.model.QuartzLog;
 import com.e8.frame.tools.PageUtil;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,4 +13,6 @@ import java.util.List;
  **/
 public interface IQuartzLogService {
     List<QuartzLog> queryQuartzLogsByPage(QuartzLog quartzLog, PageUtil page);
+
+    int queryQuartzLogsByBeforTime();
 }

@@ -5,6 +5,7 @@ import com.e8.frame.tools.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -26,4 +27,6 @@ public interface QuartzLogMapper {
     List<QuartzLog> queryQuartzLogsByPage(@Param("quartzLog") QuartzLog quartzLog, @Param("page") PageUtil page);
 
     int countQuartzLogs(QuartzLog quartzLog);
+
+    int deleteByBeforeTime(Date time);
 }

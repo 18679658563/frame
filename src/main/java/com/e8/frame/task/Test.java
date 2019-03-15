@@ -1,6 +1,9 @@
 package com.e8.frame.task;
 
+import com.e8.frame.service.IQuartzLogService;
+import com.e8.frame.service.IVisitsService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,4 +22,20 @@ public class Test {
     public void test(String arg){
         log.info("有参执行成功，参数为：" + arg);
     }
+
+    @Autowired
+    private IVisitsService visitsService;
+
+    public void visitsUpdate(){
+        visitsService.count();
+    }
+
+    @Autowired
+    private IQuartzLogService quartzLogService;
+
+    public void quartzLogDelete(){
+        int a = quartzLogService.queryQuartzLogsByBeforTime();
+    }
+
+
 }
